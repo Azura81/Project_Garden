@@ -1,0 +1,81 @@
+[gd_scene load_steps=2 format=3 uid="uid://c8h74v2gqk1ma"]
+
+[ext_resource type="Script" path="res://scripts/ui/HUDTactical.gd" id="1_hud"]
+
+[node name="HUD_Tactical" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_hud")
+
+[node name="TopLeft" type="MarginContainer" parent="."]
+layout_mode = 0
+offset_right = 320.0
+offset_bottom = 80.0
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TopLeft"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="LabelDewdrops" type="Label" parent="TopLeft/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "💧 150"
+
+[node name="BarCoreHP" type="ProgressBar" parent="TopLeft/HBoxContainer"]
+custom_minimum_size = Vector2(160, 24)
+layout_mode = 2
+size_flags_vertical = 4
+value = 100.0
+
+[node name="TopRight" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -340.0
+offset_bottom = 80.0
+grow_horizontal = 0
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TopRight"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="LabelWave" type="Label" parent="TopRight/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "Welle: 0/4"
+
+[node name="BtnSpeed" type="Button" parent="TopRight/HBoxContainer"]
+custom_minimum_size = Vector2(64, 40)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "1x"
+
+[node name="BottomCenter" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -120.0
+offset_top = -90.0
+offset_right = 120.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_bottom = 32
+
+[node name="BtnStartWave" type="Button" parent="BottomCenter"]
+custom_minimum_size = Vector2(240, 54)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Welle starten 🌻"

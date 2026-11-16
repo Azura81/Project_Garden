@@ -1,0 +1,34 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; but it can be edited by hand.
+
+config_version=5
+
+[application]
+
+config/name="Petal & Thorn"
+config/description="Botanisches 3D Mobile Tower Defense mit Symbiose 1st-Person Steuerung"
+config/version="0.1.0"
+run/main_scene="res://scenes/levels/Level_01.tscn"
+config/features=PackedStringArray("4.3", "4.7", "Mobile")
+config/icon="res://icon.svg"
+
+[autoload]
+
+GameManager="*res://scripts/autoload/GameManager.gd"
+SaveManager="*res://scripts/autoload/SaveManager.gd"
+
+[display]
+
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+window/size/mode=0
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
+window/handheld/orientation=1
+
+[rendering]
+
+renderer/rendering_method="mobile"
+textures/vram_compression/import_etc2_astc=true
+anti_aliasing/quality/msaa_3d=2

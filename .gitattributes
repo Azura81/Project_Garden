@@ -1,0 +1,11 @@
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.svg text
+*.tscn text merge=union
+*.tres text merge=union
+*.gd text
+*.gdshader text
+*.glb binary
+*.gltf text

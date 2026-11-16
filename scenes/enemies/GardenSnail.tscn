@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=3 uid="uid://chv0k58i0j8s2"]
+
+[ext_resource type="PackedScene" uid="uid://b5u2n60x61x5g" path="res://scenes/enemies/EnemyBase.tscn" id="1_ebase"]
+[ext_resource type="Script" path="res://scripts/enemies/GardenSnail.gd" id="2_snail"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_shell"]
+radius = 0.4
+height = 0.7
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_shell"]
+albedo_color = Color(0.68, 0.5, 0.35, 1)
+roughness = 0.7
+
+[node name="GardenSnail" instance=ExtResource("1_ebase")]
+script = ExtResource("2_snail")
+
+[node name="ShellMesh" type="MeshInstance3D" parent="." index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+mesh = SubResource("SphereMesh_shell")
+surface_material_override/0 = SubResource("StandardMaterial3D_shell")

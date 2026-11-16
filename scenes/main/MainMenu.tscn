@@ -1,0 +1,78 @@
+[gd_scene load_steps=2 format=3 uid="uid://c6r20i5y2e05n"]
+
+[sub_resource type="GDScript" id="GDScript_menu"]
+script/source = "extends Control
+
+@onready var btn_start: Button = $VBoxContainer/BtnStart
+@onready var btn_quit: Button = $VBoxContainer/BtnQuit
+
+func _ready() -> void:
+	if btn_start:
+		btn_start.pressed.connect(_on_start_pressed)
+	if btn_quit:
+		btn_quit.pressed.connect(_on_quit_pressed)
+
+func _on_start_pressed() -> void:
+	get_tree().change_scene_to_file(\"res://scenes/levels/Level_01.tscn\")
+
+func _on_quit_pressed() -> void:
+	get_tree().quit()
+"
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = SubResource("GDScript_menu")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.18, 0.28, 0.2, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -120.0
+offset_right = 200.0
+offset_bottom = 120.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Title" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "Petal & Thorn"
+horizontal_alignment = 1
+
+[node name="Subtitle" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Botanisches 3D Mobile Tower Defense"
+horizontal_alignment = 1
+
+[node name="BtnStart" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "Garten betreten 🌱"
+
+[node name="BtnQuit" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Beenden"
