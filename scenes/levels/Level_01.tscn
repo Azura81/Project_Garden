@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://b1n8k4l9m2o7q"]
+[gd_scene load_steps=28 format=3 uid="uid://b1n8k4l9m2o7q"]
 
 [ext_resource type="Script" path="res://scripts/levels/LevelBase.gd" id="1_lvl"]
 [ext_resource type="PackedScene" uid="uid://chv0k58i0j8s2" path="res://scenes/enemies/GardenSnail.tscn" id="2_snail"]
@@ -8,6 +8,10 @@
 [ext_resource type="PackedScene" uid="uid://c8h74v2gqk1ma" path="res://scenes/ui/HUD_Tactical.tscn" id="6_tactical"]
 [ext_resource type="PackedScene" uid="uid://df7w0r8xlyr2j" path="res://scenes/ui/HUD_FirstPerson.tscn" id="7_fp"]
 [ext_resource type="PackedScene" uid="uid://cxkn68a2pdmvw" path="res://scenes/ui/RadialMenu.tscn" id="8_radial"]
+[ext_resource type="Texture2D" path="res://assets/textures/ground_soil.png" id="9_soil"]
+[ext_resource type="Texture2D" path="res://assets/textures/ground_spot.jpg" id="10_spot_tex"]
+[ext_resource type="Texture2D" path="res://assets/textures/beet_wall.jpg" id="11_wall_tex"]
+[ext_resource type="Texture2D" path="res://assets/textures/path_ground.jpg" id="12_path_tex"]
 
 [sub_resource type="Environment" id="Environment_main"]
 background_mode = 1
@@ -20,8 +24,20 @@ ambient_light_energy = 0.8
 size = Vector2(24, 24)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dirt"]
-albedo_color = Color(0.48, 0.35, 0.22, 1)
+albedo_texture = ExtResource("9_soil")
+uv1_scale = Vector3(8, 8, 1)
 roughness = 0.9
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wall"]
+albedo_texture = ExtResource("11_wall_tex")
+uv1_scale = Vector3(10, 1, 1)
+roughness = 0.8
+
+[sub_resource type="BoxMesh" id="BoxMesh_wall_ns"]
+size = Vector3(24.4, 0.8, 0.4)
+
+[sub_resource type="BoxMesh" id="BoxMesh_wall_ew"]
+size = Vector3(0.4, 0.8, 24.4)
 
 [sub_resource type="Curve3D" id="Curve3D_path"]
 _data = {
@@ -30,17 +46,24 @@ _data = {
 }
 point_count = 5
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_path"]
+albedo_texture = ExtResource("12_path_tex")
+uv1_scale = Vector3(1, 10, 1)
+roughness = 0.9
+
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_spot"]
 height = 0.3
-radius = 0.7
+radius = 0.75
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_spot"]
-top_radius = 0.65
-bottom_radius = 0.7
+top_radius = 0.7
+bottom_radius = 0.75
 height = 0.2
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_spot"]
-albedo_color = Color(0.32, 0.22, 0.14, 1)
+albedo_texture = ExtResource("10_spot_tex")
+uv1_scale = Vector3(2, 2, 1)
+roughness = 0.85
 
 [sub_resource type="SphereMesh" id="SphereMesh_core"]
 radius = 0.8
@@ -69,6 +92,28 @@ shadow_enabled = true
 mesh = SubResource("PlaneMesh_ground")
 surface_material_override/0 = SubResource("StandardMaterial3D_dirt")
 
+[node name="BeetWalls" type="Node3D" parent="."]
+
+[node name="WallNorth" type="MeshInstance3D" parent="BeetWalls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, -12)
+mesh = SubResource("BoxMesh_wall_ns")
+surface_material_override/0 = SubResource("StandardMaterial3D_wall")
+
+[node name="WallSouth" type="MeshInstance3D" parent="BeetWalls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 12)
+mesh = SubResource("BoxMesh_wall_ns")
+surface_material_override/0 = SubResource("StandardMaterial3D_wall")
+
+[node name="WallWest" type="MeshInstance3D" parent="BeetWalls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0.4, 0)
+mesh = SubResource("BoxMesh_wall_ew")
+surface_material_override/0 = SubResource("StandardMaterial3D_wall")
+
+[node name="WallEast" type="MeshInstance3D" parent="BeetWalls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0.4, 0)
+mesh = SubResource("BoxMesh_wall_ew")
+surface_material_override/0 = SubResource("StandardMaterial3D_wall")
+
 [node name="CameraRig" type="Node3D" parent="." node_paths=PackedStringArray("camera")]
 script = ExtResource("4_cam")
 camera = NodePath("Camera3D")
@@ -79,6 +124,21 @@ current = true
 
 [node name="Path3D" type="Path3D" parent="."]
 curve = SubResource("Curve3D_path")
+
+[node name="PathVisual" type="CSGPolygon3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, 0)
+polygon = PackedVector2Array(-0.7, 0, 0.7, 0, 0.7, 0.02, -0.7, 0.02)
+mode = 2
+path_node = NodePath("../Path3D")
+path_interval_type = 0
+path_interval = 0.4
+path_simplify_angle = 0.0
+path_rotation = 2
+path_local = false
+path_continuous_u = true
+path_u_distance = 2.0
+path_joined = false
+material = SubResource("StandardMaterial3D_path")
 
 [node name="GoldenCore" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.8, 6)

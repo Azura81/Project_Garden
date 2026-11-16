@@ -1,12 +1,19 @@
-[gd_scene load_steps=4 format=3 uid="uid://dfh1vjksmq3q8"]
+[gd_scene load_steps=6 format=3 uid="uid://dfh1vjksmq3q8"]
 
 [ext_resource type="Script" path="res://scripts/towers/TowerBase.gd" id="1_tow"]
+[ext_resource type="Texture2D" path="res://assets/textures/plant_stem.png" id="2_stem"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_rng"]
 height = 1.0
 radius = 6.0
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_stem"]
+albedo_texture = ExtResource("2_stem")
+uv1_scale = Vector3(1, 2, 1)
+roughness = 0.7
+
 [sub_resource type="CylinderMesh" id="CylinderMesh_stem"]
+material = SubResource("StandardMaterial3D_stem")
 top_radius = 0.1
 bottom_radius = 0.15
 height = 1.2
