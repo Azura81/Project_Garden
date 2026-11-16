@@ -1,21 +1,126 @@
-[gd_scene load_steps=5 format=3 uid="uid://cmeq7g7o2a12p"]
+[gd_scene load_steps=18 format=3 uid="uid://cmeq7g7o2a12p"]
 
 [ext_resource type="PackedScene" uid="uid://dfh1vjksmq3q8" path="res://scenes/towers/TowerBase.tscn" id="1_base"]
 [ext_resource type="Script" path="res://scripts/towers/ThornRose.gd" id="2_rose"]
+[ext_resource type="Texture2D" path="res://assets/textures/plant_stem.png" id="3_stem"]
 
-[sub_resource type="SphereMesh" id="SphereMesh_bloom"]
-radius = 0.35
-height = 0.7
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_leaf"]
+albedo_color = Color(0.24, 0.48, 0.2, 1)
+roughness = 0.7
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bloom"]
-albedo_color = Color(0.9, 0.2, 0.35, 1)
+[sub_resource type="PrismMesh" id="PrismMesh_leaf"]
+material = SubResource("StandardMaterial3D_leaf")
+size = Vector3(0.4, 0.45, 0.05)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_thorn"]
+albedo_color = Color(0.42, 0.18, 0.12, 1)
 roughness = 0.6
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_thorn"]
+material = SubResource("StandardMaterial3D_thorn")
+top_radius = 0.0
+bottom_radius = 0.04
+height = 0.14
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_petal_outer"]
+albedo_color = Color(0.88, 0.15, 0.32, 1)
+roughness = 0.55
+
+[sub_resource type="SphereMesh" id="SphereMesh_petal_outer"]
+material = SubResource("StandardMaterial3D_petal_outer")
+radius = 0.28
+height = 0.45
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_petal_inner"]
+albedo_color = Color(0.96, 0.28, 0.45, 1)
+roughness = 0.5
+
+[sub_resource type="SphereMesh" id="SphereMesh_petal_inner"]
+material = SubResource("StandardMaterial3D_petal_inner")
+radius = 0.22
+height = 0.38
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_stamen"]
+albedo_color = Color(0.98, 0.85, 0.2, 1)
+emission_enabled = true
+emission = Color(0.98, 0.82, 0.2, 1)
+emission_energy_multiplier = 0.6
+
+[sub_resource type="SphereMesh" id="SphereMesh_stamen"]
+material = SubResource("StandardMaterial3D_stamen")
+radius = 0.1
+height = 0.2
+
+[sub_resource type="PrismMesh" id="PrismMesh_sepal"]
+material = SubResource("StandardMaterial3D_leaf")
+size = Vector3(0.18, 0.3, 0.04)
 
 [node name="ThornRose" instance=ExtResource("1_base")]
 script = ExtResource("2_rose")
 thorn_speed = 18.0
 
-[node name="BloomMesh" type="MeshInstance3D" parent="." index="3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
-mesh = SubResource("SphereMesh_bloom")
-surface_material_override/0 = SubResource("StandardMaterial3D_bloom")
+[node name="FirstPersonMount" parent="." index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+
+[node name="Thorn_1" type="MeshInstance3D" parent="." index="3"]
+transform = Transform3D(0.866025, 0.5, 0, -0.5, 0.866025, 0, 0, 0, 1, 0.14, 0.45, 0)
+mesh = SubResource("CylinderMesh_thorn")
+
+[node name="Thorn_2" type="MeshInstance3D" parent="." index="4"]
+transform = Transform3D(-0.866025, -0.5, 0, 0.5, -0.866025, 0, 0, 0, 1, -0.14, 0.75, 0)
+mesh = SubResource("CylinderMesh_thorn")
+
+[node name="Thorn_3" type="MeshInstance3D" parent="." index="5"]
+transform = Transform3D(0.707107, 0, 0.707107, -0.353553, 0.866025, 0.353553, -0.612372, -0.5, 0.612372, 0, 0.95, 0.14)
+mesh = SubResource("CylinderMesh_thorn")
+
+[node name="Leaf_Right" type="MeshInstance3D" parent="." index="6"]
+transform = Transform3D(0.5, 0.866025, 0, -0.866025, 0.5, 0, 0, 0, 1, 0.26, 0.6, 0)
+mesh = SubResource("PrismMesh_leaf")
+
+[node name="Leaf_Left" type="MeshInstance3D" parent="." index="7"]
+transform = Transform3D(-0.5, -0.866025, 0, 0.866025, -0.5, 0, 0, 0, 1, -0.26, 0.85, 0)
+mesh = SubResource("PrismMesh_leaf")
+
+[node name="Bloom" type="Node3D" parent="." index="8"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0)
+
+[node name="Sepal_1" type="MeshInstance3D" parent="Bloom" index="0"]
+transform = Transform3D(1, 0, 0, 0, -0.866025, -0.5, 0, 0.5, -0.866025, 0, -0.05, 0.2)
+mesh = SubResource("PrismMesh_sepal")
+
+[node name="Sepal_2" type="MeshInstance3D" parent="Bloom" index="1"]
+transform = Transform3D(1, 0, 0, 0, -0.866025, 0.5, 0, -0.5, -0.866025, 0, -0.05, -0.2)
+mesh = SubResource("PrismMesh_sepal")
+
+[node name="Sepal_3" type="MeshInstance3D" parent="Bloom" index="2"]
+transform = Transform3D(-0.5, 0.866025, 0, -0.866025, -0.5, 0, 0, 0, 1, 0.2, -0.05, 0)
+mesh = SubResource("PrismMesh_sepal")
+
+[node name="Sepal_4" type="MeshInstance3D" parent="Bloom" index="3"]
+transform = Transform3D(-0.5, -0.866025, 0, 0.866025, -0.5, 0, 0, 0, 1, -0.2, -0.05, 0)
+mesh = SubResource("PrismMesh_sepal")
+
+[node name="Petal_Left" type="MeshInstance3D" parent="Bloom" index="4"]
+transform = Transform3D(0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 0, 1, -0.16, 0.08, 0)
+mesh = SubResource("SphereMesh_petal_outer")
+
+[node name="Petal_Right" type="MeshInstance3D" parent="Bloom" index="5"]
+transform = Transform3D(0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 0, 0, 1, 0.16, 0.08, 0)
+mesh = SubResource("SphereMesh_petal_outer")
+
+[node name="Petal_Front" type="MeshInstance3D" parent="Bloom" index="6"]
+transform = Transform3D(1, 0, 0, 0, 0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 0.08, 0.16)
+mesh = SubResource("SphereMesh_petal_outer")
+
+[node name="Petal_Back" type="MeshInstance3D" parent="Bloom" index="7"]
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0.08, -0.16)
+mesh = SubResource("SphereMesh_petal_outer")
+
+[node name="Petal_Core" type="MeshInstance3D" parent="Bloom" index="8"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.12, 0)
+mesh = SubResource("SphereMesh_petal_inner")
+
+[node name="Stamen" type="MeshInstance3D" parent="Bloom" index="9"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+mesh = SubResource("SphereMesh_stamen")
