@@ -16,11 +16,13 @@ script = ExtResource("1_hud")
 layout_mode = 0
 offset_right = 320.0
 offset_bottom = 80.0
+mouse_filter = 2
 theme_override_constants/margin_left = 24
 theme_override_constants/margin_top = 24
 
 [node name="HBoxContainer" type="HBoxContainer" parent="TopLeft"]
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/separation = 16
 
 [node name="LabelDewdrops" type="Label" parent="TopLeft/HBoxContainer"]
@@ -42,11 +44,13 @@ anchor_right = 1.0
 offset_left = -340.0
 offset_bottom = 80.0
 grow_horizontal = 0
+mouse_filter = 2
 theme_override_constants/margin_top = 24
 theme_override_constants/margin_right = 24
 
 [node name="HBoxContainer" type="HBoxContainer" parent="TopRight"]
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/separation = 16
 
 [node name="LabelWave" type="Label" parent="TopRight/HBoxContainer"]
@@ -72,6 +76,7 @@ offset_top = -90.0
 offset_right = 120.0
 grow_horizontal = 2
 grow_vertical = 0
+mouse_filter = 2
 theme_override_constants/margin_bottom = 32
 
 [node name="BtnStartWave" type="Button" parent="BottomCenter"]

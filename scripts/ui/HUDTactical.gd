@@ -23,10 +23,18 @@ func _ready() -> void:
 
 	_update_all()
 
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_accept") or (event is InputEventKey and event.pressed and event.keycode == KEY_SPACE):
+		if btn_start_wave and not btn_start_wave.disabled:
+			GameManager.start_wave()
+
 func _update_all() -> void:
 	_on_dewdrops_changed(GameManager.dewdrops)
 	_on_core_health_changed(GameManager.core_health, GameManager.core_max_health)
-	_on_wave_started(GameManager.current_wave, GameManager.total_waves)
+	if label_wave:
+		label_wave.text = "Welle: " + str(GameManager.current_wave) + "/" + str(GameManager.total_waves)
+	if btn_start_wave:
+		btn_start_wave.disabled = GameManager.is_wave_active
 
 func _on_dewdrops_changed(amount: int) -> void:
 	if label_dewdrops:

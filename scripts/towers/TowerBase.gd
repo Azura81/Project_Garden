@@ -47,9 +47,19 @@ func _process(delta: float) -> void:
 
 func _process_tactical_autofire(delta: float) -> void:
 	fire_timer -= delta
+	if not current_target or not is_instance_valid(current_target):
+		current_target = _find_next_target()
 	if fire_timer <= 0.0 and current_target and is_instance_valid(current_target):
 		fire_at_target(current_target)
 		fire_timer = attack_cooldown
+
+func _find_next_target() -> Node3D:
+	if not range_area:
+		return null
+	for area in range_area.get_overlapping_areas():
+		if area.owner and area.owner.is_in_group("enemies") and is_instance_valid(area.owner):
+			return area.owner as Node3D
+	return null
 
 func _process_symbiosis(delta: float) -> void:
 	current_energy = maxf(current_energy - delta, 0.0)

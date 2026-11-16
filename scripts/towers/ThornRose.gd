@@ -28,6 +28,11 @@ func fire_at_target(target: Node3D) -> void:
 		return
 	var target_pos := target.global_position
 	_spawn_thorn(first_person_mount.global_position, target_pos)
+	var hc = target.get_node_or_null("HealthComponent")
+	if hc and hc.has_method("take_damage"):
+		hc.call("take_damage", attack_damage, self)
+	elif target.has_method("take_damage"):
+		target.call("take_damage", attack_damage)
 
 func fire_manual(aim_ray: RayCast3D) -> void:
 	var target_pos: Vector3
