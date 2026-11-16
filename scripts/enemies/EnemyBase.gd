@@ -3,6 +3,8 @@ extends PathFollow3D
 
 ## EnemyBase: Basisklasse für Schädlinge auf Path3D.
 
+const SfxDefeat = preload("res://assets/audio/snail_defeat.wav")
+
 signal defeated(dewdrops_reward: int)
 signal reached_core(damage: int)
 
@@ -44,9 +46,22 @@ func _reach_core() -> void:
 	queue_free()
 
 func _on_died() -> void:
+	_play_defeat_sound()
 	var reward := base_dewdrops
 	if GameManager.active_symbiosis_tower:
 		reward = int(base_dewdrops * 1.25) + 1
 	GameManager.add_dewdrops(reward)
 	defeated.emit(reward)
 	queue_free()
+
+func _play_defeat_sound() -> void:
+	if SfxDefeat:
+		var p := AudioStreamPlayer3D.new()
+		p.stream = SfxDefeat
+		p.pitch_scale = randf_range(0.92, 1.12)
+		p.volume_db = 2.0
+		p.unit_size = 15.0
+		get_tree().current_scene.add_child(p)
+		p.global_position = global_position
+		p.play()
+		p.finished.connect(p.queue_free)

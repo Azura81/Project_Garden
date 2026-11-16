@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" path="res://assets/textures/ground_spot.jpg" id="10_spot_tex"]
 [ext_resource type="Texture2D" path="res://assets/textures/beet_wall.jpg" id="11_wall_tex"]
 [ext_resource type="Texture2D" path="res://assets/textures/path_ground.jpg" id="12_path_tex"]
+[ext_resource type="PackedScene" path="res://scenes/environment/GardenBackdrop.tscn" id="13_backdrop"]
 
 [sub_resource type="Environment" id="Environment_main"]
 background_mode = 1
@@ -83,6 +84,8 @@ rose_tower_scene = ExtResource("3_rose")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_main")
+
+[node name="GardenBackdrop" parent="." instance=ExtResource("13_backdrop")]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.866025, -0.353553, 0.353553, 0, 0.707107, 0.707107, -0.5, -0.612372, 0.612372, 5, 10, 5)
