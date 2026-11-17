@@ -66,14 +66,17 @@ func _init() -> void:
 		f.store_line("v %.4f %.4f %.4f" % [v.x, v.y, v.z])
 		
 	f.store_line("g Stem")
+	f.store_line("usemtl StemMat")
 	for tri in faces_stem:
 		f.store_line("f %d %d %d" % [tri[0], tri[1], tri[2]])
 		
 	f.store_line("g Leaves")
+	f.store_line("usemtl LeafMat")
 	for tri in faces_leaves:
 		f.store_line("f %d %d %d" % [tri[0], tri[1], tri[2]])
 		
 	f.store_line("g Petals")
+	f.store_line("usemtl PetalMat")
 	for tri in faces_petals:
 		f.store_line("f %d %d %d" % [tri[0], tri[1], tri[2]])
 		
