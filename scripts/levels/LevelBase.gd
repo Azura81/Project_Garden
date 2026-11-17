@@ -11,6 +11,7 @@ extends Node3D
 @onready var radial_menu: Control = $UI/RadialMenu
 @onready var hud_tactical: Control = $UI/HUD_Tactical
 @onready var hud_first_person: Control = $UI/HUD_FirstPerson
+@onready var start_arrow: Node3D = get_node_or_null("PathStartArrow")
 
 var active_enemies: int = 0
 
@@ -26,6 +27,12 @@ func _ready() -> void:
 			child.connect("spot_clicked", _on_tower_spot_clicked)
 
 func _on_wave_started(wave_idx: int, _total: int) -> void:
+	# Richtungspfeil verschwindet bei Start der ersten Runde
+	if start_arrow and is_instance_valid(start_arrow):
+		var tw := create_tween()
+		tw.tween_property(start_arrow, "scale", Vector3.ZERO, 0.4).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
+		tw.tween_callback(start_arrow.queue_free)
+
 	var count := 4 + wave_idx * 3
 	active_enemies = count
 	for i in range(count):
