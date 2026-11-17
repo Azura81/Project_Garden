@@ -26,14 +26,27 @@ func _ready() -> void:
 	if btn_close:
 		btn_close.pressed.connect(close)
 
+func _unhandled_input(event: InputEvent) -> void:
+	if not visible:
+		return
+	if event.is_action_pressed("ui_cancel"):
+		close()
+		get_viewport().set_input_as_handled()
+	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
+		close()
+		get_viewport().set_input_as_handled()
+
 func open_for_spot(spot: Area3D) -> void:
 	target_spot = spot
 	visible = true
 	_update_buttons()
+	GameManager.select_spot(spot)
 
 func close() -> void:
-	visible = false
-	target_spot = null
+	if visible:
+		visible = false
+		target_spot = null
+		GameManager.deselect_spot()
 
 func _update_buttons() -> void:
 	if not target_spot:

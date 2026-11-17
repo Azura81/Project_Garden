@@ -9,6 +9,8 @@ signal wave_completed(wave_index: int)
 signal game_over(victory: bool)
 signal symbiosis_entered(tower: Node3D)
 signal symbiosis_exited()
+signal spot_selected(spot: Area3D)
+signal spot_deselected()
 signal speed_changed(multiplier: float)
 
 @export var start_dewdrops: int = 150
@@ -76,6 +78,12 @@ func enter_symbiosis(tower: Node3D) -> void:
 func exit_symbiosis() -> void:
 	active_symbiosis_tower = null
 	symbiosis_exited.emit()
+
+func select_spot(spot: Area3D) -> void:
+	spot_selected.emit(spot)
+
+func deselect_spot() -> void:
+	spot_deselected.emit()
 
 func set_game_speed(multiplier: float) -> void:
 	game_speed = multiplier
