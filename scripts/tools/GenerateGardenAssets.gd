@@ -13,7 +13,8 @@ func _init() -> void:
 	_generate_grass_tuft()
 	_generate_garden_bush()
 	_generate_detailed_tree()
-	print("Garden assets regenerated with grass tufts, bushes, and detailed trees.")
+	_generate_mushroom_cluster()
+	print("Garden assets regenerated with grass tufts, bushes, detailed trees, and mushrooms.")
 	quit()
 
 # -------------------------------------------------------------
@@ -746,3 +747,95 @@ func _add_tree_limb(verts: Array[Vector3], faces: Array[PackedInt32Array], start
 func _add_vert(verts: Array[Vector3], v: Vector3) -> int:
 	verts.append(v)
 	return verts.size()
+
+# -------------------------------------------------------------
+# 11. MUSHROOM CLUSTER (Capped Toadstools with Toon Facets)
+# -------------------------------------------------------------
+func _generate_mushroom_cluster() -> void:
+	var path := "res://assets/models/mushroom_cluster.obj"
+	var verts: Array[Vector3] = []
+	var faces_cap: Array[PackedInt32Array] = []
+	var faces_stem: Array[PackedInt32Array] = []
+	
+	# Shroom 1: Large primary toadstool
+	_add_single_mushroom(verts, faces_stem, faces_cap, Vector3(0, 0, 0), 0.52, 0.44, Vector3(0.04, 0.0, 0.02))
+	# Shroom 2: Medium companion shroom
+	_add_single_mushroom(verts, faces_stem, faces_cap, Vector3(0.32, 0, 0.16), 0.38, 0.32, Vector3(0.08, 0.0, 0.05))
+	# Shroom 3: Small cute button shroom
+	_add_single_mushroom(verts, faces_stem, faces_cap, Vector3(-0.25, 0, 0.22), 0.24, 0.22, Vector3(-0.04, 0.0, 0.03))
+
+	var f := FileAccess.open(path, FileAccess.WRITE)
+	f.store_line("# Stylized Mushroom Cluster")
+	for v in verts:
+		f.store_line("v %.4f %.4f %.4f" % [v.x, v.y, v.z])
+	f.store_line("g Cap")
+	f.store_line("usemtl MushroomCap")
+	for tri in faces_cap:
+		f.store_line("f %d %d %d" % [tri[0], tri[1], tri[2]])
+	f.store_line("g Stem")
+	f.store_line("usemtl MushroomStem")
+	for tri in faces_stem:
+		f.store_line("f %d %d %d" % [tri[0], tri[1], tri[2]])
+	f.close()
+
+func _add_single_mushroom(verts: Array[Vector3], faces_stem: Array[PackedInt32Array], faces_cap: Array[PackedInt32Array], base_pos: Vector3, total_height: float, cap_radius: float, tilt: Vector3) -> void:
+	# Stem: 4 rings of 6 segments
+	var stem_h := total_height * 0.72
+	var stem_radii := [cap_radius * 0.28, cap_radius * 0.22, cap_radius * 0.20, cap_radius * 0.24]
+	var stem_spine: Array[Vector3] = [
+		base_pos,
+		base_pos + Vector3(0, stem_h * 0.33, 0) + tilt * 0.3,
+		base_pos + Vector3(0, stem_h * 0.66, 0) + tilt * 0.7,
+		base_pos + Vector3(0, stem_h, 0) + tilt
+	]
+	
+	var prev_ring: Array[int] = []
+	for p_idx in range(4):
+		var cp := stem_spine[p_idx]
+		var r: float = stem_radii[p_idx]
+		var cur_ring: Array[int] = []
+		for i in range(6):
+			var a := float(i) * TAU / 6.0
+			cur_ring.append(_add_vert(verts, cp + Vector3(cos(a) * r, 0, sin(a) * r)))
+		if p_idx > 0:
+			for i in range(6):
+				var ni := (i + 1) % 6
+				faces_stem.append(PackedInt32Array([prev_ring[i], cur_ring[i], cur_ring[ni]]))
+				faces_stem.append(PackedInt32Array([prev_ring[i], cur_ring[ni], prev_ring[ni]]))
+		prev_ring = cur_ring
+		
+	# Cap: Dome with 8 segments, underside undercut rim, bulbous waist, and rounded top
+	var cap_center := stem_spine[3]
+	var cap_rim_y := cap_center.y - total_height * 0.08
+	var cap_mid_y := cap_center.y + total_height * 0.16
+	var cap_tip_y := cap_center.y + total_height * 0.38
+	
+	var rim_ring: Array[int] = []
+	var mid_ring: Array[int] = []
+	
+	# Inner rim / underside
+	for i in range(8):
+		var a := float(i) * TAU / 8.0
+		var r_rim := cap_radius * 0.95
+		rim_ring.append(_add_vert(verts, Vector3(cap_center.x + cos(a) * r_rim, cap_rim_y, cap_center.z + sin(a) * r_rim)))
+		
+	# Mid bulbous ring
+	for i in range(8):
+		var a := float(i) * TAU / 8.0
+		var r_mid := cap_radius
+		mid_ring.append(_add_vert(verts, Vector3(cap_center.x + cos(a) * r_mid, cap_mid_y, cap_center.z + sin(a) * r_mid)))
+
+	# Tip
+	var tip_idx := _add_vert(verts, Vector3(cap_center.x, cap_tip_y, cap_center.z))
+
+	# Connect stem top to inner cap rim (underside / gills)
+	for i in range(8):
+		var ni := (i + 1) % 8
+		# Outer rim to mid ring
+		faces_cap.append(PackedInt32Array([rim_ring[i], mid_ring[i], mid_ring[ni]]))
+		faces_cap.append(PackedInt32Array([rim_ring[i], mid_ring[ni], rim_ring[ni]]))
+		# Mid ring to tip
+		faces_cap.append(PackedInt32Array([mid_ring[i], tip_idx, mid_ring[ni]]))
+		# Underside face to stem top
+		faces_cap.append(PackedInt32Array([rim_ring[i], rim_ring[ni], prev_ring[i % 6]]))
+

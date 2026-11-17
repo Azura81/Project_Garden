@@ -30,7 +30,7 @@ func _ready() -> void:
 	var img1 := get_viewport().get_texture().get_image()
 	img1.save_png("C:/Users/maxri/.gemini/antigravity/brain/c4b57433-d9b8-4684-a230-f8ebc51e9a53/showcase_garden_upgrade.png")
 	
-	# 2. Cinematic Close-up Angle of the Snail Entrance Opening, Thicket, and Gravel Path
+	# 2. Cinematic Close-up Angle of the Snail Entrance Opening, Thicket, and Smooth Dirt Path
 	var close_cam := Camera3D.new()
 	lvl.add_child(close_cam)
 	close_cam.position = Vector3(-13.5, 4.5, -0.5)
@@ -41,4 +41,12 @@ func _ready() -> void:
 	var img2 := get_viewport().get_texture().get_image()
 	img2.save_png("C:/Users/maxri/.gemini/antigravity/brain/c4b57433-d9b8-4684-a230-f8ebc51e9a53/showcase_entrance_detail.png")
 	
+	# 3. Cinematic Angle of the New Brick Path, Flowerpots, and Mushrooms leading to the Porch
+	close_cam.position = Vector3(-8.0, 5.0, -5.0)
+	close_cam.look_at(Vector3(-2.0, 1.2, -22.0), Vector3.UP)
+	close_cam.fov = 60.0
+	await get_tree().create_timer(0.3).timeout
+	var img3 := get_viewport().get_texture().get_image()
+	img3.save_png("C:/Users/maxri/.gemini/antigravity/brain/c4b57433-d9b8-4684-a230-f8ebc51e9a53/showcase_brick_path.png")
+
 	get_tree().quit()
