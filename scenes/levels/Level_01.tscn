@@ -4,7 +4,9 @@
 [ext_resource type="PackedScene" path="res://scenes/enemies/GardenSnail.tscn" id="2_snail"]
 [ext_resource type="PackedScene" path="res://scenes/towers/ThornRose.tscn" id="3_rose"]
 [ext_resource type="Script" path="res://scripts/camera/CameraRig.gd" id="4_cam"]
+[ext_resource type="Shader" path="res://assets/shaders/ghibli_soil.gdshader" id="5_fcgrt"]
 [ext_resource type="PackedScene" path="res://scenes/levels/TowerSpot.tscn" id="5_spot_scene"]
+[ext_resource type="Texture2D" path="res://assets/textures/soil_normal.png" id="6_0rjyr"]
 [ext_resource type="PackedScene" path="res://scenes/ui/HUD_Tactical.tscn" id="6_tactical"]
 [ext_resource type="PackedScene" path="res://scenes/ui/HUD_FirstPerson.tscn" id="7_fp"]
 [ext_resource type="PackedScene" path="res://scenes/ui/RadialMenu.tscn" id="8_radial"]
@@ -46,10 +48,16 @@ glow_bloom = 0.12
 [sub_resource type="PlaneMesh" id="PlaneMesh_ground"]
 size = Vector2(32, 16)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dirt"]
-albedo_texture = ExtResource("9_soil")
-roughness = 0.9
-uv1_scale = Vector3(10, 5, 1)
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fcgrt"]
+render_priority = 0
+shader = ExtResource("5_fcgrt")
+shader_parameter/soil_texture = ExtResource("9_soil")
+shader_parameter/soil_normal = ExtResource("6_0rjyr")
+shader_parameter/soil_warm_tint = Color(0.95, 0.9, 0.85, 1)
+shader_parameter/soil_moist_tint = Color(0.7, 0.62, 0.55, 1)
+shader_parameter/uv_scale = Vector2(10, 5)
+shader_parameter/normal_depth = 1.8
+shader_parameter/wetness_factor = 0.45
 
 [sub_resource type="Curve3D" id="Curve3D_path"]
 _data = {
@@ -80,11 +88,60 @@ size = Vector3(0.65, 0.08, 0.22)
 material = SubResource("StandardMaterial3D_arrow")
 size = Vector3(0.45, 0.5, 0.08)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bbars"]
-albedo_color = Color(0.92, 0.88, 0.82, 1)
-albedo_texture = ExtResource("9_soil")
-roughness = 0.92
-uv1_scale = Vector3(2.5, 1.5, 2.5)
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0rjyr"]
+render_priority = 0
+shader = ExtResource("5_fcgrt")
+shader_parameter/soil_texture = ExtResource("9_soil")
+shader_parameter/soil_normal = ExtResource("6_0rjyr")
+shader_parameter/soil_warm_tint = Color(0.95, 0.9, 0.85, 1)
+shader_parameter/soil_moist_tint = Color(0.72, 0.64, 0.58, 1)
+shader_parameter/uv_scale = Vector2(2.5, 1.5)
+shader_parameter/normal_depth = 1.8
+shader_parameter/wetness_factor = 0.3
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0k37p"]
+render_priority = 0
+shader = ExtResource("5_fcgrt")
+shader_parameter/soil_texture = ExtResource("9_soil")
+shader_parameter/soil_normal = ExtResource("6_0rjyr")
+shader_parameter/soil_warm_tint = Color(0.95, 0.9, 0.85, 1)
+shader_parameter/soil_moist_tint = Color(0.72, 0.64, 0.58, 1)
+shader_parameter/uv_scale = Vector2(2.5, 1.5)
+shader_parameter/normal_depth = 1.8
+shader_parameter/wetness_factor = 0.3
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4h14u"]
+render_priority = 0
+shader = ExtResource("5_fcgrt")
+shader_parameter/soil_texture = ExtResource("9_soil")
+shader_parameter/soil_normal = ExtResource("6_0rjyr")
+shader_parameter/soil_warm_tint = Color(0.95, 0.9, 0.85, 1)
+shader_parameter/soil_moist_tint = Color(0.72, 0.64, 0.58, 1)
+shader_parameter/uv_scale = Vector2(2.5, 1.5)
+shader_parameter/normal_depth = 1.8
+shader_parameter/wetness_factor = 0.3
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bbars"]
+render_priority = 0
+shader = ExtResource("5_fcgrt")
+shader_parameter/soil_texture = ExtResource("9_soil")
+shader_parameter/soil_normal = ExtResource("6_0rjyr")
+shader_parameter/soil_warm_tint = Color(0.95, 0.9, 0.85, 1)
+shader_parameter/soil_moist_tint = Color(0.72, 0.64, 0.58, 1)
+shader_parameter/uv_scale = Vector2(2.5, 1.5)
+shader_parameter/normal_depth = 1.8
+shader_parameter/wetness_factor = 0.3
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0f20a"]
+render_priority = 0
+shader = ExtResource("5_fcgrt")
+shader_parameter/soil_texture = ExtResource("9_soil")
+shader_parameter/soil_normal = ExtResource("6_0rjyr")
+shader_parameter/soil_warm_tint = Color(0.95, 0.9, 0.85, 1)
+shader_parameter/soil_moist_tint = Color(0.72, 0.64, 0.58, 1)
+shader_parameter/uv_scale = Vector2(2.5, 1.5)
+shader_parameter/normal_depth = 1.8
+shader_parameter/wetness_factor = 0.3
 
 [node name="Level_01" type="Node3D" unique_id=1019938663]
 script = ExtResource("1_lvl")
@@ -106,7 +163,7 @@ shadow_blur = 1.6
 
 [node name="Ground" type="MeshInstance3D" parent="." unique_id=1000973222]
 mesh = SubResource("PlaneMesh_ground")
-surface_material_override/0 = SubResource("StandardMaterial3D_dirt")
+surface_material_override/0 = SubResource("ShaderMaterial_fcgrt")
 
 [node name="BeetBorder" type="Node3D" parent="." unique_id=1862858294 instance=ExtResource("12_border")]
 
@@ -223,24 +280,24 @@ rose_scene = ExtResource("3_rose")
 [node name="SoilRidge_1" type="MeshInstance3D" parent="." unique_id=1314727681]
 transform = Transform3D(0.9, 0, 0, 0, 1.5, 0, 0, 0, 0.9, -8, 0, -6.2)
 mesh = ExtResource("20_4h14u")
-surface_material_override/0 = SubResource("StandardMaterial3D_bbars")
+surface_material_override/0 = SubResource("ShaderMaterial_0rjyr")
 
 [node name="SoilRidge_2" type="MeshInstance3D" parent="." unique_id=1965387423]
 transform = Transform3D(1, 0, 0, 0, 1.5, 0, 0, 0, 1, -6, 0, 5.8)
 mesh = ExtResource("20_4h14u")
-surface_material_override/0 = SubResource("StandardMaterial3D_bbars")
+surface_material_override/0 = SubResource("ShaderMaterial_0k37p")
 
 [node name="SoilRidge_3" type="MeshInstance3D" parent="." unique_id=825654562]
 transform = Transform3D(0.9, 0, 0, 0, 1.5, 0, 0, 0, 0.9, 8, 0, -5.5)
 mesh = ExtResource("20_4h14u")
-surface_material_override/0 = SubResource("StandardMaterial3D_bbars")
+surface_material_override/0 = SubResource("ShaderMaterial_4h14u")
 
 [node name="SoilRidge_4" type="MeshInstance3D" parent="." unique_id=239807737]
 transform = Transform3D(-3.059797e-08, 0, 0.8, 0, 1.4, 0, -0.7, 0, -3.4969112e-08, 10.5, 0, -1.2)
 mesh = ExtResource("20_4h14u")
-surface_material_override/0 = SubResource("StandardMaterial3D_bbars")
+surface_material_override/0 = SubResource("ShaderMaterial_bbars")
 
 [node name="SoilRidge_5" type="MeshInstance3D" parent="." unique_id=1089927510]
 transform = Transform3D(0.85, 0, 0, 0, 1.4, 0, 0, 0, 0.85, 3.5, 0, 5.2)
 mesh = ExtResource("20_4h14u")
-surface_material_override/0 = SubResource("StandardMaterial3D_bbars")
+surface_material_override/0 = SubResource("ShaderMaterial_0f20a")

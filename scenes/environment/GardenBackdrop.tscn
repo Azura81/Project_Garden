@@ -1,8 +1,11 @@
 [gd_scene format=4]
 
+[ext_resource type="Shader" path="res://assets/shaders/ghibli_lawn.gdshader" id="1_c8jhb"]
 [ext_resource type="Texture2D" path="res://assets/textures/beet_wall.jpg" id="1_uv68i"]
+[ext_resource type="Texture2D" path="res://assets/textures/grass_normal.png" id="2_aiyih"]
 [ext_resource type="Texture2D" path="res://assets/textures/brick_path.jpg" id="2_jd6k4"]
 [ext_resource type="ArrayMesh" path="res://assets/models/picket_fence.obj" id="3_6i730"]
+[ext_resource type="Texture2D" path="res://assets/textures/grass_stylized.png" id="3_r4o0c"]
 [ext_resource type="ArrayMesh" path="res://assets/models/flower_pot.obj" id="4_4mgc4"]
 [ext_resource type="ArrayMesh" path="res://assets/models/watering_can.obj" id="5_c8jhb"]
 [ext_resource type="ArrayMesh" path="res://assets/models/wildflower_cluster.obj" id="6_aiyih"]
@@ -18,9 +21,16 @@
 [sub_resource type="PlaneMesh" id="PlaneMesh_4r8qd"]
 size = Vector2(220, 220)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_p36wl"]
-albedo_color = Color(0.38, 0.58, 0.24, 1)
-roughness = 0.88
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_d7566"]
+render_priority = 0
+shader = ExtResource("1_c8jhb")
+shader_parameter/grass_texture = ExtResource("3_r4o0c")
+shader_parameter/grass_normal = ExtResource("2_aiyih")
+shader_parameter/col_sunlit = Color(0.54, 0.74, 0.28, 1)
+shader_parameter/col_meadow = Color(0.36, 0.56, 0.22, 1)
+shader_parameter/uv_scale = Vector2(70, 70)
+shader_parameter/macro_noise_scale = null
+shader_parameter/normal_scale = 1.4
 
 [sub_resource type="BoxMesh" id="BoxMesh_glm34"]
 size = Vector3(50, 1, 20)
@@ -464,7 +474,7 @@ roughness = 0.25
 [node name="Meadow" type="MeshInstance3D" parent="." unique_id=492200063]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
 mesh = SubResource("PlaneMesh_4r8qd")
-surface_material_override/0 = SubResource("StandardMaterial3D_p36wl")
+surface_material_override/0 = SubResource("ShaderMaterial_d7566")
 
 [node name="House_Plinth" type="MeshInstance3D" parent="." unique_id=1233071628]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -32)
