@@ -1,26 +1,26 @@
-[gd_scene load_steps=37 format=3 uid="uid://b1n8k4l9m2o7q"]
+[gd_scene load_steps=24 format=3 uid="uid://b1n8k4l9m2o7q"]
 
 [ext_resource type="Script" path="res://scripts/levels/LevelBase.gd" id="1_lvl"]
 [ext_resource type="PackedScene" uid="uid://chv0k58i0j8s2" path="res://scenes/enemies/GardenSnail.tscn" id="2_snail"]
 [ext_resource type="PackedScene" uid="uid://cmeq7g7o2a12p" path="res://scenes/towers/ThornRose.tscn" id="3_rose"]
 [ext_resource type="Script" path="res://scripts/camera/CameraRig.gd" id="4_cam"]
-[ext_resource type="Script" path="res://scripts/levels/TowerSpot.gd" id="5_spot"]
+[ext_resource type="PackedScene" uid="uid://dkn4m2v8x3q1a" path="res://scenes/levels/TowerSpot.tscn" id="5_spot_scene"]
 [ext_resource type="PackedScene" uid="uid://c8h74v2gqk1ma" path="res://scenes/ui/HUD_Tactical.tscn" id="6_tactical"]
 [ext_resource type="PackedScene" uid="uid://df7w0r8xlyr2j" path="res://scenes/ui/HUD_FirstPerson.tscn" id="7_fp"]
 [ext_resource type="PackedScene" uid="uid://cxkn68a2pdmvw" path="res://scenes/ui/RadialMenu.tscn" id="8_radial"]
 [ext_resource type="Texture2D" path="res://assets/textures/ground_soil.png" id="9_soil"]
-[ext_resource type="Texture2D" path="res://assets/textures/ground_spot.jpg" id="10_spot_tex"]
-[ext_resource type="Texture2D" path="res://assets/textures/beet_wall.jpg" id="11_wall_tex"]
-[ext_resource type="Texture2D" path="res://assets/textures/path_ground.jpg" id="12_path_tex"]
-[ext_resource type="PackedScene" path="res://scenes/environment/GardenBackdrop.tscn" id="13_backdrop"]
+[ext_resource type="Texture2D" path="res://assets/textures/path_ground.jpg" id="10_path_tex"]
+[ext_resource type="PackedScene" uid="uid://cx6e78qj4m85y" path="res://scenes/environment/GardenBackdrop.tscn" id="11_backdrop"]
+[ext_resource type="PackedScene" uid="uid://c7k9v1m8q2x5r" path="res://scenes/environment/BeetBorder.tscn" id="12_border"]
+[ext_resource type="PackedScene" uid="uid://b8k1m3p4v9o2w" path="res://scenes/environment/GoldenSprout.tscn" id="13_sprout"]
 [ext_resource type="Script" path="res://scripts/levels/PathArrow.gd" id="14_arrow"]
 
 [sub_resource type="Environment" id="Environment_main"]
 background_mode = 1
-background_color = Color(0.72, 0.84, 0.88, 1)
+background_color = Color(0.72, 0.83, 0.88, 1)
 ambient_light_source = 2
-ambient_light_color = Color(0.9, 0.88, 0.82, 1)
-ambient_light_energy = 0.85
+ambient_light_color = Color(0.96, 0.91, 0.82, 1)
+ambient_light_energy = 0.88
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_ground"]
 size = Vector2(32, 16)
@@ -30,17 +30,6 @@ albedo_texture = ExtResource("9_soil")
 uv1_scale = Vector3(10, 5, 1)
 roughness = 0.9
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wall"]
-albedo_texture = ExtResource("11_wall_tex")
-uv1_scale = Vector3(12, 1, 1)
-roughness = 0.8
-
-[sub_resource type="BoxMesh" id="BoxMesh_wall_ns"]
-size = Vector3(32.4, 0.8, 0.4)
-
-[sub_resource type="BoxMesh" id="BoxMesh_wall_ew"]
-size = Vector3(0.4, 0.8, 16.4)
-
 [sub_resource type="Curve3D" id="Curve3D_path"]
 _data = {
 "points": PackedVector3Array(0, 0, 0, 0, 0, 0, -14.5, 0.1, -4.5, 0, 0, 0, 0, 0, 0, -8, 0.1, -4.5, 0, 0, 0, 0, 0, 0, -4, 0.1, 3.5, 0, 0, 0, 0, 0, 0, 2, 0.1, -3, 0, 0, 0, 0, 0, 0, 2, 0.1, 2.5, 0, 0, 0, 0, 0, 0, 11, 0.1, 2.5, 0, 0, 0, 0, 0, 0, 13.8, 0.1, 2.5),
@@ -49,34 +38,9 @@ _data = {
 point_count = 7
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_path"]
-albedo_texture = ExtResource("12_path_tex")
+albedo_texture = ExtResource("10_path_tex")
 uv1_scale = Vector3(1, 14, 1)
 roughness = 0.9
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_spot"]
-height = 0.3
-radius = 0.75
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_spot"]
-top_radius = 0.7
-bottom_radius = 0.75
-height = 0.2
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_spot"]
-albedo_texture = ExtResource("10_spot_tex")
-uv1_scale = Vector3(2, 2, 1)
-roughness = 0.85
-
-[sub_resource type="SphereMesh" id="SphereMesh_core"]
-radius = 0.8
-height = 1.6
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_core"]
-albedo_color = Color(0.95, 0.78, 0.2, 1)
-roughness = 0.3
-emission_enabled = true
-emission = Color(0.95, 0.82, 0.3, 1)
-emission_energy_multiplier = 0.6
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_arrow"]
 albedo_color = Color(0.98, 0.84, 0.15, 1)
@@ -101,37 +65,20 @@ rose_tower_scene = ExtResource("3_rose")
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_main")
 
-[node name="GardenBackdrop" parent="." instance=ExtResource("13_backdrop")]
+[node name="GardenBackdrop" parent="." instance=ExtResource("11_backdrop")]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.866025, -0.353553, 0.353553, 0, 0.707107, 0.707107, -0.5, -0.612372, 0.612372, 5, 12, 5)
+transform = Transform3D(0.866025, -0.353553, 0.353553, 0, 0.707107, 0.707107, -0.5, -0.612372, 0.612372, 6, 14, 6)
+light_color = Color(1, 0.93, 0.8, 1)
+light_energy = 1.25
 shadow_enabled = true
+shadow_bias = 0.04
 
 [node name="Ground" type="MeshInstance3D" parent="."]
 mesh = SubResource("PlaneMesh_ground")
 surface_material_override/0 = SubResource("StandardMaterial3D_dirt")
 
-[node name="BeetWalls" type="Node3D" parent="."]
-
-[node name="WallNorth" type="MeshInstance3D" parent="BeetWalls"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, -8)
-mesh = SubResource("BoxMesh_wall_ns")
-surface_material_override/0 = SubResource("StandardMaterial3D_wall")
-
-[node name="WallSouth" type="MeshInstance3D" parent="BeetWalls"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 8)
-mesh = SubResource("BoxMesh_wall_ns")
-surface_material_override/0 = SubResource("StandardMaterial3D_wall")
-
-[node name="WallWest" type="MeshInstance3D" parent="BeetWalls"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0.4, 0)
-mesh = SubResource("BoxMesh_wall_ew")
-surface_material_override/0 = SubResource("StandardMaterial3D_wall")
-
-[node name="WallEast" type="MeshInstance3D" parent="BeetWalls"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0.4, 0)
-mesh = SubResource("BoxMesh_wall_ew")
-surface_material_override/0 = SubResource("StandardMaterial3D_wall")
+[node name="BeetBorder" parent="." instance=ExtResource("12_border")]
 
 [node name="CameraRig" type="Node3D" parent="." node_paths=PackedStringArray("camera")]
 script = ExtResource("4_cam")
@@ -172,73 +119,29 @@ mesh = SubResource("BoxMesh_arrow_shaft")
 transform = Transform3D(0, 0, 1, 1, 0, 0, 0, 1, 0, 0.35, 0, 0)
 mesh = SubResource("PrismMesh_arrow_tip")
 
-[node name="GoldenCore" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0.8, 2.5)
-
-[node name="CoreMesh" type="MeshInstance3D" parent="GoldenCore"]
-mesh = SubResource("SphereMesh_core")
-surface_material_override/0 = SubResource("StandardMaterial3D_core")
+[node name="GoldenSprout" parent="." instance=ExtResource("13_sprout")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, 2.5)
 
 [node name="TowerSpots" type="Node3D" parent="."]
 
-[node name="TowerSpot_1" type="Area3D" parent="TowerSpots" groups=["tower_spots"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 0.1, 0.5)
-script = ExtResource("5_spot")
+[node name="TowerSpot_1" parent="TowerSpots" instance=ExtResource("5_spot_scene")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 0, 0.5)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TowerSpots/TowerSpot_1"]
-shape = SubResource("CylinderShape3D_spot")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="TowerSpots/TowerSpot_1"]
-mesh = SubResource("CylinderMesh_spot")
-surface_material_override/0 = SubResource("StandardMaterial3D_spot")
-
-[node name="TowerSpot_2" type="Area3D" parent="TowerSpots" groups=["tower_spots"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 0.1, -5)
-script = ExtResource("5_spot")
+[node name="TowerSpot_2" parent="TowerSpots" instance=ExtResource("5_spot_scene")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 0, -5)
 spot_id = 2
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TowerSpots/TowerSpot_2"]
-shape = SubResource("CylinderShape3D_spot")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="TowerSpots/TowerSpot_2"]
-mesh = SubResource("CylinderMesh_spot")
-surface_material_override/0 = SubResource("StandardMaterial3D_spot")
-
-[node name="TowerSpot_3" type="Area3D" parent="TowerSpots" groups=["tower_spots"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 4.8)
-script = ExtResource("5_spot")
+[node name="TowerSpot_3" parent="TowerSpots" instance=ExtResource("5_spot_scene")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4.8)
 spot_id = 3
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TowerSpots/TowerSpot_3"]
-shape = SubResource("CylinderShape3D_spot")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="TowerSpots/TowerSpot_3"]
-mesh = SubResource("CylinderMesh_spot")
-surface_material_override/0 = SubResource("StandardMaterial3D_spot")
-
-[node name="TowerSpot_4" type="Area3D" parent="TowerSpots" groups=["tower_spots"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 0.1, -1.2)
-script = ExtResource("5_spot")
+[node name="TowerSpot_4" parent="TowerSpots" instance=ExtResource("5_spot_scene")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 0, -1.2)
 spot_id = 4
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TowerSpots/TowerSpot_4"]
-shape = SubResource("CylinderShape3D_spot")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="TowerSpots/TowerSpot_4"]
-mesh = SubResource("CylinderMesh_spot")
-surface_material_override/0 = SubResource("StandardMaterial3D_spot")
-
-[node name="TowerSpot_5" type="Area3D" parent="TowerSpots" groups=["tower_spots"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.5, 0.1, 6)
-script = ExtResource("5_spot")
+[node name="TowerSpot_5" parent="TowerSpots" instance=ExtResource("5_spot_scene")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.5, 0, 6)
 spot_id = 5
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TowerSpots/TowerSpot_5"]
-shape = SubResource("CylinderShape3D_spot")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="TowerSpots/TowerSpot_5"]
-mesh = SubResource("CylinderMesh_spot")
-surface_material_override/0 = SubResource("StandardMaterial3D_spot")
 
 [node name="UI" type="CanvasLayer" parent="."]
 

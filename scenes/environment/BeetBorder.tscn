@@ -1,0 +1,201 @@
+[gd_scene load_steps=10 format=3 uid="uid://c7k9v1m8q2x5r"]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/rustic_beam.obj" id="1_beam_mesh"]
+[ext_resource type="ArrayMesh" path="res://assets/models/river_stones.obj" id="2_stones_mesh"]
+[ext_resource type="Texture2D" path="res://assets/textures/beet_wall.jpg" id="3_wood_tex"]
+[ext_resource type="Shader" path="res://assets/shaders/toon_outline.gdshader" id="4_toon_shd"]
+[ext_resource type="Shader" path="res://assets/shaders/outline_pass.gdshader" id="5_outl_shd"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_beam"]
+albedo_color = Color(0.78, 0.62, 0.44, 1)
+albedo_texture = ExtResource("3_wood_tex")
+uv1_scale = Vector3(1, 1, 1)
+roughness = 0.85
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_outl_stone"]
+render_priority = 0
+shader = ExtResource("5_outl_shd")
+shader_parameter/outline_color = Color(0.22, 0.22, 0.2, 1)
+shader_parameter/outline_width = 0.012
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_stone"]
+render_priority = 0
+next_pass = SubResource("ShaderMaterial_outl_stone")
+shader = ExtResource("4_toon_shd")
+shader_parameter/base_color = Color(0.6, 0.6, 0.55, 1)
+shader_parameter/gradient_color = Color(0.8, 0.78, 0.72, 1)
+shader_parameter/shadow_color = Color(0.38, 0.38, 0.34, 1)
+shader_parameter/rim_color = Color(0.92, 0.92, 0.88, 1)
+shader_parameter/gradient_strength = 0.45
+shader_parameter/gradient_min_y = 0.0
+shader_parameter/gradient_max_y = 0.6
+shader_parameter/facet_variation = 0.14
+shader_parameter/rim_threshold = 0.5
+shader_parameter/wind_strength = 0.0
+shader_parameter/wind_speed = 0.0
+
+[node name="BeetBorder" type="Node3D"]
+
+[node name="WoodenBeams" type="Node3D" parent="."]
+
+[node name="Beam_N1" type="MeshInstance3D" parent="WoodenBeams"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 0, -8)
+mesh = ExtResource("1_beam_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_beam")
+
+[node name="Beam_N2" type="MeshInstance3D" parent="WoodenBeams"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -8)
+mesh = ExtResource("1_beam_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_beam")
+
+[node name="Beam_N3" type="MeshInstance3D" parent="WoodenBeams"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -8)
+mesh = ExtResource("1_beam_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_beam")
+
+[node name="Beam_N4" type="MeshInstance3D" parent="WoodenBeams"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -8)
+mesh = ExtResource("1_beam_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_beam")
+
+[node name="Beam_N5" type="MeshInstance3D" parent="WoodenBeams"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -8)
+mesh = ExtResource("1_beam_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_beam")
+
+[node name="Beam_N6" type="MeshInstance3D" parent="WoodenBeams"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -8)
+mesh = ExtResource("1_beam_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_beam")
+
+[node name="Beam_N7" type="MeshInstance3D" parent="WoodenBeams"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, -8)
+mesh = ExtResource("1_beam_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_beam")
+
+[node name="Beam_N8" type="MeshInstance3D" parent="WoodenBeams"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, -8)
+mesh = ExtResource("1_beam_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_beam")
+
+[node name="Beam_S1" type="MeshInstance3D" parent="WoodenBeams"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 0, 8)
+mesh = ExtResource("1_beam_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_beam")
+
+[node name="Beam_S2" type="MeshInstance3D" parent="WoodenBeams"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 8)
+mesh = ExtResource("1_beam_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_beam")
+
+[node name="Beam_S3" type="MeshInstance3D" parent="WoodenBeams"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 8)
+mesh = ExtResource("1_beam_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_beam")
+
+[node name="Beam_S4" type="MeshInstance3D" parent="WoodenBeams"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 8)
+mesh = ExtResource("1_beam_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_beam")
+
+[node name="Beam_S5" type="MeshInstance3D" parent="WoodenBeams"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 8)
+mesh = ExtResource("1_beam_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_beam")
+
+[node name="Beam_S6" type="MeshInstance3D" parent="WoodenBeams"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 8)
+mesh = ExtResource("1_beam_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_beam")
+
+[node name="Beam_S7" type="MeshInstance3D" parent="WoodenBeams"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 8)
+mesh = ExtResource("1_beam_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_beam")
+
+[node name="Beam_S8" type="MeshInstance3D" parent="WoodenBeams"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, 8)
+mesh = ExtResource("1_beam_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_beam")
+
+[node name="Beam_W1" type="MeshInstance3D" parent="WoodenBeams"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -16, 0, -6)
+mesh = ExtResource("1_beam_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_beam")
+
+[node name="Beam_W2" type="MeshInstance3D" parent="WoodenBeams"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -16, 0, -2)
+mesh = ExtResource("1_beam_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_beam")
+
+[node name="Beam_W3" type="MeshInstance3D" parent="WoodenBeams"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -16, 0, 2)
+mesh = ExtResource("1_beam_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_beam")
+
+[node name="Beam_W4" type="MeshInstance3D" parent="WoodenBeams"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -16, 0, 6)
+mesh = ExtResource("1_beam_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_beam")
+
+[node name="Beam_E1" type="MeshInstance3D" parent="WoodenBeams"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 16, 0, -6)
+mesh = ExtResource("1_beam_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_beam")
+
+[node name="Beam_E2" type="MeshInstance3D" parent="WoodenBeams"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 16, 0, -2)
+mesh = ExtResource("1_beam_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_beam")
+
+[node name="Beam_E3" type="MeshInstance3D" parent="WoodenBeams"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 16, 0, 2)
+mesh = ExtResource("1_beam_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_beam")
+
+[node name="Beam_E4" type="MeshInstance3D" parent="WoodenBeams"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 16, 0, 6)
+mesh = ExtResource("1_beam_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_beam")
+
+[node name="RiverStones" type="Node3D" parent="."]
+
+[node name="Corner_NW" type="MeshInstance3D" parent="RiverStones"]
+transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, -16.0, 0.05, -8.0)
+mesh = ExtResource("2_stones_mesh")
+surface_material_override/0 = SubResource("ShaderMaterial_stone")
+
+[node name="Corner_NE" type="MeshInstance3D" parent="RiverStones"]
+transform = Transform3D(0.8, 0, 1.15, 0, 1.4, 0, -1.15, 0, 0.8, 16.0, 0.05, -8.0)
+mesh = ExtResource("2_stones_mesh")
+surface_material_override/0 = SubResource("ShaderMaterial_stone")
+
+[node name="Corner_SW" type="MeshInstance3D" parent="RiverStones"]
+transform = Transform3D(-1.15, 0, 0.8, 0, 1.4, 0, -0.8, 0, -1.15, -16.0, 0.05, 8.0)
+mesh = ExtResource("2_stones_mesh")
+surface_material_override/0 = SubResource("ShaderMaterial_stone")
+
+[node name="Corner_SE" type="MeshInstance3D" parent="RiverStones"]
+transform = Transform3D(-1.4, 0, 0, 0, 1.4, 0, 0, 0, -1.4, 16.0, 0.05, 8.0)
+mesh = ExtResource("2_stones_mesh")
+surface_material_override/0 = SubResource("ShaderMaterial_stone")
+
+[node name="Stones_N_Mid" type="MeshInstance3D" parent="RiverStones"]
+transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, 0.0, 0.04, -8.15)
+mesh = ExtResource("2_stones_mesh")
+surface_material_override/0 = SubResource("ShaderMaterial_stone")
+
+[node name="Stones_S_Mid" type="MeshInstance3D" parent="RiverStones"]
+transform = Transform3D(-0.95, 0, 0.55, 0, 1.1, 0, -0.55, 0, -0.95, 0.0, 0.04, 8.15)
+mesh = ExtResource("2_stones_mesh")
+surface_material_override/0 = SubResource("ShaderMaterial_stone")
+
+[node name="Stones_N_East" type="MeshInstance3D" parent="RiverStones"]
+transform = Transform3D(0.9, 0, 0.6, 0, 1.0, 0, -0.6, 0, 0.9, 8.0, 0.04, -8.1)
+mesh = ExtResource("2_stones_mesh")
+surface_material_override/0 = SubResource("ShaderMaterial_stone")
+
+[node name="Stones_S_West" type="MeshInstance3D" parent="RiverStones"]
+transform = Transform3D(0.7, 0, -0.7, 0, 1.0, 0, 0.7, 0, 0.7, -8.0, 0.04, 8.1)
+mesh = ExtResource("2_stones_mesh")
+surface_material_override/0 = SubResource("ShaderMaterial_stone")

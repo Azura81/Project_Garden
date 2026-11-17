@@ -1,0 +1,66 @@
+[gd_scene load_steps=12 format=3 uid="uid://dkn4m2v8x3q1a"]
+
+[ext_resource type="Script" path="res://scripts/levels/TowerSpot.gd" id="1_spot_script"]
+[ext_resource type="Texture2D" path="res://assets/textures/ground_spot.jpg" id="2_spot_tex"]
+[ext_resource type="ArrayMesh" path="res://assets/models/mini_sprout.obj" id="3_mini_mesh"]
+[ext_resource type="Shader" path="res://assets/shaders/toon_outline.gdshader" id="4_toon_shd"]
+[ext_resource type="Shader" path="res://assets/shaders/outline_pass.gdshader" id="5_outl_shd"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_hitbox"]
+height = 0.4
+radius = 0.85
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_mound"]
+top_radius = 0.75
+bottom_radius = 0.85
+height = 0.16
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mound"]
+albedo_texture = ExtResource("2_spot_tex")
+uv1_scale = Vector3(2, 2, 1)
+roughness = 0.85
+
+[sub_resource type="TorusMesh" id="TorusMesh_magic"]
+inner_radius = 0.58
+outer_radius = 0.65
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_magic"]
+shading_mode = 0
+albedo_color = Color(1, 0.88, 0.35, 0.85)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mini"]
+render_priority = 0
+shader = ExtResource("4_toon_shd")
+shader_parameter/base_color = Color(0.42, 0.62, 0.2, 1)
+shader_parameter/gradient_color = Color(0.92, 0.84, 0.28, 1)
+shader_parameter/shadow_color = Color(0.2, 0.32, 0.1, 1)
+shader_parameter/rim_color = Color(1, 0.95, 0.6, 1)
+shader_parameter/gradient_strength = 0.7
+shader_parameter/gradient_min_y = 0.0
+shader_parameter/gradient_max_y = 0.25
+shader_parameter/facet_variation = 0.1
+shader_parameter/rim_threshold = 0.55
+shader_parameter/wind_strength = 0.02
+shader_parameter/wind_speed = 2.0
+
+[node name="TowerSpot" type="Area3D" groups=["tower_spots"]]
+script = ExtResource("1_spot_script")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.12, 0)
+shape = SubResource("CylinderShape3D_hitbox")
+
+[node name="MoundMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0)
+mesh = SubResource("CylinderMesh_mound")
+surface_material_override/0 = SubResource("StandardMaterial3D_mound")
+
+[node name="MagicRing" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+mesh = SubResource("TorusMesh_magic")
+surface_material_override/0 = SubResource("StandardMaterial3D_magic")
+
+[node name="IdleSprout" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0)
+mesh = ExtResource("3_mini_mesh")
+surface_material_override/0 = SubResource("ShaderMaterial_mini")
