@@ -1,113 +1,62 @@
-[gd_scene load_steps=29 format=3 uid="uid://cmeq7g7o2a12p"]
+[gd_scene load_steps=18 format=3 uid="uid://cmeq7g7o2a12p"]
 
 [ext_resource type="PackedScene" uid="uid://dfh1vjksmq3q8" path="res://scenes/towers/TowerBase.tscn" id="1_base"]
 [ext_resource type="Script" path="res://scripts/towers/ThornRose.gd" id="2_rose"]
+[ext_resource type="ArrayMesh" path="res://assets/models/faceted_rose.obj" id="3_mesh"]
 [ext_resource type="AudioStream" path="res://assets/audio/thorn_shoot.wav" id="4_sfx_shoot"]
 [ext_resource type="Shader" path="res://assets/shaders/toon_outline.gdshader" id="5_toon_shd"]
 [ext_resource type="Shader" path="res://assets/shaders/outline_pass.gdshader" id="6_outl_shd"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_outline_stem"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_outl_stem"]
 render_priority = 0
 shader = ExtResource("6_outl_shd")
-shader_parameter/outline_color = Color(0.1, 0.22, 0.08, 1)
-shader_parameter/outline_width = 0.025
+shader_parameter/outline_color = Color(0.08, 0.18, 0.06, 1)
+shader_parameter/outline_width = 0.016
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_stem"]
 render_priority = 0
-next_pass = SubResource("ShaderMaterial_outline_stem")
+next_pass = SubResource("ShaderMaterial_outl_stem")
 shader = ExtResource("5_toon_shd")
-shader_parameter/base_color = Color(0.32, 0.65, 0.25, 1)
-shader_parameter/shadow_color = Color(0.16, 0.38, 0.14, 1)
-shader_parameter/rim_color = Color(0.55, 0.85, 0.45, 1)
+shader_parameter/base_color = Color(0.28, 0.55, 0.22, 1)
+shader_parameter/shadow_color = Color(0.14, 0.32, 0.12, 1)
+shader_parameter/rim_color = Color(0.55, 0.8, 0.4, 1)
 shader_parameter/rim_threshold = 0.55
 shader_parameter/wind_strength = 0.03
-shader_parameter/wind_speed = 2.0
+shader_parameter/wind_speed = 2.2
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_stem_segment"]
-material = SubResource("ShaderMaterial_stem")
-top_radius = 0.16
-bottom_radius = 0.22
-height = 0.65
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_outline_petal"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_outl_leaf"]
 render_priority = 0
 shader = ExtResource("6_outl_shd")
-shader_parameter/outline_color = Color(0.35, 0.06, 0.14, 1)
-shader_parameter/outline_width = 0.026
+shader_parameter/outline_color = Color(0.08, 0.18, 0.06, 1)
+shader_parameter/outline_width = 0.016
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_petal_outer"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_leaf"]
 render_priority = 0
-next_pass = SubResource("ShaderMaterial_outline_petal")
+next_pass = SubResource("ShaderMaterial_outl_leaf")
 shader = ExtResource("5_toon_shd")
-shader_parameter/base_color = Color(0.94, 0.2, 0.38, 1)
-shader_parameter/shadow_color = Color(0.62, 0.08, 0.24, 1)
-shader_parameter/rim_color = Color(1, 0.55, 0.7, 1)
+shader_parameter/base_color = Color(0.38, 0.68, 0.28, 1)
+shader_parameter/shadow_color = Color(0.18, 0.42, 0.15, 1)
+shader_parameter/rim_color = Color(0.65, 0.9, 0.45, 1)
 shader_parameter/rim_threshold = 0.5
-shader_parameter/wind_strength = 0.05
+shader_parameter/wind_strength = 0.035
 shader_parameter/wind_speed = 2.2
 
-[sub_resource type="SphereMesh" id="SphereMesh_petal_chunky"]
-material = SubResource("ShaderMaterial_petal_outer")
-radius = 0.42
-height = 0.55
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_petal_inner"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_outl_petal"]
 render_priority = 0
-next_pass = SubResource("ShaderMaterial_outline_petal")
+shader = ExtResource("6_outl_shd")
+shader_parameter/outline_color = Color(0.32, 0.05, 0.12, 1)
+shader_parameter/outline_width = 0.018
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_petal"]
+render_priority = 0
+next_pass = SubResource("ShaderMaterial_outl_petal")
 shader = ExtResource("5_toon_shd")
-shader_parameter/base_color = Color(0.98, 0.35, 0.52, 1)
-shader_parameter/shadow_color = Color(0.72, 0.12, 0.3, 1)
-shader_parameter/rim_color = Color(1, 0.7, 0.82, 1)
+shader_parameter/base_color = Color(0.92, 0.24, 0.42, 1)
+shader_parameter/shadow_color = Color(0.62, 0.12, 0.28, 1)
+shader_parameter/rim_color = Color(1, 0.6, 0.75, 1)
 shader_parameter/rim_threshold = 0.5
-shader_parameter/wind_strength = 0.05
-shader_parameter/wind_speed = 2.2
-
-[sub_resource type="SphereMesh" id="SphereMesh_petal_inner"]
-material = SubResource("ShaderMaterial_petal_inner")
-radius = 0.32
-height = 0.46
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_stamen"]
-render_priority = 0
-shader = ExtResource("5_toon_shd")
-shader_parameter/base_color = Color(1, 0.85, 0.22, 1)
-shader_parameter/shadow_color = Color(0.85, 0.58, 0.1, 1)
-shader_parameter/rim_color = Color(1, 0.95, 0.6, 1)
-shader_parameter/rim_threshold = 0.4
 shader_parameter/wind_strength = 0.04
 shader_parameter/wind_speed = 2.2
-
-[sub_resource type="SphereMesh" id="SphereMesh_stamen"]
-material = SubResource("ShaderMaterial_stamen")
-radius = 0.18
-height = 0.28
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_thorn"]
-render_priority = 0
-next_pass = SubResource("ShaderMaterial_outline_stem")
-shader = ExtResource("5_toon_shd")
-shader_parameter/base_color = Color(0.55, 0.2, 0.16, 1)
-shader_parameter/shadow_color = Color(0.35, 0.1, 0.08, 1)
-shader_parameter/rim_color = Color(0.85, 0.45, 0.35, 1)
-shader_parameter/rim_threshold = 0.5
-shader_parameter/wind_strength = 0.02
-shader_parameter/wind_speed = 2.0
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_chunky_thorn"]
-material = SubResource("ShaderMaterial_thorn")
-top_radius = 0.0
-bottom_radius = 0.08
-height = 0.26
-
-[sub_resource type="SphereMesh" id="SphereMesh_chunky_leaf"]
-material = SubResource("ShaderMaterial_stem")
-radius = 0.3
-height = 0.14
-
-[sub_resource type="TorusMesh" id="TorusMesh_base_root"]
-material = SubResource("ShaderMaterial_stem")
-inner_radius = 0.15
-outer_radius = 0.36
 
 [node name="ThornRose" instance=ExtResource("1_base")]
 script = ExtResource("2_rose")
@@ -117,74 +66,15 @@ thorn_speed = 26.0
 visible = false
 
 [node name="FirstPersonMount" parent="." index="1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.55, 0.25)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.48, 0)
 
-[node name="CurvedStem" type="Node3D" parent="." index="3"]
+[node name="FacetedRoseMesh" type="MeshInstance3D" parent="." index="3"]
+mesh = ExtResource("3_mesh")
+surface_material_override/0 = SubResource("ShaderMaterial_stem")
+surface_material_override/1 = SubResource("ShaderMaterial_leaf")
+surface_material_override/2 = SubResource("ShaderMaterial_petal")
 
-[node name="RootCollar" type="MeshInstance3D" parent="CurvedStem"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
-mesh = SubResource("TorusMesh_base_root")
-
-[node name="Stem_Lower" type="MeshInstance3D" parent="CurvedStem"]
-transform = Transform3D(0.984808, 0, 0.173648, 0, 1, 0, -0.173648, 0, 0.984808, 0, 0.32, 0)
-mesh = SubResource("CylinderMesh_stem_segment")
-
-[node name="Stem_Mid" type="MeshInstance3D" parent="CurvedStem"]
-transform = Transform3D(0.965926, 0.183013, -0.183013, -0.224144, 0.949666, -0.218508, 0.133743, 0.253685, 0.957989, 0.08, 0.85, -0.06)
-mesh = SubResource("CylinderMesh_stem_segment")
-
-[node name="Stem_Upper" type="MeshInstance3D" parent="CurvedStem"]
-transform = Transform3D(0.965926, -0.183013, 0.183013, 0.183013, 0.982963, 0.0151922, -0.183013, 0.0190135, 0.982928, 0.02, 1.35, 0.12)
-mesh = SubResource("CylinderMesh_stem_segment")
-
-[node name="ChunkyLeaf_Left" type="MeshInstance3D" parent="CurvedStem"]
-transform = Transform3D(0.866025, 0.433013, -0.25, -0.5, 0.75, -0.433013, 0, 0.5, 0.866025, -0.32, 0.65, 0)
-mesh = SubResource("SphereMesh_chunky_leaf")
-
-[node name="ChunkyLeaf_Right" type="MeshInstance3D" parent="CurvedStem"]
-transform = Transform3D(0.707107, -0.612372, 0.353553, 0.612372, 0.75, 0.25, -0.353553, 0.25, 0.899519, 0.36, 0.98, -0.05)
-mesh = SubResource("SphereMesh_chunky_leaf")
-
-[node name="Thorn1" type="MeshInstance3D" parent="CurvedStem"]
-transform = Transform3D(0.866025, 0.5, 0, -0.5, 0.866025, 0, 0, 0, 1, 0.18, 0.42, 0.05)
-mesh = SubResource("CylinderMesh_chunky_thorn")
-
-[node name="Thorn2" type="MeshInstance3D" parent="CurvedStem"]
-transform = Transform3D(-0.707107, -0.707107, 0, 0.707107, -0.707107, 0, 0, 0, 1, -0.16, 0.78, -0.04)
-mesh = SubResource("CylinderMesh_chunky_thorn")
-
-[node name="Thorn3" type="MeshInstance3D" parent="CurvedStem"]
-transform = Transform3D(0, 0.707107, -0.707107, 0.866025, 0.353553, 0.353553, 0.5, -0.612372, -0.612372, 0.02, 1.15, 0.22)
-mesh = SubResource("CylinderMesh_chunky_thorn")
-
-[node name="BigBloomHead" type="Node3D" parent="." index="4"]
-transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 1.55, 0.25)
-
-[node name="Petal_Front" type="MeshInstance3D" parent="BigBloomHead"]
-transform = Transform3D(1, 0, 0, 0, 0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 0.08, 0.25)
-mesh = SubResource("SphereMesh_petal_chunky")
-
-[node name="Petal_Back" type="MeshInstance3D" parent="BigBloomHead"]
-transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0.08, -0.25)
-mesh = SubResource("SphereMesh_petal_chunky")
-
-[node name="Petal_Left" type="MeshInstance3D" parent="BigBloomHead"]
-transform = Transform3D(0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 0, 1, -0.25, 0.08, 0)
-mesh = SubResource("SphereMesh_petal_chunky")
-
-[node name="Petal_Right" type="MeshInstance3D" parent="BigBloomHead"]
-transform = Transform3D(0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 0, 0, 1, 0.25, 0.08, 0)
-mesh = SubResource("SphereMesh_petal_chunky")
-
-[node name="Petal_Core" type="MeshInstance3D" parent="BigBloomHead"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.16, 0)
-mesh = SubResource("SphereMesh_petal_inner")
-
-[node name="Stamen" type="MeshInstance3D" parent="BigBloomHead"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0.05)
-mesh = SubResource("SphereMesh_stamen")
-
-[node name="AudioShoot" type="AudioStreamPlayer3D" parent="." index="5"]
+[node name="AudioShoot" type="AudioStreamPlayer3D" parent="." index="4"]
 stream = ExtResource("4_sfx_shoot")
 volume_db = -1.0
 unit_size = 12.0
