@@ -1,7 +1,7 @@
 extends Node3D
 
 func _ready() -> void:
-	# Clean up any template environment/lights from RenderShowcase.tscn
+	# Clean up template environment/lights
 	for c in get_children():
 		c.queue_free()
 	await get_tree().process_frame
@@ -11,7 +11,7 @@ func _ready() -> void:
 	var lvl := lvl_scene.instantiate() as Node3D
 	get_tree().root.add_child(lvl)
 	
-	# Plant a rose on TowerSpot_1 and TowerSpot_4 to showcase contrast
+	# Plant roses on spots 1 and 4 for realistic display
 	var spot1: TowerSpot = lvl.get_node_or_null("TowerSpots/TowerSpot_1")
 	var rose_scene: PackedScene = load("res://scenes/towers/ThornRose.tscn")
 	if spot1 and rose_scene:
@@ -23,7 +23,7 @@ func _ready() -> void:
 	
 	await get_tree().create_timer(0.6).timeout
 	
-	# 1. Overhead Tactical View
+	# 1. Tactical Camera View
 	var cam: Camera3D = lvl.get_node_or_null("CameraRig/Camera3D")
 	if cam:
 		cam.current = true
@@ -31,14 +31,15 @@ func _ready() -> void:
 	var img1 := get_viewport().get_texture().get_image()
 	img1.save_png("C:/Users/maxri/.gemini/antigravity/brain/c4b57433-d9b8-4684-a230-f8ebc51e9a53/showcase_garden_upgrade.png")
 	
-	# 2. Cinematic Close-up Angle of the Golden Sprout & Bed Border & River Stones
-	var close_cam := Camera3D.new()
-	lvl.add_child(close_cam)
-	close_cam.position = Vector3(10.5, 2.8, 6.2)
-	close_cam.look_at(Vector3(13.8, 1.4, 2.5), Vector3.UP)
-	close_cam.current = true
+	# 2. Wide Perspective Showcase (Showing the full backyard proportions, fence, watering can & cottage)
+	var prop_cam := Camera3D.new()
+	lvl.add_child(prop_cam)
+	prop_cam.position = Vector3(0, 10.5, 24.0)
+	prop_cam.look_at(Vector3(0, 2.5, -10.0), Vector3.UP)
+	prop_cam.fov = 70.0
+	prop_cam.current = true
 	await get_tree().create_timer(0.3).timeout
 	var img2 := get_viewport().get_texture().get_image()
-	img2.save_png("C:/Users/maxri/.gemini/antigravity/brain/c4b57433-d9b8-4684-a230-f8ebc51e9a53/showcase_golden_sprout.png")
+	img2.save_png("C:/Users/maxri/.gemini/antigravity/brain/c4b57433-d9b8-4684-a230-f8ebc51e9a53/showcase_proportions.png")
 	
 	get_tree().quit()

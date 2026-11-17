@@ -83,10 +83,11 @@ surface_material_override/0 = SubResource("StandardMaterial3D_dirt")
 [node name="CameraRig" type="Node3D" parent="." node_paths=PackedStringArray("camera")]
 script = ExtResource("4_cam")
 camera = NodePath("Camera3D")
-tactical_position = Vector3(0, 13, 13)
+tactical_position = Vector3(0, 16.5, 18.5)
+tactical_rotation_deg = Vector3(-35, 0, 0)
 
 [node name="Camera3D" type="Camera3D" parent="CameraRig"]
-transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 13, 13)
+transform = Transform3D(1, 0, 0, 0, 0.819152, 0.573576, 0, -0.573576, 0.819152, 0, 16.5, 18.5)
 current = true
 
 [node name="Path3D" type="Path3D" parent="."]

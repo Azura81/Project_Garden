@@ -1,37 +1,65 @@
-[gd_scene load_steps=22 format=3 uid="uid://cx6e78qj4m85y"]
+[gd_scene load_steps=38 format=3 uid="uid://cx6e78qj4m85y"]
+
+[ext_resource type="ArrayMesh" path="res://assets/models/picket_fence.obj" id="1_fence_mesh"]
+[ext_resource type="ArrayMesh" path="res://assets/models/watering_can.obj" id="2_can_mesh"]
+[ext_resource type="ArrayMesh" path="res://assets/models/flower_pot.obj" id="3_pot_mesh"]
+[ext_resource type="ArrayMesh" path="res://assets/models/river_stones.obj" id="4_stones_mesh"]
+[ext_resource type="Shader" path="res://assets/shaders/toon_outline.gdshader" id="5_toon_shd"]
+[ext_resource type="Shader" path="res://assets/shaders/outline_pass.gdshader" id="6_outl_shd"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_grass"]
-albedo_color = Color(0.32, 0.56, 0.22, 1)
+albedo_color = Color(0.36, 0.58, 0.24, 1)
 roughness = 0.85
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_meadow"]
 material = SubResource("StandardMaterial3D_grass")
-size = Vector2(160, 160)
+size = Vector2(260, 260)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fence"]
+albedo_color = Color(0.93, 0.91, 0.84, 1)
+roughness = 0.7
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_house_wall"]
-albedo_color = Color(0.88, 0.84, 0.74, 1)
+albedo_color = Color(0.92, 0.88, 0.78, 1)
 roughness = 0.8
 
 [sub_resource type="BoxMesh" id="BoxMesh_house_base"]
 material = SubResource("StandardMaterial3D_house_wall")
-size = Vector3(18, 7, 11)
+size = Vector3(64, 14, 28)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_stone_plinth"]
+albedo_color = Color(0.55, 0.53, 0.48, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="BoxMesh_plinth"]
+material = SubResource("StandardMaterial3D_stone_plinth")
+size = Vector3(66, 1.4, 30)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_roof"]
-albedo_color = Color(0.68, 0.26, 0.2, 1)
+albedo_color = Color(0.72, 0.26, 0.18, 1)
 roughness = 0.7
 
 [sub_resource type="PrismMesh" id="PrismMesh_roof"]
 material = SubResource("StandardMaterial3D_roof")
 left_to_right = 0.5
-size = Vector3(19, 4.5, 11.6)
+size = Vector3(68, 11, 30)
+
+[sub_resource type="PrismMesh" id="PrismMesh_dormer_roof"]
+material = SubResource("StandardMaterial3D_roof")
+left_to_right = 0.5
+size = Vector3(5, 4, 6)
+
+[sub_resource type="BoxMesh" id="BoxMesh_dormer_base"]
+material = SubResource("StandardMaterial3D_house_wall")
+size = Vector3(4.2, 3.5, 4.5)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_chimney"]
-albedo_color = Color(0.5, 0.22, 0.18, 1)
+albedo_color = Color(0.52, 0.26, 0.2, 1)
 roughness = 0.85
 
 [sub_resource type="BoxMesh" id="BoxMesh_chimney"]
 material = SubResource("StandardMaterial3D_chimney")
-size = Vector3(1.2, 3.5, 1.2)
+size = Vector3(3.2, 12, 3.2)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_door"]
 albedo_color = Color(0.38, 0.22, 0.14, 1)
@@ -39,18 +67,7 @@ roughness = 0.65
 
 [sub_resource type="BoxMesh" id="BoxMesh_door"]
 material = SubResource("StandardMaterial3D_door")
-size = Vector3(2.2, 3.2, 0.3)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_window_glass"]
-albedo_color = Color(0.95, 0.88, 0.52, 1)
-emission_enabled = true
-emission = Color(0.96, 0.85, 0.45, 1)
-emission_energy_multiplier = 0.6
-roughness = 0.2
-
-[sub_resource type="BoxMesh" id="BoxMesh_window"]
-material = SubResource("StandardMaterial3D_window_glass")
-size = Vector3(1.8, 1.8, 0.2)
+size = Vector3(4.0, 6.5, 0.4)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_porch"]
 albedo_color = Color(0.48, 0.34, 0.22, 1)
@@ -58,19 +75,52 @@ roughness = 0.8
 
 [sub_resource type="BoxMesh" id="BoxMesh_porch"]
 material = SubResource("StandardMaterial3D_porch")
-size = Vector3(5, 0.4, 2.5)
+size = Vector3(14, 0.6, 7)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fence"]
-albedo_color = Color(0.94, 0.94, 0.92, 1)
-roughness = 0.6
+[sub_resource type="BoxMesh" id="BoxMesh_porch_pillar"]
+material = SubResource("StandardMaterial3D_porch")
+size = Vector3(0.4, 5.5, 0.4)
 
-[sub_resource type="BoxMesh" id="BoxMesh_fence_rail"]
-material = SubResource("StandardMaterial3D_fence")
-size = Vector3(60, 0.15, 0.1)
+[sub_resource type="BoxMesh" id="BoxMesh_porch_roof"]
+material = SubResource("StandardMaterial3D_roof")
+size = Vector3(14.8, 0.5, 7.6)
 
-[sub_resource type="BoxMesh" id="BoxMesh_fence_post"]
-material = SubResource("StandardMaterial3D_fence")
-size = Vector3(0.18, 1.3, 0.18)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_window_glass"]
+albedo_color = Color(0.96, 0.88, 0.55, 1)
+emission_enabled = true
+emission = Color(0.96, 0.85, 0.45, 1)
+emission_energy_multiplier = 0.65
+roughness = 0.2
+
+[sub_resource type="BoxMesh" id="BoxMesh_window"]
+material = SubResource("StandardMaterial3D_window_glass")
+size = Vector3(3.4, 3.8, 0.3)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_path_flagstone"]
+albedo_color = Color(0.72, 0.70, 0.65, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="BoxMesh_flagstone"]
+material = SubResource("StandardMaterial3D_path_flagstone")
+size = Vector3(2.6, 0.08, 1.8)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_can_body"]
+albedo_color = Color(0.36, 0.52, 0.42, 1)
+metallic = 0.15
+roughness = 0.55
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_can_handle"]
+albedo_color = Color(0.24, 0.28, 0.26, 1)
+metallic = 0.3
+roughness = 0.45
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pot"]
+albedo_color = Color(0.8, 0.44, 0.28, 1)
+roughness = 0.85
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pot_soil"]
+albedo_color = Color(0.26, 0.18, 0.12, 1)
+roughness = 0.9
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tree_wood"]
 albedo_color = Color(0.42, 0.28, 0.18, 1)
@@ -78,18 +128,18 @@ roughness = 0.9
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_trunk"]
 material = SubResource("StandardMaterial3D_tree_wood")
-top_radius = 0.35
-bottom_radius = 0.55
-height = 4.5
+top_radius = 0.8
+bottom_radius = 1.3
+height = 11.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_foliage"]
-albedo_color = Color(0.24, 0.52, 0.2, 1)
+albedo_color = Color(0.25, 0.54, 0.22, 1)
 roughness = 0.75
 
 [sub_resource type="SphereMesh" id="SphereMesh_canopy"]
 material = SubResource("StandardMaterial3D_foliage")
-radius = 2.4
-height = 4.2
+radius = 6.0
+height = 10.0
 
 [node name="GardenBackdrop" type="Node3D"]
 
@@ -97,118 +147,412 @@ height = 4.2
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
 mesh = SubResource("PlaneMesh_meadow")
 
-[node name="House" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -32)
+[node name="CottageHouse" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -48)
 
-[node name="HouseWalls" type="MeshInstance3D" parent="House"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5, 0)
+[node name="Plinth" type="MeshInstance3D" parent="CottageHouse"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
+mesh = SubResource("BoxMesh_plinth")
+
+[node name="HouseWalls" type="MeshInstance3D" parent="CottageHouse"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.7, 0)
 mesh = SubResource("BoxMesh_house_base")
 
-[node name="Roof" type="MeshInstance3D" parent="House"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.2, 0)
+[node name="Roof" type="MeshInstance3D" parent="CottageHouse"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20.2, 0)
 mesh = SubResource("PrismMesh_roof")
 
-[node name="Chimney" type="MeshInstance3D" parent="House"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 10.5, -2)
+[node name="Dormer_L" type="Node3D" parent="CottageHouse"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 16.5, 9.5)
+
+[node name="DormerBase" type="MeshInstance3D" parent="CottageHouse/Dormer_L"]
+mesh = SubResource("BoxMesh_dormer_base")
+
+[node name="DormerRoof" type="MeshInstance3D" parent="CottageHouse/Dormer_L"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+mesh = SubResource("PrismMesh_dormer_roof")
+
+[node name="DormerWindow" type="MeshInstance3D" parent="CottageHouse/Dormer_L"]
+transform = Transform3D(0.65, 0, 0, 0, 0.65, 0, 0, 0, 0.65, 0, 0, 2.3)
+mesh = SubResource("BoxMesh_window")
+
+[node name="Dormer_R" type="Node3D" parent="CottageHouse"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 16.5, 9.5)
+
+[node name="DormerBase" type="MeshInstance3D" parent="CottageHouse/Dormer_R"]
+mesh = SubResource("BoxMesh_dormer_base")
+
+[node name="DormerRoof" type="MeshInstance3D" parent="CottageHouse/Dormer_R"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+mesh = SubResource("PrismMesh_dormer_roof")
+
+[node name="DormerWindow" type="MeshInstance3D" parent="CottageHouse/Dormer_R"]
+transform = Transform3D(0.65, 0, 0, 0, 0.65, 0, 0, 0, 0.65, 0, 0, 2.3)
+mesh = SubResource("BoxMesh_window")
+
+[node name="Chimney" type="MeshInstance3D" parent="CottageHouse"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 21.5, -4)
 mesh = SubResource("BoxMesh_chimney")
 
-[node name="FrontDoor" type="MeshInstance3D" parent="House"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 5.55)
+[node name="FrontDoor" type="MeshInstance3D" parent="CottageHouse"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.65, 14.1)
 mesh = SubResource("BoxMesh_door")
 
-[node name="Porch" type="MeshInstance3D" parent="House"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 6.5)
+[node name="Porch" type="Node3D" parent="CottageHouse"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 14)
+
+[node name="Deck" type="MeshInstance3D" parent="CottageHouse/Porch"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 3.5)
 mesh = SubResource("BoxMesh_porch")
 
-[node name="Window_DownLeft" type="MeshInstance3D" parent="House"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 2.2, 5.55)
+[node name="Pillar_L" type="MeshInstance3D" parent="CottageHouse/Porch"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.2, 3.2, 6.5)
+mesh = SubResource("BoxMesh_porch_pillar")
+
+[node name="Pillar_R" type="MeshInstance3D" parent="CottageHouse/Porch"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.2, 3.2, 6.5)
+mesh = SubResource("BoxMesh_porch_pillar")
+
+[node name="PorchRoof" type="MeshInstance3D" parent="CottageHouse/Porch"]
+transform = Transform3D(1, 0, 0, 0, 0.984808, 0.173648, 0, -0.173648, 0.984808, 0, 6.2, 3.5)
+mesh = SubResource("BoxMesh_porch_roof")
+
+[node name="Window_L1" type="MeshInstance3D" parent="CottageHouse"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 5, 14.1)
 mesh = SubResource("BoxMesh_window")
 
-[node name="Window_DownRight" type="MeshInstance3D" parent="House"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 2.2, 5.55)
+[node name="Window_L2" type="MeshInstance3D" parent="CottageHouse"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 5, 14.1)
 mesh = SubResource("BoxMesh_window")
 
-[node name="Window_UpLeft" type="MeshInstance3D" parent="House"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 5.2, 5.55)
+[node name="Window_R1" type="MeshInstance3D" parent="CottageHouse"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 5, 14.1)
 mesh = SubResource("BoxMesh_window")
 
-[node name="Window_UpRight" type="MeshInstance3D" parent="House"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 5.2, 5.55)
+[node name="Window_R2" type="MeshInstance3D" parent="CottageHouse"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 5, 14.1)
 mesh = SubResource("BoxMesh_window")
 
-[node name="Fence" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -22)
+[node name="Window_TopL" type="MeshInstance3D" parent="CottageHouse"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 11, 14.1)
+mesh = SubResource("BoxMesh_window")
 
-[node name="RailUpper" type="MeshInstance3D" parent="Fence"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
-mesh = SubResource("BoxMesh_fence_rail")
+[node name="Window_TopR" type="MeshInstance3D" parent="CottageHouse"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 11, 14.1)
+mesh = SubResource("BoxMesh_window")
 
-[node name="RailLower" type="MeshInstance3D" parent="Fence"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
-mesh = SubResource("BoxMesh_fence_rail")
+[node name="GardenPath" type="Node3D" parent="."]
 
-[node name="Post1" type="MeshInstance3D" parent="Fence"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0.65, 0)
-mesh = SubResource("BoxMesh_fence_post")
+[node name="Step1" type="MeshInstance3D" parent="GardenPath"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, -30)
+mesh = SubResource("BoxMesh_flagstone")
 
-[node name="Post2" type="MeshInstance3D" parent="Fence"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 0.65, 0)
-mesh = SubResource("BoxMesh_fence_post")
+[node name="Step2" type="MeshInstance3D" parent="GardenPath"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, -26)
+mesh = SubResource("BoxMesh_flagstone")
 
-[node name="Post3" type="MeshInstance3D" parent="Fence"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.65, 0)
-mesh = SubResource("BoxMesh_fence_post")
+[node name="Step3" type="MeshInstance3D" parent="GardenPath"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, -22)
+mesh = SubResource("BoxMesh_flagstone")
 
-[node name="Post4" type="MeshInstance3D" parent="Fence"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 0.65, 0)
-mesh = SubResource("BoxMesh_fence_post")
+[node name="EnclosedGardenFence" type="Node3D" parent="."]
 
-[node name="Post5" type="MeshInstance3D" parent="Fence"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0.65, 0)
-mesh = SubResource("BoxMesh_fence_post")
+[node name="NorthFence" type="Node3D" parent="EnclosedGardenFence"]
+
+[node name="F_N1" type="MeshInstance3D" parent="EnclosedGardenFence/NorthFence"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, 0, -20)
+mesh = ExtResource("1_fence_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_fence")
+
+[node name="F_N2" type="MeshInstance3D" parent="EnclosedGardenFence/NorthFence"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 0, -20)
+mesh = ExtResource("1_fence_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_fence")
+
+[node name="F_N3" type="MeshInstance3D" parent="EnclosedGardenFence/NorthFence"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 0, -20)
+mesh = ExtResource("1_fence_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_fence")
+
+[node name="F_N4" type="MeshInstance3D" parent="EnclosedGardenFence/NorthFence"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 0, -20)
+mesh = ExtResource("1_fence_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_fence")
+
+[node name="F_N5" type="MeshInstance3D" parent="EnclosedGardenFence/NorthFence"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -20)
+mesh = ExtResource("1_fence_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_fence")
+
+[node name="F_N6" type="MeshInstance3D" parent="EnclosedGardenFence/NorthFence"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -20)
+mesh = ExtResource("1_fence_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_fence")
+
+[node name="F_N7" type="MeshInstance3D" parent="EnclosedGardenFence/NorthFence"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -20)
+mesh = ExtResource("1_fence_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_fence")
+
+[node name="F_N8" type="MeshInstance3D" parent="EnclosedGardenFence/NorthFence"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, -20)
+mesh = ExtResource("1_fence_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_fence")
+
+[node name="F_N9" type="MeshInstance3D" parent="EnclosedGardenFence/NorthFence"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, -20)
+mesh = ExtResource("1_fence_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_fence")
+
+[node name="F_N10" type="MeshInstance3D" parent="EnclosedGardenFence/NorthFence"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0, -20)
+mesh = ExtResource("1_fence_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_fence")
+
+[node name="F_N11" type="MeshInstance3D" parent="EnclosedGardenFence/NorthFence"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 0, -20)
+mesh = ExtResource("1_fence_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_fence")
+
+[node name="F_N12" type="MeshInstance3D" parent="EnclosedGardenFence/NorthFence"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 0, -20)
+mesh = ExtResource("1_fence_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_fence")
+
+[node name="WestFence" type="Node3D" parent="EnclosedGardenFence"]
+
+[node name="F_W1" type="MeshInstance3D" parent="EnclosedGardenFence/WestFence"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -28, 0, -18)
+mesh = ExtResource("1_fence_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_fence")
+
+[node name="F_W2" type="MeshInstance3D" parent="EnclosedGardenFence/WestFence"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -28, 0, -14)
+mesh = ExtResource("1_fence_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_fence")
+
+[node name="F_W3" type="MeshInstance3D" parent="EnclosedGardenFence/WestFence"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -28, 0, -10)
+mesh = ExtResource("1_fence_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_fence")
+
+[node name="F_W4" type="MeshInstance3D" parent="EnclosedGardenFence/WestFence"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -28, 0, -6)
+mesh = ExtResource("1_fence_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_fence")
+
+[node name="F_W5" type="MeshInstance3D" parent="EnclosedGardenFence/WestFence"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -28, 0, -2)
+mesh = ExtResource("1_fence_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_fence")
+
+[node name="F_W6" type="MeshInstance3D" parent="EnclosedGardenFence/WestFence"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -28, 0, 2)
+mesh = ExtResource("1_fence_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_fence")
+
+[node name="F_W7" type="MeshInstance3D" parent="EnclosedGardenFence/WestFence"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -28, 0, 6)
+mesh = ExtResource("1_fence_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_fence")
+
+[node name="F_W8" type="MeshInstance3D" parent="EnclosedGardenFence/WestFence"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -28, 0, 10)
+mesh = ExtResource("1_fence_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_fence")
+
+[node name="F_W9" type="MeshInstance3D" parent="EnclosedGardenFence/WestFence"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -28, 0, 14)
+mesh = ExtResource("1_fence_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_fence")
+
+[node name="EastFence" type="Node3D" parent="EnclosedGardenFence"]
+
+[node name="F_E1" type="MeshInstance3D" parent="EnclosedGardenFence/EastFence"]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 28, 0, -18)
+mesh = ExtResource("1_fence_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_fence")
+
+[node name="F_E2" type="MeshInstance3D" parent="EnclosedGardenFence/EastFence"]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 28, 0, -14)
+mesh = ExtResource("1_fence_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_fence")
+
+[node name="F_E3" type="MeshInstance3D" parent="EnclosedGardenFence/EastFence"]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 28, 0, -10)
+mesh = ExtResource("1_fence_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_fence")
+
+[node name="F_E4" type="MeshInstance3D" parent="EnclosedGardenFence/EastFence"]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 28, 0, -6)
+mesh = ExtResource("1_fence_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_fence")
+
+[node name="F_E5" type="MeshInstance3D" parent="EnclosedGardenFence/EastFence"]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 28, 0, -2)
+mesh = ExtResource("1_fence_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_fence")
+
+[node name="F_E6" type="MeshInstance3D" parent="EnclosedGardenFence/EastFence"]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 28, 0, 2)
+mesh = ExtResource("1_fence_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_fence")
+
+[node name="F_E7" type="MeshInstance3D" parent="EnclosedGardenFence/EastFence"]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 28, 0, 6)
+mesh = ExtResource("1_fence_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_fence")
+
+[node name="F_E8" type="MeshInstance3D" parent="EnclosedGardenFence/EastFence"]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 28, 0, 10)
+mesh = ExtResource("1_fence_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_fence")
+
+[node name="F_E9" type="MeshInstance3D" parent="EnclosedGardenFence/EastFence"]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 28, 0, 14)
+mesh = ExtResource("1_fence_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_fence")
+
+[node name="SouthFence" type="Node3D" parent="EnclosedGardenFence"]
+
+[node name="F_S1" type="MeshInstance3D" parent="EnclosedGardenFence/SouthFence"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -26, 0, 16)
+mesh = ExtResource("1_fence_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_fence")
+
+[node name="F_S2" type="MeshInstance3D" parent="EnclosedGardenFence/SouthFence"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -22, 0, 16)
+mesh = ExtResource("1_fence_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_fence")
+
+[node name="F_S3" type="MeshInstance3D" parent="EnclosedGardenFence/SouthFence"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -18, 0, 16)
+mesh = ExtResource("1_fence_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_fence")
+
+[node name="F_S4" type="MeshInstance3D" parent="EnclosedGardenFence/SouthFence"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -14, 0, 16)
+mesh = ExtResource("1_fence_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_fence")
+
+[node name="F_S5" type="MeshInstance3D" parent="EnclosedGardenFence/SouthFence"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -10, 0, 16)
+mesh = ExtResource("1_fence_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_fence")
+
+[node name="F_S6" type="MeshInstance3D" parent="EnclosedGardenFence/SouthFence"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -6, 0, 16)
+mesh = ExtResource("1_fence_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_fence")
+
+[node name="F_S7" type="MeshInstance3D" parent="EnclosedGardenFence/SouthFence"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -2, 0, 16)
+mesh = ExtResource("1_fence_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_fence")
+
+[node name="F_S8" type="MeshInstance3D" parent="EnclosedGardenFence/SouthFence"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 2, 0, 16)
+mesh = ExtResource("1_fence_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_fence")
+
+[node name="F_S9" type="MeshInstance3D" parent="EnclosedGardenFence/SouthFence"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 6, 0, 16)
+mesh = ExtResource("1_fence_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_fence")
+
+[node name="F_S10" type="MeshInstance3D" parent="EnclosedGardenFence/SouthFence"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 10, 0, 16)
+mesh = ExtResource("1_fence_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_fence")
+
+[node name="F_S11" type="MeshInstance3D" parent="EnclosedGardenFence/SouthFence"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 14, 0, 16)
+mesh = ExtResource("1_fence_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_fence")
+
+[node name="F_S12" type="MeshInstance3D" parent="EnclosedGardenFence/SouthFence"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 18, 0, 16)
+mesh = ExtResource("1_fence_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_fence")
+
+[node name="F_S13" type="MeshInstance3D" parent="EnclosedGardenFence/SouthFence"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 22, 0, 16)
+mesh = ExtResource("1_fence_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_fence")
+
+[node name="F_S14" type="MeshInstance3D" parent="EnclosedGardenFence/SouthFence"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 26, 0, 16)
+mesh = ExtResource("1_fence_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_fence")
+
+[node name="GardenProps" type="Node3D" parent="."]
+
+[node name="WateringCan" type="MeshInstance3D" parent="GardenProps"]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -21.5, 0, -14.5)
+mesh = ExtResource("2_can_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_can_body")
+surface_material_override/1 = SubResource("StandardMaterial3D_can_handle")
+
+[node name="Pot_Gate_Left" type="MeshInstance3D" parent="GardenProps"]
+transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, -4.5, 0, -19.5)
+mesh = ExtResource("3_pot_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_pot")
+surface_material_override/1 = SubResource("StandardMaterial3D_pot_soil")
+
+[node name="Pot_Gate_Right" type="MeshInstance3D" parent="GardenProps"]
+transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, 4.5, 0, -19.5)
+mesh = ExtResource("3_pot_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_pot")
+surface_material_override/1 = SubResource("StandardMaterial3D_pot_soil")
+
+[node name="Pot_East" type="MeshInstance3D" parent="GardenProps"]
+transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, 21.5, 0, -14.5)
+mesh = ExtResource("3_pot_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_pot")
+surface_material_override/1 = SubResource("StandardMaterial3D_pot_soil")
 
 [node name="Trees" type="Node3D" parent="."]
 
 [node name="Tree1" type="Node3D" parent="Trees"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 0, -18)
+transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, -36, 0, -26)
 
 [node name="Trunk" type="MeshInstance3D" parent="Trees/Tree1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.25, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.5, 0)
 mesh = SubResource("CylinderMesh_trunk")
 
 [node name="Canopy" type="MeshInstance3D" parent="Trees/Tree1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.2, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13.5, 0)
 mesh = SubResource("SphereMesh_canopy")
 
 [node name="Tree2" type="Node3D" parent="Trees"]
-transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, 24, 0, -20)
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 38, 0, -28)
 
 [node name="Trunk" type="MeshInstance3D" parent="Trees/Tree2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.25, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.5, 0)
 mesh = SubResource("CylinderMesh_trunk")
 
 [node name="Canopy" type="MeshInstance3D" parent="Trees/Tree2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.2, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13.5, 0)
 mesh = SubResource("SphereMesh_canopy")
 
 [node name="Tree3" type="Node3D" parent="Trees"]
-transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, -26, 0, 6)
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, -36, 0, 6)
 
 [node name="Trunk" type="MeshInstance3D" parent="Trees/Tree3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.25, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.5, 0)
 mesh = SubResource("CylinderMesh_trunk")
 
 [node name="Canopy" type="MeshInstance3D" parent="Trees/Tree3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.2, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13.5, 0)
 mesh = SubResource("SphereMesh_canopy")
 
 [node name="Tree4" type="Node3D" parent="Trees"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 0, 8)
+transform = Transform3D(1.3, 0, 0, 0, 1.3, 0, 0, 0, 1.3, 38, 0, 8)
 
 [node name="Trunk" type="MeshInstance3D" parent="Trees/Tree4"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.25, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.5, 0)
 mesh = SubResource("CylinderMesh_trunk")
 
 [node name="Canopy" type="MeshInstance3D" parent="Trees/Tree4"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.2, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13.5, 0)
 mesh = SubResource("SphereMesh_canopy")
