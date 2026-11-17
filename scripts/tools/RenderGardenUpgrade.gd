@@ -41,12 +41,20 @@ func _ready() -> void:
 	var img2 := get_viewport().get_texture().get_image()
 	img2.save_png("C:/Users/maxri/.gemini/antigravity/brain/c4b57433-d9b8-4684-a230-f8ebc51e9a53/showcase_entrance_detail.png")
 	
-	# 3. Cinematic Angle of the Cottage Veranda, Shutters, Brick Wall, and Wildflowers
+	# 3. Cinematic Angle of the Cottage Veranda, Rain Barrel, Brick Path, and Apple Tree
 	close_cam.position = Vector3(-6.0, 4.2, -4.0)
 	close_cam.look_at(Vector3(0.0, 3.5, -20.0), Vector3.UP)
 	close_cam.fov = 60.0
 	await get_tree().create_timer(0.3).timeout
 	var img3 := get_viewport().get_texture().get_image()
 	img3.save_png("C:/Users/maxri/.gemini/antigravity/brain/c4b57433-d9b8-4684-a230-f8ebc51e9a53/showcase_brick_path.png")
+
+	# 4. Low Macro Close-up of Hochbeet interior (Soil ridges, ivy over beams, plant signs, trowel)
+	close_cam.position = Vector3(-11.5, 2.2, 5.0)
+	close_cam.look_at(Vector3(-7.5, 0.6, -1.0), Vector3.UP)
+	close_cam.fov = 62.0
+	await get_tree().create_timer(0.3).timeout
+	var img4 := get_viewport().get_texture().get_image()
+	img4.save_png("C:/Users/maxri/.gemini/antigravity/brain/c4b57433-d9b8-4684-a230-f8ebc51e9a53/showcase_beet_details.png")
 
 	get_tree().quit()

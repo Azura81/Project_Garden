@@ -9,10 +9,11 @@
 [ext_resource type="Shader" path="res://assets/shaders/outline_pass.gdshader" id="7_r4o0c"]
 [ext_resource type="Shader" path="res://assets/shaders/toon_outline.gdshader" id="8_d7566"]
 [ext_resource type="ArrayMesh" path="res://assets/models/mushroom_cluster.obj" id="9_2cfu4"]
-[ext_resource type="ArrayMesh" path="res://assets/models/detailed_tree.obj" id="10_noxwv"]
 [ext_resource type="ArrayMesh" path="res://assets/models/garden_bush.obj" id="11_btydk"]
 [ext_resource type="ArrayMesh" path="res://assets/models/river_stones.obj" id="12_lmrc5"]
 [ext_resource type="ArrayMesh" path="res://assets/models/grass_tuft.obj" id="13_6711h"]
+[ext_resource type="ArrayMesh" path="res://assets/models/apple_tree.obj" id="13_jd6k4"]
+[ext_resource type="ArrayMesh" path="res://assets/models/rain_barrel.obj" id="14_6i730"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_4r8qd"]
 size = Vector2(220, 220)
@@ -224,6 +225,10 @@ roughness = 0.75
 albedo_color = Color(0.78, 0.42, 0.26, 1)
 roughness = 0.85
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4mgc4"]
+albedo_color = Color(0.24, 0.16, 0.1, 1)
+roughness = 0.95
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b5f72"]
 albedo_color = Color(0.38, 0.52, 0.44, 1)
 metallic = 0.25
@@ -383,36 +388,6 @@ shader_parameter/rim_threshold = 0.5
 shader_parameter/wind_strength = 0.0
 shader_parameter/wind_speed = 0.0
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hgihq"]
-albedo_color = Color(0.4, 0.27, 0.16, 1)
-roughness = 0.88
-
-[sub_resource type="SphereMesh" id="SphereMesh_gcciv"]
-radius = 4.8
-height = 8.2
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ileks"]
-render_priority = 0
-shader = ExtResource("7_r4o0c")
-shader_parameter/outline_color = Color(0.12, 0.22, 0.08, 1)
-shader_parameter/outline_width = 0.014
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_qlkcn"]
-render_priority = 0
-next_pass = SubResource("ShaderMaterial_ileks")
-shader = ExtResource("8_d7566")
-shader_parameter/base_color = Color(0.24, 0.52, 0.2, 1)
-shader_parameter/gradient_color = Color(0.56, 0.76, 0.26, 1)
-shader_parameter/shadow_color = Color(0.12, 0.25, 0.08, 1)
-shader_parameter/rim_color = Color(0.82, 0.96, 0.5, 1)
-shader_parameter/gradient_strength = 0.55
-shader_parameter/gradient_min_y = 4.0
-shader_parameter/gradient_max_y = 16.0
-shader_parameter/facet_variation = 0.14
-shader_parameter/rim_threshold = 0.5
-shader_parameter/wind_strength = 0.015
-shader_parameter/wind_speed = 1.6
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_qlavd"]
 render_priority = 0
 shader = ExtResource("7_r4o0c")
@@ -435,10 +410,6 @@ shader_parameter/rim_threshold = 0.5
 shader_parameter/wind_strength = 0.02
 shader_parameter/wind_speed = 1.8
 
-[sub_resource type="SphereMesh" id="SphereMesh_wk107"]
-radius = 4.8
-height = 8.2
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ekho3"]
 render_priority = 0
 shader = ExtResource("7_r4o0c")
@@ -460,6 +431,33 @@ shader_parameter/facet_variation = 0.14
 shader_parameter/rim_threshold = 0.5
 shader_parameter/wind_strength = 0.0
 shader_parameter/wind_speed = 0.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c8jhb"]
+albedo_color = Color(0.48, 0.38, 0.28, 1)
+roughness = 0.88
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aiyih"]
+albedo_color = Color(0.88, 0.16, 0.14, 1)
+roughness = 0.3
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r4o0c"]
+albedo_color = Color(0.55, 0.42, 0.3, 1)
+roughness = 0.85
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_d7566"]
+albedo_color = Color(0.24, 0.25, 0.28, 1)
+metallic = 0.8
+roughness = 0.4
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2cfu4"]
+albedo_color = Color(0.12, 0.24, 0.26, 1)
+metallic = 0.1
+roughness = 0.05
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_noxwv"]
+albedo_color = Color(0.85, 0.72, 0.32, 1)
+metallic = 0.85
+roughness = 0.25
 
 [node name="GardenBackdrop" type="Node3D" unique_id=1147056897]
 
@@ -856,11 +854,13 @@ surface_material_override/0 = SubResource("StandardMaterial3D_fvdtb")
 transform = Transform3D(0.24, 0, 0, 0, 0.24, 0, 0, 0, 0.24, -5.2, 0.9, -15.8)
 mesh = ExtResource("4_4mgc4")
 surface_material_override/0 = SubResource("StandardMaterial3D_ph1qn")
+surface_material_override/1 = SubResource("StandardMaterial3D_4mgc4")
 
 [node name="Pot_Porch_R" type="MeshInstance3D" parent="." unique_id=1660069976]
 transform = Transform3D(0.24, 0, 0, 0, 0.24, 0, 0, 0, 0.24, 5.2, 0.9, -15.8)
 mesh = ExtResource("4_4mgc4")
 surface_material_override/0 = SubResource("StandardMaterial3D_ph1qn")
+surface_material_override/1 = SubResource("StandardMaterial3D_4mgc4")
 
 [node name="WateringCan" type="MeshInstance3D" parent="." unique_id=1663253996]
 transform = Transform3D(0.13151218, 0, 0.048005693, 0, 0.14, 0, -0.048005693, 0, 0.13151218, -6.2, 0, -14)
@@ -871,6 +871,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_b5f72")
 transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 1.8, 0, -11)
 mesh = ExtResource("4_4mgc4")
 surface_material_override/0 = SubResource("StandardMaterial3D_ph1qn")
+surface_material_override/1 = SubResource("StandardMaterial3D_4mgc4")
 
 [node name="Wildflower_FG_Left" type="MeshInstance3D" parent="." unique_id=892115418]
 transform = Transform3D(1.32309, 0, 0.2682036, 0, 1.35, 0, -0.2682036, 0, 1.32309, -13.5, 0, 9.8)
@@ -930,60 +931,10 @@ mesh = ExtResource("9_2cfu4")
 surface_material_override/0 = SubResource("ShaderMaterial_jpo70")
 surface_material_override/1 = SubResource("ShaderMaterial_ie1i5")
 
-[node name="Tree_Left_Trunk" type="MeshInstance3D" parent="." unique_id=2086658984]
-transform = Transform3D(1.05, 0, 0, 0, 1.05, 0, 0, 0, 1.05, -23, 0, -10)
-mesh = ExtResource("10_noxwv")
-surface_material_override/0 = SubResource("StandardMaterial3D_hgihq")
-
-[node name="Tree_Left_Canopy_1" type="MeshInstance3D" parent="." unique_id=1955860603]
-transform = Transform3D(0.99749994, 0, 0, 0, 0.8925, 0, 0, 0, 0.99749994, -25.73, 8.19, -8.53)
-mesh = SubResource("SphereMesh_gcciv")
-surface_material_override/0 = SubResource("ShaderMaterial_qlkcn")
-
-[node name="Tree_Left_Canopy_2" type="MeshInstance3D" parent="." unique_id=2130037073]
-transform = Transform3D(0.99749994, 0, 0, 0, 0.8925, 0, 0, 0, 0.99749994, -20.06, 8.61, -11.26)
-mesh = SubResource("SphereMesh_gcciv")
-surface_material_override/0 = SubResource("ShaderMaterial_qlkcn")
-
-[node name="Tree_Left_Canopy_3" type="MeshInstance3D" parent="." unique_id=179364740]
-transform = Transform3D(0.99749994, 0, 0, 0, 0.8925, 0, 0, 0, 0.99749994, -22.475, 9.24, -7.69)
-mesh = SubResource("SphereMesh_gcciv")
-surface_material_override/0 = SubResource("ShaderMaterial_qlkcn")
-
-[node name="Tree_Left_Canopy_4" type="MeshInstance3D" parent="." unique_id=2111183171]
-transform = Transform3D(0.99749994, 0, 0, 0, 0.8925, 0, 0, 0, 0.99749994, -23, 11.759999, -10)
-mesh = SubResource("SphereMesh_gcciv")
-surface_material_override/0 = SubResource("ShaderMaterial_qlkcn")
-
 [node name="Tree_Left_Bush" type="MeshInstance3D" parent="." unique_id=455497944]
 transform = Transform3D(1.1464039, 0, 0.35462427, 0, 1.1, 0, -0.35462427, 0, 1.1464039, -24.8, 0, -8.5)
 mesh = ExtResource("11_btydk")
 surface_material_override/0 = SubResource("ShaderMaterial_e5gui")
-
-[node name="Tree_Right_Trunk" type="MeshInstance3D" parent="." unique_id=874289661]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23, 0, -9)
-mesh = ExtResource("10_noxwv")
-surface_material_override/0 = SubResource("StandardMaterial3D_hgihq")
-
-[node name="Tree_Right_Canopy_1" type="MeshInstance3D" parent="." unique_id=180987820]
-transform = Transform3D(0.95, 0, 0, 0, 0.85, 0, 0, 0, 0.95, 20.4, 7.8, -7.6)
-mesh = SubResource("SphereMesh_wk107")
-surface_material_override/0 = SubResource("ShaderMaterial_qlkcn")
-
-[node name="Tree_Right_Canopy_2" type="MeshInstance3D" parent="." unique_id=450745372]
-transform = Transform3D(0.95, 0, 0, 0, 0.85, 0, 0, 0, 0.95, 25.8, 8.2, -10.2)
-mesh = SubResource("SphereMesh_wk107")
-surface_material_override/0 = SubResource("ShaderMaterial_qlkcn")
-
-[node name="Tree_Right_Canopy_3" type="MeshInstance3D" parent="." unique_id=1070922532]
-transform = Transform3D(0.95, 0, 0, 0, 0.85, 0, 0, 0, 0.95, 23.5, 8.8, -6.8)
-mesh = SubResource("SphereMesh_wk107")
-surface_material_override/0 = SubResource("ShaderMaterial_qlkcn")
-
-[node name="Tree_Right_Canopy_4" type="MeshInstance3D" parent="." unique_id=1152710724]
-transform = Transform3D(0.95, 0, 0, 0, 0.85, 0, 0, 0, 0.95, 23, 11.2, -9)
-mesh = SubResource("SphereMesh_wk107")
-surface_material_override/0 = SubResource("ShaderMaterial_qlkcn")
 
 [node name="Tree_Right_Bush" type="MeshInstance3D" parent="." unique_id=1613799054]
 transform = Transform3D(1.0131671, 0, 0.42836016, 0, 1, 0, -0.42836016, 0, 1.0131671, 24.5, 0, -7.5)
@@ -1042,5 +993,107 @@ surface_material_override/0 = SubResource("ShaderMaterial_03aan")
 
 [node name="Lawn_Grass_6" type="MeshInstance3D" parent="." unique_id=1625058895]
 transform = Transform3D(-0.5883132, 0, -1.0458908, 0, 1.3, 0, 1.0458908, 0, -0.5883132, 18, 0, 4)
+mesh = ExtResource("13_6711h")
+surface_material_override/0 = SubResource("ShaderMaterial_03aan")
+
+[node name="AppleTree_Right" type="MeshInstance3D" parent="." unique_id=236117775]
+transform = Transform3D(1.0422539, 0, 0.486011, 0, 1.15, 0, -0.486011, 0, 1.0422539, 22.5, 0, -9)
+mesh = ExtResource("13_jd6k4")
+surface_material_override/0 = SubResource("StandardMaterial3D_c8jhb")
+surface_material_override/1 = SubResource("ShaderMaterial_e5gui")
+surface_material_override/2 = SubResource("StandardMaterial3D_aiyih")
+
+[node name="AppleTree_Left" type="MeshInstance3D" parent="." unique_id=56105550]
+transform = Transform3D(0.8426489, 0, -0.70706636, 0, 1.1, 0, 0.70706636, 0, 0.8426489, -22.5, 0, -10)
+mesh = ExtResource("13_jd6k4")
+surface_material_override/0 = SubResource("StandardMaterial3D_c8jhb")
+surface_material_override/1 = SubResource("ShaderMaterial_e5gui")
+surface_material_override/2 = SubResource("StandardMaterial3D_aiyih")
+
+[node name="RainBarrel_L" type="MeshInstance3D" parent="." unique_id=1068820639]
+transform = Transform3D(0.9659258, 0, 0.25881904, 0, 1, 0, -0.25881904, 0, 0.9659258, -13.4, 0, -16.5)
+mesh = ExtResource("14_6i730")
+surface_material_override/0 = SubResource("StandardMaterial3D_r4o0c")
+surface_material_override/1 = SubResource("StandardMaterial3D_d7566")
+surface_material_override/2 = SubResource("StandardMaterial3D_2cfu4")
+surface_material_override/3 = SubResource("StandardMaterial3D_noxwv")
+
+[node name="RainBarrel_R" type="MeshInstance3D" parent="." unique_id=1591016699]
+transform = Transform3D(0.9659258, 0, -0.25881904, 0, 1, 0, 0.25881904, 0, 0.9659258, 13.4, 0, -16.5)
+mesh = ExtResource("14_6i730")
+surface_material_override/0 = SubResource("StandardMaterial3D_r4o0c")
+surface_material_override/1 = SubResource("StandardMaterial3D_d7566")
+surface_material_override/2 = SubResource("StandardMaterial3D_2cfu4")
+surface_material_override/3 = SubResource("StandardMaterial3D_noxwv")
+
+[node name="Lawn_WF_1" type="MeshInstance3D" parent="." unique_id=77569618]
+transform = Transform3D(1.1817694, 0, 0.20837782, 0, 1.2, 0, -0.20837782, 0, 1.1817694, -10, 0, 11)
+mesh = ExtResource("6_aiyih")
+
+[node name="Lawn_WF_2" type="MeshInstance3D" parent="." unique_id=595053097]
+transform = Transform3D(1.0422539, 0, -0.486011, 0, 1.15, 0, 0.486011, 0, 1.0422539, -6, 0, 12)
+mesh = ExtResource("6_aiyih")
+
+[node name="Lawn_WF_3" type="MeshInstance3D" parent="." unique_id=2060080575]
+transform = Transform3D(1.0239401, 0, 0.71697056, 0, 1.25, 0, -0.71697056, 0, 1.0239401, 6, 0, 11.5)
+mesh = ExtResource("6_aiyih")
+
+[node name="Lawn_WF_4" type="MeshInstance3D" parent="." unique_id=990228288]
+transform = Transform3D(1.0625184, 0, -0.28470096, 0, 1.1, 0, 0.28470096, 0, 1.0625184, 10, 0, 12)
+mesh = ExtResource("6_aiyih")
+
+[node name="Lawn_WF_5" type="MeshInstance3D" parent="." unique_id=326912423]
+transform = Transform3D(0.7277422, 0, 0.6106482, 0, 0.95, 0, -0.6106482, 0, 0.7277422, -1.8, 0, -12.5)
+mesh = ExtResource("6_aiyih")
+
+[node name="Lawn_WF_6" type="MeshInstance3D" parent="." unique_id=1653339017]
+transform = Transform3D(0.9093266, 0, -0.525, 0, 1.05, 0, 0.525, 0, 0.9093266, 1.8, 0, -13.5)
+mesh = ExtResource("6_aiyih")
+
+[node name="Lawn_WF_7" type="MeshInstance3D" parent="." unique_id=1284574319]
+transform = Transform3D(1.2557036, 0, 0.33646473, 0, 1.3, 0, -0.33646473, 0, 1.2557036, -20, 0, -8)
+mesh = ExtResource("6_aiyih")
+
+[node name="Lawn_WF_8" type="MeshInstance3D" parent="." unique_id=899003088]
+transform = Transform3D(1.2685851, 0, -0.46172717, 0, 1.35, 0, 0.46172717, 0, 1.2685851, 20, 0, -7)
+mesh = ExtResource("6_aiyih")
+
+[node name="Lawn_Grass_Extra_1" type="MeshInstance3D" parent="." unique_id=1621009317]
+transform = Transform3D(1.2715919, 0, 0.2702852, 0, 1.3, 0, -0.2702852, 0, 1.2715919, -8, 0, 10.5)
+mesh = ExtResource("13_6711h")
+surface_material_override/0 = SubResource("ShaderMaterial_03aan")
+
+[node name="Lawn_Grass_Extra_2" type="MeshInstance3D" parent="." unique_id=1815824153]
+transform = Transform3D(1.1888207, 0, -0.38627124, 0, 1.25, 0, 0.38627124, 0, 1.1888207, 8, 0, 10.5)
+mesh = ExtResource("13_6711h")
+surface_material_override/0 = SubResource("ShaderMaterial_03aan")
+
+[node name="Lawn_Grass_Extra_3" type="MeshInstance3D" parent="." unique_id=2135196228]
+transform = Transform3D(0.7778175, 0, 0.7778175, 0, 1.1, 0, -0.7778175, 0, 0.7778175, -2.8, 0, -14.5)
+mesh = ExtResource("13_6711h")
+surface_material_override/0 = SubResource("ShaderMaterial_03aan")
+
+[node name="Lawn_Grass_Extra_4" type="MeshInstance3D" parent="." unique_id=636875861]
+transform = Transform3D(0.9420248, 0, -0.6596129, 0, 1.15, 0, 0.6596129, 0, 0.9420248, 2.8, 0, -15.2)
+mesh = ExtResource("13_6711h")
+surface_material_override/0 = SubResource("ShaderMaterial_03aan")
+
+[node name="Lawn_Grass_Extra_5" type="MeshInstance3D" parent="." unique_id=316492690]
+transform = Transform3D(1.3155696, 0, 0.47882816, 0, 1.4, 0, -0.47882816, 0, 1.3155696, -24.5, 0, -12)
+mesh = ExtResource("13_6711h")
+surface_material_override/0 = SubResource("ShaderMaterial_03aan")
+
+[node name="Lawn_Grass_Extra_6" type="MeshInstance3D" parent="." unique_id=233524228]
+transform = Transform3D(1.2688309, 0, -0.59166557, 0, 1.4, 0, 0.59166557, 0, 1.2688309, 24.5, 0, -11)
+mesh = ExtResource("13_6711h")
+surface_material_override/0 = SubResource("ShaderMaterial_03aan")
+
+[node name="Lawn_Grass_Extra_7" type="MeshInstance3D" parent="." unique_id=1558554417]
+transform = Transform3D(0.7713452, 0, 0.91925335, 0, 1.2, 0, -0.91925335, 0, 0.7713452, -17.5, 0, 3)
+mesh = ExtResource("13_6711h")
+surface_material_override/0 = SubResource("ShaderMaterial_03aan")
+
+[node name="Lawn_Grass_Extra_8" type="MeshInstance3D" parent="." unique_id=1915163824]
+transform = Transform3D(0.95755553, 0, -0.80348444, 0, 1.25, 0, 0.80348444, 0, 0.95755553, 17.5, 0, 2.5)
 mesh = ExtResource("13_6711h")
 surface_material_override/0 = SubResource("ShaderMaterial_03aan")

@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://c89updscene24opt"]
+
+[ext_resource type="Script" path="res://scripts/tools/UpdateScenesOption24.gd" id="1_upd"]
+
+[node name="UpdateScenesOption24" type="Node"]
+script = ExtResource("1_upd")

@@ -15,7 +15,13 @@ func _init() -> void:
 	_generate_detailed_tree()
 	_generate_mushroom_cluster()
 	_generate_wildflower()
-	print("Garden assets regenerated with grass tufts, bushes, detailed trees, mushrooms, and wildflowers.")
+	_generate_corner_post()
+	_generate_ivy_vines()
+	_generate_garden_props()
+	_generate_rain_barrel()
+	_generate_apple_tree()
+	_generate_soil_ridges()
+	print("Garden assets regenerated with all props.")
 	quit()
 
 # -------------------------------------------------------------
@@ -983,5 +989,468 @@ func _add_serrated_ground_leaf(verts: Array[Vector3], faces: Array[PackedInt32Ar
 			faces.append(PackedInt32Array([prev_l, r, prev_r]))
 			prev_l = l
 			prev_r = r
+
+# -------------------------------------------------------------
+# 13. CORNER POST (Timber post with pyramidal cap)
+# -------------------------------------------------------------
+func _generate_corner_post() -> void:
+	var path := "res://assets/models/corner_post.obj"
+	var verts: Array[Vector3] = []
+	var faces: Array[PackedInt32Array] = []
+	
+	var w: float = 0.28
+	var h_post: float = 1.3
+	var h_apex: float = 1.55
+	
+	verts.append(Vector3(-w, 0, -w))
+	verts.append(Vector3(w, 0, -w))
+	verts.append(Vector3(w, 0, w))
+	verts.append(Vector3(-w, 0, w))
+	
+	verts.append(Vector3(-w, h_post, -w))
+	verts.append(Vector3(w, h_post, -w))
+	verts.append(Vector3(w, h_post, w))
+	verts.append(Vector3(-w, h_post, w))
+	
+	verts.append(Vector3(0, h_apex, 0))
+	
+	# 4 Sides (CCW facing out):
+	faces.append(PackedInt32Array([1, 5, 6]))
+	faces.append(PackedInt32Array([1, 6, 2]))
+	faces.append(PackedInt32Array([2, 6, 7]))
+	faces.append(PackedInt32Array([2, 7, 3]))
+	faces.append(PackedInt32Array([3, 7, 8]))
+	faces.append(PackedInt32Array([3, 8, 4]))
+	faces.append(PackedInt32Array([4, 8, 5]))
+	faces.append(PackedInt32Array([4, 5, 1]))
+	
+	# 4 Cap triangles:
+	faces.append(PackedInt32Array([5, 9, 6]))
+	faces.append(PackedInt32Array([6, 9, 7]))
+	faces.append(PackedInt32Array([7, 9, 8]))
+	faces.append(PackedInt32Array([8, 9, 5]))
+	
+	var f := FileAccess.open(path, FileAccess.WRITE)
+	f.store_line("# Rustic Timber Corner Post")
+	for v in verts:
+		f.store_line("v %.4f %.4f %.4f" % [v.x, v.y, v.z])
+	f.store_line("g CornerPost")
+	f.store_line("usemtl CornerPostMat")
+	for tri in faces:
+		f.store_line("f %d %d %d" % [tri[0], tri[1], tri[2]])
+	f.close()
+
+# -------------------------------------------------------------
+# 14. IVY VINES (Overhanging creeping vines with heart leaves)
+# -------------------------------------------------------------
+func _generate_ivy_vines() -> void:
+	var path := "res://assets/models/ivy_vines.obj"
+	var verts: Array[Vector3] = []
+	var faces_stem: Array[PackedInt32Array] = []
+	var faces_leaf: Array[PackedInt32Array] = []
+	
+	var stems: Array[Array] = [
+		[Vector3(-0.4, 0.05, 0.18), Vector3(-0.35, 0.42, 0.12), Vector3(-0.3, 0.52, -0.05), Vector3(-0.25, 0.35, -0.22), Vector3(-0.2, 0.1, -0.25)],
+		[Vector3(0.05, 0.08, 0.2), Vector3(0.1, 0.38, 0.15), Vector3(0.12, 0.54, 0.0), Vector3(0.08, 0.42, -0.2), Vector3(0.04, 0.18, -0.28), Vector3(0.02, -0.05, -0.26)],
+		[Vector3(0.35, 0.1, 0.16), Vector3(0.42, 0.45, 0.1), Vector3(0.45, 0.53, -0.08), Vector3(0.4, 0.28, -0.24), Vector3(0.36, 0.02, -0.25)]
+	]
+	
+	for s_idx in range(stems.size()):
+		var spine: Array = stems[s_idx]
+		var prev_ring: Array[int] = []
+		for p in range(spine.size()):
+			var cp: Vector3 = spine[p]
+			var ring: Array[int] = []
+			for i in range(5):
+				var a := float(i) * TAU / 5.0
+				ring.append(_add_vert(verts, cp + Vector3(cos(a) * 0.018, sin(a) * 0.018, 0)))
+			if p > 0:
+				for i in range(5):
+					var ni := (i + 1) % 5
+					faces_stem.append(PackedInt32Array([prev_ring[i], ring[i], ring[ni]]))
+					faces_stem.append(PackedInt32Array([prev_ring[i], ring[ni], prev_ring[ni]]))
+			prev_ring = ring
+			
+			if p >= 1:
+				var leaf_pos: Vector3 = cp + Vector3(sin(float(p + s_idx) * 2.3) * 0.06, 0.02, cos(float(p + s_idx) * 1.7) * 0.06)
+				var leaf_norm := (leaf_pos - cp).normalized()
+				var leaf_size := 0.11 + float((p + s_idx) % 3) * 0.02
+				_add_ivy_leaf(verts, faces_leaf, leaf_pos, leaf_norm, leaf_size)
+				
+	var f := FileAccess.open(path, FileAccess.WRITE)
+	f.store_line("# Overhanging Ivy Vines")
+	for v in verts:
+		f.store_line("v %.4f %.4f %.4f" % [v.x, v.y, v.z])
+	f.store_line("g VineStem")
+	f.store_line("usemtl VineStemMat")
+	for tri in faces_stem:
+		f.store_line("f %d %d %d" % [tri[0], tri[1], tri[2]])
+	f.store_line("g VineLeaf")
+	f.store_line("usemtl VineLeafMat")
+	for tri in faces_leaf:
+		f.store_line("f %d %d %d" % [tri[0], tri[1], tri[2]])
+	f.close()
+
+func _add_ivy_leaf(verts: Array[Vector3], faces: Array[PackedInt32Array], pos: Vector3, normal: Vector3, size: float) -> void:
+	var tangent := normal.cross(Vector3.UP).normalized()
+	if tangent.length_squared() < 0.1:
+		tangent = normal.cross(Vector3.RIGHT).normalized()
+	var bitangent := normal.cross(tangent).normalized()
+	
+	var stem_pt := _add_vert(verts, pos)
+	var center_pt := _add_vert(verts, pos + bitangent * (size * 0.4) + normal * 0.01)
+	var left_lobe := _add_vert(verts, pos - tangent * (size * 0.45) + bitangent * (size * 0.2))
+	var right_lobe := _add_vert(verts, pos + tangent * (size * 0.45) + bitangent * (size * 0.2))
+	var mid_left := _add_vert(verts, pos - tangent * (size * 0.35) + bitangent * (size * 0.75))
+	var mid_right := _add_vert(verts, pos + tangent * (size * 0.35) + bitangent * (size * 0.75))
+	var main_tip := _add_vert(verts, pos + bitangent * size + normal * 0.02)
+	
+	faces.append(PackedInt32Array([stem_pt, center_pt, left_lobe]))
+	faces.append(PackedInt32Array([stem_pt, right_lobe, center_pt]))
+	faces.append(PackedInt32Array([left_lobe, center_pt, mid_left]))
+	faces.append(PackedInt32Array([right_lobe, mid_right, center_pt]))
+	faces.append(PackedInt32Array([mid_left, center_pt, main_tip]))
+	faces.append(PackedInt32Array([center_pt, mid_right, main_tip]))
+
+# -------------------------------------------------------------
+# 15. GARDEN PROPS (Wood Plant Sign & Garden Trowel)
+# -------------------------------------------------------------
+func _generate_garden_props() -> void:
+	var path := "res://assets/models/garden_props.obj"
+	var verts: Array[Vector3] = []
+	var faces_wood: Array[PackedInt32Array] = []
+	var faces_metal: Array[PackedInt32Array] = []
+	
+	# 1. Wooden Plant Marker Stake
+	var s_b := [
+		_add_vert(verts, Vector3(-0.025, 0, -0.02)),
+		_add_vert(verts, Vector3(0.025, 0, -0.02)),
+		_add_vert(verts, Vector3(0.025, 0, 0.02)),
+		_add_vert(verts, Vector3(-0.025, 0, 0.02))
+	]
+	var s_t := [
+		_add_vert(verts, Vector3(-0.025, 0.75, -0.02)),
+		_add_vert(verts, Vector3(0.025, 0.75, -0.02)),
+		_add_vert(verts, Vector3(0.025, 0.75, 0.02)),
+		_add_vert(verts, Vector3(-0.025, 0.75, 0.02))
+	]
+	for i in range(4):
+		var ni := (i + 1) % 4
+		faces_wood.append(PackedInt32Array([s_b[i], s_t[i], s_t[ni]]))
+		faces_wood.append(PackedInt32Array([s_b[i], s_t[ni], s_b[ni]]))
+		
+	var pw := 0.18
+	var ph := 0.11
+	var pd := 0.015
+	var angle := deg_to_rad(-18.0)
+	var cos_a := cos(angle)
+	var sin_a := sin(angle)
+	var p_center := Vector3(0, 0.65, 0.03)
+	
+	var plaque_b := [
+		_add_vert(verts, p_center + Vector3(-pw, -ph * cos_a - pd * sin_a, -ph * sin_a + pd * cos_a)),
+		_add_vert(verts, p_center + Vector3(pw, -ph * cos_a - pd * sin_a, -ph * sin_a + pd * cos_a)),
+		_add_vert(verts, p_center + Vector3(pw, -ph * cos_a + pd * sin_a, -ph * sin_a - pd * cos_a)),
+		_add_vert(verts, p_center + Vector3(-pw, -ph * cos_a + pd * sin_a, -ph * sin_a - pd * cos_a))
+	]
+	var plaque_t := [
+		_add_vert(verts, p_center + Vector3(-pw, ph * cos_a - pd * sin_a, ph * sin_a + pd * cos_a)),
+		_add_vert(verts, p_center + Vector3(pw, ph * cos_a - pd * sin_a, ph * sin_a + pd * cos_a)),
+		_add_vert(verts, p_center + Vector3(pw, ph * cos_a + pd * sin_a, ph * sin_a - pd * cos_a)),
+		_add_vert(verts, p_center + Vector3(-pw, ph * cos_a + pd * sin_a, ph * sin_a - pd * cos_a))
+	]
+	for i in range(4):
+		var ni := (i + 1) % 4
+		faces_wood.append(PackedInt32Array([plaque_b[i], plaque_t[i], plaque_t[ni]]))
+		faces_wood.append(PackedInt32Array([plaque_b[i], plaque_t[ni], plaque_b[ni]]))
+	faces_wood.append(PackedInt32Array([plaque_b[0], plaque_b[1], plaque_t[1]]))
+	faces_wood.append(PackedInt32Array([plaque_b[0], plaque_t[1], plaque_t[0]]))
+	faces_wood.append(PackedInt32Array([plaque_b[3], plaque_t[2], plaque_b[2]]))
+	faces_wood.append(PackedInt32Array([plaque_b[3], plaque_t[3], plaque_t[2]]))
+	
+	# 2. Hand Trowel
+	var trowel_offset := Vector3(0.24, 0.0, 0.05)
+	var handle_base := trowel_offset + Vector3(0, 0.12, 0.05)
+	var handle_top := trowel_offset + Vector3(0.04, 0.42, 0.12)
+	var h_dir := (handle_top - handle_base).normalized()
+	var h_side := h_dir.cross(Vector3.UP).normalized()
+	var h_up := h_side.cross(h_dir).normalized()
+	var h_b_ring: Array[int] = []
+	var h_t_ring: Array[int] = []
+	for i in range(6):
+		var a := float(i) * TAU / 6.0
+		var r := 0.025
+		h_b_ring.append(_add_vert(verts, handle_base + (h_side * cos(a) + h_up * sin(a)) * r))
+		h_t_ring.append(_add_vert(verts, handle_top + (h_side * cos(a) + h_up * sin(a)) * r))
+	for i in range(6):
+		var ni := (i + 1) % 6
+		faces_wood.append(PackedInt32Array([h_b_ring[i], h_t_ring[i], h_t_ring[ni]]))
+		faces_wood.append(PackedInt32Array([h_b_ring[i], h_t_ring[ni], h_b_ring[ni]]))
+	var h_cap := _add_vert(verts, handle_top + h_dir * 0.02)
+	for i in range(6):
+		var ni := (i + 1) % 6
+		faces_wood.append(PackedInt32Array([h_t_ring[i], h_cap, h_t_ring[ni]]))
+		
+	var blade_base := handle_base - h_dir * 0.04
+	var blade_mid := handle_base - h_dir * 0.14 + Vector3(0, -0.04, 0)
+	var blade_tip := handle_base - h_dir * 0.24 + Vector3(0, -0.09, 0)
+	var b_w := 0.05
+	var m0 := _add_vert(verts, blade_base - h_side * (b_w * 0.5))
+	var m1 := _add_vert(verts, blade_base + h_side * (b_w * 0.5))
+	var m2 := _add_vert(verts, blade_mid - h_side * b_w + h_up * 0.02)
+	var m3 := _add_vert(verts, blade_mid + h_side * b_w + h_up * 0.02)
+	var m4 := _add_vert(verts, blade_tip)
+	faces_metal.append(PackedInt32Array([m0, m2, m3]))
+	faces_metal.append(PackedInt32Array([m0, m3, m1]))
+	faces_metal.append(PackedInt32Array([m2, m4, m3]))
+	
+	var f := FileAccess.open(path, FileAccess.WRITE)
+	f.store_line("# Garden Props: Marker Sign and Trowel")
+	for v in verts:
+		f.store_line("v %.4f %.4f %.4f" % [v.x, v.y, v.z])
+	f.store_line("g PlantSignWood")
+	f.store_line("usemtl PlantSignWoodMat")
+	for tri in faces_wood:
+		f.store_line("f %d %d %d" % [tri[0], tri[1], tri[2]])
+	f.store_line("g TrowelMetal")
+	f.store_line("usemtl TrowelMetalMat")
+	for tri in faces_metal:
+		f.store_line("f %d %d %d" % [tri[0], tri[1], tri[2]])
+	f.close()
+
+# -------------------------------------------------------------
+# 16. RAIN BARREL (Wooden staves, iron hoops, water surface, spigot)
+# -------------------------------------------------------------
+func _generate_rain_barrel() -> void:
+	var path := "res://assets/models/rain_barrel.obj"
+	var verts: Array[Vector3] = []
+	var faces_wood: Array[PackedInt32Array] = []
+	var faces_hoops: Array[PackedInt32Array] = []
+	var faces_water: Array[PackedInt32Array] = []
+	var faces_spigot: Array[PackedInt32Array] = []
+	
+	var segs := 12
+	var h_levels := [0.0, 0.4, 0.8, 1.25]
+	var radii := [0.60, 0.70, 0.69, 0.62]
+	var rings: Array[Array] = []
+	for lvl in range(4):
+		var y: float = h_levels[lvl]
+		var r: float = radii[lvl]
+		var ring: Array[int] = []
+		for s in range(segs):
+			var a := float(s) * TAU / float(segs)
+			ring.append(_add_vert(verts, Vector3(cos(a) * r, y, sin(a) * r)))
+		rings.append(ring)
+		
+	for lvl in range(3):
+		var r1: Array = rings[lvl]
+		var r2: Array = rings[lvl + 1]
+		for s in range(segs):
+			var ns := (s + 1) % segs
+			faces_wood.append(PackedInt32Array([r1[s], r2[s], r2[ns]]))
+			faces_wood.append(PackedInt32Array([r1[s], r2[ns], r1[ns]]))
+			
+	var bot_center := _add_vert(verts, Vector3(0, 0, 0))
+	for s in range(segs):
+		var ns := (s + 1) % segs
+		faces_wood.append(PackedInt32Array([bot_center, (rings[0] as Array)[ns], (rings[0] as Array)[s]]))
+		
+	var water_center := _add_vert(verts, Vector3(0, 1.12, 0))
+	var water_ring: Array[int] = []
+	for s in range(segs):
+		var a := float(s) * TAU / float(segs)
+		water_ring.append(_add_vert(verts, Vector3(cos(a) * 0.58, 1.12, sin(a) * 0.58)))
+	for s in range(segs):
+		var ns := (s + 1) % segs
+		faces_water.append(PackedInt32Array([water_center, water_ring[s], water_ring[ns]]))
+		
+	var hoop_y_list := [0.22, 0.95]
+	for hy in hoop_y_list:
+		var hr := 0.705 if hy < 0.5 else 0.675
+		var hh := 0.08
+		var h_b: Array[int] = []
+		var h_t: Array[int] = []
+		for s in range(segs):
+			var a := float(s) * TAU / float(segs)
+			h_b.append(_add_vert(verts, Vector3(cos(a) * hr, hy, sin(a) * hr)))
+			h_t.append(_add_vert(verts, Vector3(cos(a) * hr, hy + hh, sin(a) * hr)))
+		for s in range(segs):
+			var ns := (s + 1) % segs
+			faces_hoops.append(PackedInt32Array([h_b[s], h_t[s], h_t[ns]]))
+			faces_hoops.append(PackedInt32Array([h_b[s], h_t[ns], h_b[ns]]))
+			
+	var spigot_base := Vector3(0, 0.32, 0.68)
+	var spigot_tip := Vector3(0, 0.30, 0.95)
+	var sp_b: Array[int] = []
+	var sp_t: Array[int] = []
+	for i in range(6):
+		var a := float(i) * TAU / 6.0
+		sp_b.append(_add_vert(verts, spigot_base + Vector3(cos(a) * 0.035, sin(a) * 0.035, 0)))
+		sp_t.append(_add_vert(verts, spigot_tip + Vector3(cos(a) * 0.03, sin(a) * 0.03, 0)))
+	for i in range(6):
+		var ni := (i + 1) % 6
+		faces_spigot.append(PackedInt32Array([sp_b[i], sp_t[i], sp_t[ni]]))
+		faces_spigot.append(PackedInt32Array([sp_b[i], sp_t[ni], sp_b[ni]]))
+	var handle_c := spigot_tip + Vector3(0, 0.04, -0.04)
+	var h1 := _add_vert(verts, handle_c + Vector3(-0.06, 0, 0))
+	var h2 := _add_vert(verts, handle_c + Vector3(0.06, 0, 0))
+	var h3 := _add_vert(verts, handle_c + Vector3(0, 0.03, 0))
+	faces_spigot.append(PackedInt32Array([h1, h2, h3]))
+
+	var f := FileAccess.open(path, FileAccess.WRITE)
+	f.store_line("# Wooden Rain Barrel")
+	for v in verts:
+		f.store_line("v %.4f %.4f %.4f" % [v.x, v.y, v.z])
+	f.store_line("g BarrelWood")
+	f.store_line("usemtl BarrelWoodMat")
+	for tri in faces_wood:
+		f.store_line("f %d %d %d" % [tri[0], tri[1], tri[2]])
+	f.store_line("g MetalHoops")
+	f.store_line("usemtl MetalHoopsMat")
+	for tri in faces_hoops:
+		f.store_line("f %d %d %d" % [tri[0], tri[1], tri[2]])
+	f.store_line("g WaterSurface")
+	f.store_line("usemtl WaterSurfaceMat")
+	for tri in faces_water:
+		f.store_line("f %d %d %d" % [tri[0], tri[1], tri[2]])
+	f.store_line("g BrassSpigot")
+	f.store_line("usemtl BrassSpigotMat")
+	for tri in faces_spigot:
+		f.store_line("f %d %d %d" % [tri[0], tri[1], tri[2]])
+	f.close()
+
+# -------------------------------------------------------------
+# 17. APPLE TREE (Gnarled Trunk, Fluffy Canopies, Apples)
+# -------------------------------------------------------------
+func _generate_apple_tree() -> void:
+	var path := "res://assets/models/apple_tree.obj"
+	var verts: Array[Vector3] = []
+	var faces_trunk: Array[PackedInt32Array] = []
+	var faces_canopy: Array[PackedInt32Array] = []
+	var faces_apples: Array[PackedInt32Array] = []
+	
+	var spine: Array[Vector3] = [
+		Vector3(0, 0, 0),
+		Vector3(0.12, 0.9, -0.06),
+		Vector3(-0.08, 1.8, 0.1),
+		Vector3(0.05, 2.7, 0.0)
+	]
+	var radii := [0.82, 0.58, 0.48, 0.42]
+	var prev_ring: Array[int] = []
+	for p in range(spine.size()):
+		var cp: Vector3 = spine[p]
+		var r: float = radii[p]
+		var ring: Array[int] = []
+		for i in range(8):
+			var a := float(i) * TAU / 8.0
+			var flare: float = 1.35 if (p == 0 and i % 2 == 0) else 1.0
+			ring.append(_add_vert(verts, cp + Vector3(cos(a) * r * flare, 0, sin(a) * r * flare)))
+		if p > 0:
+			for i in range(8):
+				var ni := (i + 1) % 8
+				faces_trunk.append(PackedInt32Array([prev_ring[i], ring[i], ring[ni]]))
+				faces_trunk.append(PackedInt32Array([prev_ring[i], ring[ni], prev_ring[ni]]))
+		prev_ring = ring
+		
+	_add_tree_limb(verts, faces_trunk, spine[3], Vector3(-2.2, 2.0, 1.2), 0.40, 0.20)
+	_add_tree_limb(verts, faces_trunk, spine[3], Vector3(2.0, 2.2, -1.0), 0.38, 0.18)
+	_add_tree_limb(verts, faces_trunk, spine[3], Vector3(0.3, 2.8, 1.6), 0.36, 0.16)
+	
+	var canopy_centers: Array[Vector3] = [
+		Vector3(-2.2, 4.8, 1.2),
+		Vector3(2.0, 5.0, -1.0),
+		Vector3(0.3, 5.6, 1.6),
+		Vector3(-1.0, 5.8, -0.4),
+		Vector3(1.2, 6.0, 0.8),
+		Vector3(0.0, 6.4, 0.2)
+	]
+	var canopy_radii := [1.65, 1.55, 1.6, 1.5, 1.7, 1.85]
+	for c_idx in range(canopy_centers.size()):
+		_add_puffball_sphere(verts, faces_canopy, canopy_centers[c_idx], canopy_radii[c_idx])
+		
+	var apple_pos_list: Array[Vector3] = [
+		Vector3(-2.5, 3.6, 1.4),
+		Vector3(-1.8, 3.4, 0.8),
+		Vector3(-2.8, 4.0, 0.6),
+		Vector3(1.6, 3.8, -1.3),
+		Vector3(2.4, 3.5, -0.7),
+		Vector3(2.1, 4.1, -1.6),
+		Vector3(0.5, 4.2, 2.1),
+		Vector3(-0.2, 4.4, 1.9),
+		Vector3(0.9, 4.5, 1.4),
+		Vector3(-1.2, 4.6, -0.8),
+		Vector3(0.8, 4.8, 0.2),
+		Vector3(-0.8, 0.08, 0.6),
+		Vector3(0.9, 0.08, -0.7),
+		Vector3(0.4, 0.08, 1.1)
+	]
+	for ap in apple_pos_list:
+		_add_puffball_sphere(verts, faces_apples, ap, 0.11)
+		
+	var f := FileAccess.open(path, FileAccess.WRITE)
+	f.store_line("# Ghibli Gnarled Apple Tree")
+	for v in verts:
+		f.store_line("v %.4f %.4f %.4f" % [v.x, v.y, v.z])
+	f.store_line("g TreeTrunk")
+	f.store_line("usemtl TreeTrunkMat")
+	for tri in faces_trunk:
+		f.store_line("f %d %d %d" % [tri[0], tri[1], tri[2]])
+	f.store_line("g CanopyFoliage")
+	f.store_line("usemtl CanopyFoliageMat")
+	for tri in faces_canopy:
+		f.store_line("f %d %d %d" % [tri[0], tri[1], tri[2]])
+	f.store_line("g TreeApples")
+	f.store_line("usemtl TreeApplesMat")
+	for tri in faces_apples:
+		f.store_line("f %d %d %d" % [tri[0], tri[1], tri[2]])
+	f.close()
+
+# -------------------------------------------------------------
+# 18. SOIL RIDGES (Sculpted organic planting furrows)
+# -------------------------------------------------------------
+func _generate_soil_ridges() -> void:
+	var path := "res://assets/models/soil_ridges.obj"
+	var verts: Array[Vector3] = []
+	var faces: Array[PackedInt32Array] = []
+	
+	var x_steps := 7
+	var length := 5.0
+	var width := 1.5
+	var height := 0.18
+	
+	var grid: Array[Array] = []
+	for xi in range(x_steps):
+		var t_x := float(xi) / float(x_steps - 1)
+		var x := (t_x - 0.5) * length
+		var end_taper := sin(t_x * PI)
+		var h := height * end_taper
+		var w := (width * 0.5) * (0.4 + 0.6 * end_taper)
+		
+		var row: Array[int] = [
+			_add_vert(verts, Vector3(x, 0.01, -w)),
+			_add_vert(verts, Vector3(x, h * 0.6, -w * 0.55)),
+			_add_vert(verts, Vector3(x, h, 0.0)),
+			_add_vert(verts, Vector3(x, h * 0.6, w * 0.55)),
+			_add_vert(verts, Vector3(x, 0.01, w))
+		]
+		grid.append(row)
+		
+	for xi in range(x_steps - 1):
+		var r1: Array = grid[xi]
+		var r2: Array = grid[xi + 1]
+		for zi in range(4):
+			faces.append(PackedInt32Array([r1[zi], r2[zi], r2[zi + 1]]))
+			faces.append(PackedInt32Array([r1[zi], r2[zi + 1], r1[zi + 1]]))
+			
+	var f := FileAccess.open(path, FileAccess.WRITE)
+	f.store_line("# Sculpted Garden Soil Ridges")
+	for v in verts:
+		f.store_line("v %.4f %.4f %.4f" % [v.x, v.y, v.z])
+	f.store_line("g SoilRidge")
+	f.store_line("usemtl SoilRidgeMat")
+	for tri in faces:
+		f.store_line("f %d %d %d" % [tri[0], tri[1], tri[2]])
+	f.close()
+
 
 

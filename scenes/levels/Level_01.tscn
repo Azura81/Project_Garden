@@ -1,19 +1,25 @@
-[gd_scene load_steps=24 format=3 uid="uid://b1n8k4l9m2o7q"]
+[gd_scene format=3]
 
 [ext_resource type="Script" path="res://scripts/levels/LevelBase.gd" id="1_lvl"]
-[ext_resource type="PackedScene" uid="uid://chv0k58i0j8s2" path="res://scenes/enemies/GardenSnail.tscn" id="2_snail"]
-[ext_resource type="PackedScene" uid="uid://cmeq7g7o2a12p" path="res://scenes/towers/ThornRose.tscn" id="3_rose"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/GardenSnail.tscn" id="2_snail"]
+[ext_resource type="PackedScene" path="res://scenes/towers/ThornRose.tscn" id="3_rose"]
 [ext_resource type="Script" path="res://scripts/camera/CameraRig.gd" id="4_cam"]
-[ext_resource type="PackedScene" uid="uid://dkn4m2v8x3q1a" path="res://scenes/levels/TowerSpot.tscn" id="5_spot_scene"]
-[ext_resource type="PackedScene" uid="uid://c8h74v2gqk1ma" path="res://scenes/ui/HUD_Tactical.tscn" id="6_tactical"]
-[ext_resource type="PackedScene" uid="uid://df7w0r8xlyr2j" path="res://scenes/ui/HUD_FirstPerson.tscn" id="7_fp"]
-[ext_resource type="PackedScene" uid="uid://cxkn68a2pdmvw" path="res://scenes/ui/RadialMenu.tscn" id="8_radial"]
+[ext_resource type="PackedScene" path="res://scenes/levels/TowerSpot.tscn" id="5_spot_scene"]
+[ext_resource type="PackedScene" path="res://scenes/ui/HUD_Tactical.tscn" id="6_tactical"]
+[ext_resource type="PackedScene" path="res://scenes/ui/HUD_FirstPerson.tscn" id="7_fp"]
+[ext_resource type="PackedScene" path="res://scenes/ui/RadialMenu.tscn" id="8_radial"]
 [ext_resource type="Texture2D" path="res://assets/textures/ground_soil.png" id="9_soil"]
 [ext_resource type="Texture2D" path="res://assets/textures/path_ground.jpg" id="10_path_tex"]
 [ext_resource type="PackedScene" path="res://scenes/environment/GardenBackdrop.tscn" id="11_backdrop"]
-[ext_resource type="PackedScene" uid="uid://c7k9v1m8q2x5r" path="res://scenes/environment/BeetBorder.tscn" id="12_border"]
-[ext_resource type="PackedScene" uid="uid://b8k1m3p4v9o2w" path="res://scenes/environment/GoldenSprout.tscn" id="13_sprout"]
+[ext_resource type="Script" path="res://scripts/environment/GoldenSprout.gd" id="11_tj285"]
+[ext_resource type="PackedScene" path="res://scenes/environment/BeetBorder.tscn" id="12_border"]
+[ext_resource type="PackedScene" path="res://scenes/environment/GoldenSprout.tscn" id="13_sprout"]
+[ext_resource type="Script" path="res://scripts/levels/TowerSpot.gd" id="13_x6f5j"]
 [ext_resource type="Script" path="res://scripts/levels/PathArrow.gd" id="14_arrow"]
+[ext_resource type="Script" path="res://scripts/ui/HUDTactical.gd" id="15_fcgrt"]
+[ext_resource type="Script" path="res://scripts/ui/HUDFirstPerson.gd" id="17_0rjyr"]
+[ext_resource type="Script" path="res://scripts/ui/RadialMenu.gd" id="19_0k37p"]
+[ext_resource type="ArrayMesh" path="res://assets/models/soil_ridges.obj" id="20_4h14u"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ghibli"]
 sky_top_color = Color(0.48, 0.68, 0.86, 1)
@@ -36,15 +42,14 @@ tonemap_mode = 2
 tonemap_exposure = 1.05
 glow_enabled = true
 glow_bloom = 0.12
-glow_hdr_threshold = 1.0
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_ground"]
 size = Vector2(32, 16)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dirt"]
 albedo_texture = ExtResource("9_soil")
-uv1_scale = Vector3(10, 5, 1)
 roughness = 0.9
+uv1_scale = Vector3(10, 5, 1)
 
 [sub_resource type="Curve3D" id="Curve3D_path"]
 _data = {
@@ -55,17 +60,17 @@ point_count = 7
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_path"]
 albedo_texture = ExtResource("10_path_tex")
+roughness = 0.9
 uv1_scale = Vector3(0.35, 0.35, 0.35)
 uv1_triplanar = true
 uv1_world_triplanar = true
-roughness = 0.9
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_arrow"]
 albedo_color = Color(0.98, 0.84, 0.15, 1)
+roughness = 0.3
 emission_enabled = true
 emission = Color(0.98, 0.78, 0.1, 1)
 emission_energy_multiplier = 0.7
-roughness = 0.3
 
 [sub_resource type="BoxMesh" id="BoxMesh_arrow_shaft"]
 material = SubResource("StandardMaterial3D_arrow")
@@ -75,17 +80,23 @@ size = Vector3(0.65, 0.08, 0.22)
 material = SubResource("StandardMaterial3D_arrow")
 size = Vector3(0.45, 0.5, 0.08)
 
-[node name="Level_01" type="Node3D"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bbars"]
+albedo_color = Color(0.92, 0.88, 0.82, 1)
+albedo_texture = ExtResource("9_soil")
+roughness = 0.92
+uv1_scale = Vector3(2.5, 1.5, 2.5)
+
+[node name="Level_01" type="Node3D" unique_id=1019938663]
 script = ExtResource("1_lvl")
 enemy_snail_scene = ExtResource("2_snail")
 rose_tower_scene = ExtResource("3_rose")
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=75895993]
 environment = SubResource("Environment_main")
 
-[node name="GardenBackdrop" parent="." instance=ExtResource("11_backdrop")]
+[node name="GardenBackdrop" type="Node3D" parent="." unique_id=509946823 instance=ExtResource("11_backdrop")]
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1479602195]
 transform = Transform3D(0.707107, -0.353553, 0.612372, 0, 0.866025, 0.5, -0.707107, -0.353553, 0.612372, -10, 15, 10)
 light_color = Color(1, 0.95, 0.82, 1)
 light_energy = 1.35
@@ -93,90 +104,143 @@ shadow_enabled = true
 shadow_bias = 0.03
 shadow_blur = 1.6
 
-[node name="Ground" type="MeshInstance3D" parent="."]
+[node name="Ground" type="MeshInstance3D" parent="." unique_id=1000973222]
 mesh = SubResource("PlaneMesh_ground")
 surface_material_override/0 = SubResource("StandardMaterial3D_dirt")
 
-[node name="BeetBorder" parent="." instance=ExtResource("12_border")]
+[node name="BeetBorder" type="Node3D" parent="." unique_id=1862858294 instance=ExtResource("12_border")]
 
-[node name="CameraRig" type="Node3D" parent="." node_paths=PackedStringArray("camera")]
+[node name="CameraRig" type="Node3D" parent="." unique_id=9072539 node_paths=PackedStringArray("camera")]
 script = ExtResource("4_cam")
 camera = NodePath("Camera3D")
 tactical_position = Vector3(0, 9.2, 16.5)
 tactical_rotation_deg = Vector3(-25, 0, 0)
 
-[node name="Camera3D" type="Camera3D" parent="CameraRig"]
+[node name="Camera3D" type="Camera3D" parent="CameraRig" unique_id=769983452]
 transform = Transform3D(1, 0, 0, 0, 0.906308, 0.422618, 0, -0.422618, 0.906308, 0, 9.2, 16.5)
 current = true
 
-[node name="Path3D" type="Path3D" parent="."]
+[node name="Path3D" type="Path3D" parent="." unique_id=1135221480]
 curve = SubResource("Curve3D_path")
 
-[node name="PathVisual" type="CSGPolygon3D" parent="."]
+[node name="PathVisual" type="CSGPolygon3D" parent="." unique_id=680112437]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, 0)
 polygon = PackedVector2Array(-0.7, 0, 0.7, 0, 0.7, 0.02, -0.7, 0.02)
 mode = 2
 path_node = NodePath("../Path3D")
 path_interval_type = 0
-path_interval = 0.35
-path_simplify_angle = 0.0
-path_rotation = 2
-path_local = false
-path_continuous_u = false
-path_u_distance = 2.0
-path_joined = false
-material = SubResource("StandardMaterial3D_path")
-path_interval_type = 0
 path_interval = 0.4
 path_simplify_angle = 0.0
 path_rotation = 2
+path_rotation_accurate = false
 path_local = false
 path_continuous_u = true
 path_u_distance = 2.0
 path_joined = false
 material = SubResource("StandardMaterial3D_path")
 
-[node name="PathStartArrow" type="Node3D" parent="."]
+[node name="PathStartArrow" type="Node3D" parent="." unique_id=1130359811]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.8, 0.25, -4.5)
 script = ExtResource("14_arrow")
 
-[node name="Shaft" type="MeshInstance3D" parent="PathStartArrow"]
+[node name="Shaft" type="MeshInstance3D" parent="PathStartArrow" unique_id=614526178]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 0, 0)
 mesh = SubResource("BoxMesh_arrow_shaft")
 
-[node name="Tip" type="MeshInstance3D" parent="PathStartArrow"]
+[node name="Tip" type="MeshInstance3D" parent="PathStartArrow" unique_id=634632946]
 transform = Transform3D(0, 0, 1, 1, 0, 0, 0, 1, 0, 0.35, 0, 0)
 mesh = SubResource("PrismMesh_arrow_tip")
 
-[node name="GoldenSprout" parent="." instance=ExtResource("13_sprout")]
+[node name="GoldenSprout" type="Node3D" parent="." unique_id=1755724370 instance=ExtResource("13_sprout")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, 2.5)
+script = ExtResource("11_tj285")
 
-[node name="TowerSpots" type="Node3D" parent="."]
+[node name="TowerSpots" type="Node3D" parent="." unique_id=918944300]
 
-[node name="TowerSpot_1" parent="TowerSpots" instance=ExtResource("5_spot_scene")]
+[node name="TowerSpot_1" type="Area3D" parent="TowerSpots" unique_id=559734236 groups=["tower_spots"] instance=ExtResource("5_spot_scene")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 0, 0.5)
+script = ExtResource("13_x6f5j")
 
-[node name="TowerSpot_2" parent="TowerSpots" instance=ExtResource("5_spot_scene")]
+[node name="TowerSpot_2" type="Area3D" parent="TowerSpots" unique_id=1832353345 groups=["tower_spots"] instance=ExtResource("5_spot_scene")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 0, -5)
+script = ExtResource("13_x6f5j")
 spot_id = 2
 
-[node name="TowerSpot_3" parent="TowerSpots" instance=ExtResource("5_spot_scene")]
+[node name="TowerSpot_3" type="Area3D" parent="TowerSpots" unique_id=1212035996 groups=["tower_spots"] instance=ExtResource("5_spot_scene")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4.8)
+script = ExtResource("13_x6f5j")
 spot_id = 3
 
-[node name="TowerSpot_4" parent="TowerSpots" instance=ExtResource("5_spot_scene")]
+[node name="TowerSpot_4" type="Area3D" parent="TowerSpots" unique_id=944259084 groups=["tower_spots"] instance=ExtResource("5_spot_scene")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 0, -1.2)
+script = ExtResource("13_x6f5j")
 spot_id = 4
 
-[node name="TowerSpot_5" parent="TowerSpots" instance=ExtResource("5_spot_scene")]
+[node name="TowerSpot_5" type="Area3D" parent="TowerSpots" unique_id=1829075547 groups=["tower_spots"] instance=ExtResource("5_spot_scene")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.5, 0, 6)
+script = ExtResource("13_x6f5j")
 spot_id = 5
 
-[node name="UI" type="CanvasLayer" parent="."]
+[node name="UI" type="CanvasLayer" parent="." unique_id=1929011447]
 
-[node name="HUD_Tactical" parent="UI" instance=ExtResource("6_tactical")]
+[node name="HUD_Tactical" type="Control" parent="UI" unique_id=1635533261 instance=ExtResource("6_tactical")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("15_fcgrt")
 
-[node name="HUD_FirstPerson" parent="UI" instance=ExtResource("7_fp")]
+[node name="HUD_FirstPerson" type="Control" parent="UI" unique_id=691621979 instance=ExtResource("7_fp")]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("17_0rjyr")
 
-[node name="RadialMenu" parent="UI" instance=ExtResource("8_radial")]
+[node name="RadialMenu" type="Control" parent="UI" unique_id=788288227 instance=ExtResource("8_radial")]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -160.0
+offset_top = -140.0
+offset_right = 160.0
+offset_bottom = 140.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("19_0k37p")
 rose_scene = ExtResource("3_rose")
+
+[node name="SoilRidge_1" type="MeshInstance3D" parent="." unique_id=1314727681]
+transform = Transform3D(0.9, 0, 0, 0, 1.5, 0, 0, 0, 0.9, -8, 0, -6.2)
+mesh = ExtResource("20_4h14u")
+surface_material_override/0 = SubResource("StandardMaterial3D_bbars")
+
+[node name="SoilRidge_2" type="MeshInstance3D" parent="." unique_id=1965387423]
+transform = Transform3D(1, 0, 0, 0, 1.5, 0, 0, 0, 1, -6, 0, 5.8)
+mesh = ExtResource("20_4h14u")
+surface_material_override/0 = SubResource("StandardMaterial3D_bbars")
+
+[node name="SoilRidge_3" type="MeshInstance3D" parent="." unique_id=825654562]
+transform = Transform3D(0.9, 0, 0, 0, 1.5, 0, 0, 0, 0.9, 8, 0, -5.5)
+mesh = ExtResource("20_4h14u")
+surface_material_override/0 = SubResource("StandardMaterial3D_bbars")
+
+[node name="SoilRidge_4" type="MeshInstance3D" parent="." unique_id=239807737]
+transform = Transform3D(-3.059797e-08, 0, 0.8, 0, 1.4, 0, -0.7, 0, -3.4969112e-08, 10.5, 0, -1.2)
+mesh = ExtResource("20_4h14u")
+surface_material_override/0 = SubResource("StandardMaterial3D_bbars")
+
+[node name="SoilRidge_5" type="MeshInstance3D" parent="." unique_id=1089927510]
+transform = Transform3D(0.85, 0, 0, 0, 1.4, 0, 0, 0, 0.85, 3.5, 0, 5.2)
+mesh = ExtResource("20_4h14u")
+surface_material_override/0 = SubResource("StandardMaterial3D_bbars")
