@@ -41,9 +41,9 @@ func _ready() -> void:
 	var img2 := get_viewport().get_texture().get_image()
 	img2.save_png("C:/Users/maxri/.gemini/antigravity/brain/c4b57433-d9b8-4684-a230-f8ebc51e9a53/showcase_entrance_detail.png")
 	
-	# 3. Cinematic Angle of the New Smooth Curved Brick Path leading to the House Door
-	close_cam.position = Vector3(-4.5, 3.8, -7.5)
-	close_cam.look_at(Vector3(-1.0, 1.2, -22.0), Vector3.UP)
+	# 3. Cinematic Angle of the Cottage Veranda, Shutters, Brick Wall, and Wildflowers
+	close_cam.position = Vector3(-6.0, 4.2, -4.0)
+	close_cam.look_at(Vector3(0.0, 3.5, -20.0), Vector3.UP)
 	close_cam.fov = 60.0
 	await get_tree().create_timer(0.3).timeout
 	var img3 := get_viewport().get_texture().get_image()

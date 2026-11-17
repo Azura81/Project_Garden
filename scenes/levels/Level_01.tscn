@@ -10,17 +10,33 @@
 [ext_resource type="PackedScene" uid="uid://cxkn68a2pdmvw" path="res://scenes/ui/RadialMenu.tscn" id="8_radial"]
 [ext_resource type="Texture2D" path="res://assets/textures/ground_soil.png" id="9_soil"]
 [ext_resource type="Texture2D" path="res://assets/textures/path_ground.jpg" id="10_path_tex"]
-[ext_resource type="PackedScene" uid="uid://cx6e78qj4m85y" path="res://scenes/environment/GardenBackdrop.tscn" id="11_backdrop"]
+[ext_resource type="PackedScene" path="res://scenes/environment/GardenBackdrop.tscn" id="11_backdrop"]
 [ext_resource type="PackedScene" uid="uid://c7k9v1m8q2x5r" path="res://scenes/environment/BeetBorder.tscn" id="12_border"]
 [ext_resource type="PackedScene" uid="uid://b8k1m3p4v9o2w" path="res://scenes/environment/GoldenSprout.tscn" id="13_sprout"]
 [ext_resource type="Script" path="res://scripts/levels/PathArrow.gd" id="14_arrow"]
 
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ghibli"]
+sky_top_color = Color(0.48, 0.68, 0.86, 1)
+sky_horizon_color = Color(0.92, 0.88, 0.8, 1)
+ground_bottom_color = Color(0.24, 0.36, 0.18, 1)
+ground_horizon_color = Color(0.85, 0.82, 0.75, 1)
+energy_multiplier = 1.05
+
+[sub_resource type="Sky" id="Sky_main"]
+sky_material = SubResource("ProceduralSkyMaterial_ghibli")
+
 [sub_resource type="Environment" id="Environment_main"]
-background_mode = 1
-background_color = Color(0.72, 0.83, 0.88, 1)
-ambient_light_source = 2
-ambient_light_color = Color(0.96, 0.91, 0.82, 1)
-ambient_light_energy = 0.88
+background_mode = 2
+sky = SubResource("Sky_main")
+ambient_light_source = 3
+ambient_light_color = Color(0.95, 0.91, 0.82, 1)
+ambient_light_sky_contribution = 0.65
+ambient_light_energy = 0.95
+tonemap_mode = 2
+tonemap_exposure = 1.05
+glow_enabled = true
+glow_bloom = 0.12
+glow_hdr_threshold = 1.0
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_ground"]
 size = Vector2(32, 16)
@@ -70,11 +86,12 @@ environment = SubResource("Environment_main")
 [node name="GardenBackdrop" parent="." instance=ExtResource("11_backdrop")]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.866025, -0.353553, 0.353553, 0, 0.707107, 0.707107, -0.5, -0.612372, 0.612372, 6, 14, 6)
-light_color = Color(1, 0.93, 0.8, 1)
-light_energy = 1.25
+transform = Transform3D(0.707107, -0.353553, 0.612372, 0, 0.866025, 0.5, -0.707107, -0.353553, 0.612372, -10, 15, 10)
+light_color = Color(1, 0.95, 0.82, 1)
+light_energy = 1.35
 shadow_enabled = true
-shadow_bias = 0.04
+shadow_bias = 0.03
+shadow_blur = 1.6
 
 [node name="Ground" type="MeshInstance3D" parent="."]
 mesh = SubResource("PlaneMesh_ground")
@@ -85,11 +102,11 @@ surface_material_override/0 = SubResource("StandardMaterial3D_dirt")
 [node name="CameraRig" type="Node3D" parent="." node_paths=PackedStringArray("camera")]
 script = ExtResource("4_cam")
 camera = NodePath("Camera3D")
-tactical_position = Vector3(0, 18, 23.5)
-tactical_rotation_deg = Vector3(-33, 0, 0)
+tactical_position = Vector3(0, 9.2, 16.5)
+tactical_rotation_deg = Vector3(-25, 0, 0)
 
 [node name="Camera3D" type="Camera3D" parent="CameraRig"]
-transform = Transform3D(1, 0, 0, 0, 0.838671, 0.544639, 0, -0.544639, 0.838671, 0, 18, 23.5)
+transform = Transform3D(1, 0, 0, 0, 0.906308, 0.422618, 0, -0.422618, 0.906308, 0, 9.2, 16.5)
 current = true
 
 [node name="Path3D" type="Path3D" parent="."]

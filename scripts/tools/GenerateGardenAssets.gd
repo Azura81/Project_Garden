@@ -14,7 +14,8 @@ func _init() -> void:
 	_generate_garden_bush()
 	_generate_detailed_tree()
 	_generate_mushroom_cluster()
-	print("Garden assets regenerated with grass tufts, bushes, detailed trees, and mushrooms.")
+	_generate_wildflower()
+	print("Garden assets regenerated with grass tufts, bushes, detailed trees, mushrooms, and wildflowers.")
 	quit()
 
 # -------------------------------------------------------------
@@ -838,4 +839,149 @@ func _add_single_mushroom(verts: Array[Vector3], faces_stem: Array[PackedInt32Ar
 		faces_cap.append(PackedInt32Array([mid_ring[i], tip_idx, mid_ring[ni]]))
 		# Underside face to stem top
 		faces_cap.append(PackedInt32Array([rim_ring[i], rim_ring[ni], prev_ring[i % 6]]))
+
+# -------------------------------------------------------------
+# 12. WILDFLOWER CLUSTER (Dandelions & Field Daisies)
+# -------------------------------------------------------------
+func _generate_wildflower() -> void:
+	var path := "res://assets/models/wildflower_cluster.obj"
+	var verts: Array[Vector3] = []
+	var faces_stem: Array[PackedInt32Array] = []
+	var faces_puff: Array[PackedInt32Array] = []
+	var faces_petals: Array[PackedInt32Array] = []
+	var faces_center: Array[PackedInt32Array] = []
+
+	# 1. Dandelion Puffball Stem & Head
+	var puff_head := _add_curved_flower_stem(verts, faces_stem, Vector3(0, 0, 0), Vector3(0.04, 0.65, 0.02), 0.028, 0.018)
+	_add_puffball_sphere(verts, faces_puff, puff_head, 0.18)
+
+	# 2. Open Daisy Stem & Head
+	var daisy_head := _add_curved_flower_stem(verts, faces_stem, Vector3(0.18, 0, 0.12), Vector3(0.24, 0.52, 0.15), 0.024, 0.015)
+	_add_daisy_flower(verts, faces_petals, faces_center, daisy_head, Vector3(0.2, 0.95, 0.2).normalized(), 0.16)
+
+	# 3. Small Budding Wildflower
+	var small_head := _add_curved_flower_stem(verts, faces_stem, Vector3(-0.16, 0, 0.08), Vector3(-0.22, 0.38, 0.12), 0.022, 0.014)
+	_add_daisy_flower(verts, faces_petals, faces_center, small_head, Vector3(-0.3, 0.9, 0.2).normalized(), 0.11)
+
+	# 4. Basal Serrated Leaves
+	_add_serrated_ground_leaf(verts, faces_stem, Vector3(0, 0, 0), Vector3(-0.32, 0.05, 0.15), 0.35, 0.09)
+	_add_serrated_ground_leaf(verts, faces_stem, Vector3(0, 0, 0), Vector3(0.28, 0.05, -0.2), 0.32, 0.085)
+	_add_serrated_ground_leaf(verts, faces_stem, Vector3(0, 0, 0), Vector3(-0.1, 0.04, -0.28), 0.3, 0.08)
+
+	var f := FileAccess.open(path, FileAccess.WRITE)
+	f.store_line("# Painterly Wildflower Cluster")
+	for v in verts:
+		f.store_line("v %.4f %.4f %.4f" % [v.x, v.y, v.z])
+	f.store_line("g FlowerStem")
+	f.store_line("usemtl FlowerStemMat")
+	for tri in faces_stem:
+		f.store_line("f %d %d %d" % [tri[0], tri[1], tri[2]])
+	f.store_line("g DandelionPuff")
+	f.store_line("usemtl DandelionPuffMat")
+	for tri in faces_puff:
+		f.store_line("f %d %d %d" % [tri[0], tri[1], tri[2]])
+	f.store_line("g DaisyPetal")
+	f.store_line("usemtl DaisyPetalMat")
+	for tri in faces_petals:
+		f.store_line("f %d %d %d" % [tri[0], tri[1], tri[2]])
+	f.store_line("g DaisyCenter")
+	f.store_line("usemtl DaisyCenterMat")
+	for tri in faces_center:
+		f.store_line("f %d %d %d" % [tri[0], tri[1], tri[2]])
+	f.close()
+
+func _add_curved_flower_stem(verts: Array[Vector3], faces: Array[PackedInt32Array], base_pos: Vector3, top_pos: Vector3, r_base: float, r_top: float) -> Vector3:
+	var mid1 := base_pos.lerp(top_pos, 0.33) + Vector3(0.03, 0, 0.02)
+	var mid2 := base_pos.lerp(top_pos, 0.66) - Vector3(0.02, 0, 0.03)
+	var spine := [base_pos, mid1, mid2, top_pos]
+	var prev_ring: Array[int] = []
+	for p in range(4):
+		var cp: Vector3 = spine[p]
+		var r := lerpf(r_base, r_top, float(p) / 3.0)
+		var ring: Array[int] = []
+		for i in range(5):
+			var a := float(i) * TAU / 5.0
+			ring.append(_add_vert(verts, cp + Vector3(cos(a) * r, 0, sin(a) * r)))
+		if p > 0:
+			for i in range(5):
+				var ni := (i + 1) % 5
+				faces.append(PackedInt32Array([prev_ring[i], ring[i], ring[ni]]))
+				faces.append(PackedInt32Array([prev_ring[i], ring[ni], prev_ring[ni]]))
+		prev_ring = ring
+	return top_pos
+
+func _add_puffball_sphere(verts: Array[Vector3], faces: Array[PackedInt32Array], center: Vector3, radius: float) -> void:
+	# Low-poly faceted puffball (3 latitude rings, 8 segments)
+	var rings: Array[Array] = []
+	for lat in range(1, 4):
+		var phi := float(lat) * PI / 4.0
+		var ring: Array[int] = []
+		for lon in range(8):
+			var theta := float(lon) * TAU / 8.0
+			var r_fac := 1.0 + (float((lon + lat) % 3) - 1.0) * 0.08 # faceted fuzz
+			var offset := Vector3(sin(phi) * cos(theta), cos(phi), sin(phi) * sin(theta)) * radius * r_fac
+			ring.append(_add_vert(verts, center + offset))
+		rings.append(ring)
+	var top_pt := _add_vert(verts, center + Vector3(0, radius, 0))
+	var bot_pt := _add_vert(verts, center - Vector3(0, radius, 0))
+	for i in range(8):
+		var ni := (i + 1) % 8
+		faces.append(PackedInt32Array([top_pt, (rings[0] as Array)[ni], (rings[0] as Array)[i]]))
+		faces.append(PackedInt32Array([bot_pt, (rings[2] as Array)[i], (rings[2] as Array)[ni]]))
+	for r in range(2):
+		var r1: Array = rings[r]
+		var r2: Array = rings[r + 1]
+		for i in range(8):
+			var ni := (i + 1) % 8
+			faces.append(PackedInt32Array([r1[ni], r2[i], r1[i]]))
+			faces.append(PackedInt32Array([r1[ni], r2[ni], r2[i]]))
+
+func _add_daisy_flower(verts: Array[Vector3], faces_petals: Array[PackedInt32Array], faces_center: Array[PackedInt32Array], pos: Vector3, normal: Vector3, radius: float) -> void:
+	var tangent := normal.cross(Vector3.UP).normalized()
+	if tangent.length_squared() < 0.1:
+		tangent = normal.cross(Vector3.RIGHT).normalized()
+	var binormal := normal.cross(tangent).normalized()
+
+	# Center dome
+	var center_pt := _add_vert(verts, pos + normal * 0.03)
+	var center_ring: Array[int] = []
+	var cr := radius * 0.35
+	for i in range(6):
+		var a := float(i) * TAU / 6.0
+		center_ring.append(_add_vert(verts, pos + (tangent * cos(a) + binormal * sin(a)) * cr))
+	for i in range(6):
+		var ni := (i + 1) % 6
+		faces_center.append(PackedInt32Array([center_pt, center_ring[i], center_ring[ni]]))
+
+	# 8 Radiating white/cream petals
+	for p in range(8):
+		var a := float(p) * TAU / 8.0
+		var dir := tangent * cos(a) + binormal * sin(a)
+		var perp := tangent * -sin(a) + binormal * cos(a)
+		var b_l := _add_vert(verts, pos + dir * cr - perp * (cr * 0.3))
+		var b_r := _add_vert(verts, pos + dir * cr + perp * (cr * 0.3))
+		var tip := _add_vert(verts, pos + dir * radius + normal * 0.015)
+		faces_petals.append(PackedInt32Array([b_l, tip, b_r]))
+
+func _add_serrated_ground_leaf(verts: Array[Vector3], faces: Array[PackedInt32Array], base_pos: Vector3, tip_offset: Vector3, length: float, width: float) -> void:
+	var dir := tip_offset.normalized()
+	var side := dir.cross(Vector3.UP).normalized()
+	var steps := 3
+	var prev_l := _add_vert(verts, base_pos)
+	var prev_r := prev_l
+	for i in range(1, steps + 1):
+		var t := float(i) / float(steps)
+		var cp := base_pos + dir * (length * t) + Vector3(0, sin(t * PI) * 0.04, 0)
+		var w := sin(t * PI) * width * 0.5
+		if i == steps:
+			var tip := _add_vert(verts, cp)
+			faces.append(PackedInt32Array([prev_l, tip, prev_r]))
+		else:
+			var l := _add_vert(verts, cp - side * w)
+			var r := _add_vert(verts, cp + side * w)
+			faces.append(PackedInt32Array([prev_l, l, r]))
+			faces.append(PackedInt32Array([prev_l, r, prev_r]))
+			prev_l = l
+			prev_r = r
+
 
