@@ -1,0 +1,45 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/environment/Butterfly.gd" id="1_bf_script"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_body"]
+albedo_color = Color(0.18, 0.14, 0.1, 1)
+roughness = 0.8
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_body"]
+material = SubResource("StandardMaterial3D_body")
+radius = 0.022
+height = 0.15
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wing"]
+cull_mode = 2
+albedo_color = Color(1, 0.96, 0.78, 1)
+roughness = 0.6
+emission_enabled = true
+emission = Color(0.98, 0.9, 0.65, 1)
+emission_energy_multiplier = 0.15
+
+[sub_resource type="BoxMesh" id="BoxMesh_wing"]
+material = SubResource("StandardMaterial3D_wing")
+size = Vector3(0.2, 0.005, 0.16)
+
+[node name="Butterfly" type="Node3D"]
+script = ExtResource("1_bf_script")
+
+[node name="Body" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_body")
+
+[node name="WingLeft" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.02, 0.01, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WingLeft"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 0, 0)
+mesh = SubResource("BoxMesh_wing")
+
+[node name="WingRight" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.02, 0.01, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WingRight"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 0, 0)
+mesh = SubResource("BoxMesh_wing")

@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_smoke"]
+transparency = 1
+albedo_color = Color(0.96, 0.94, 0.9, 0.35)
+roughness = 1.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_smoke"]
+material = SubResource("StandardMaterial3D_smoke")
+radius = 0.5
+height = 1.0
+
+[sub_resource type="Curve" id="Curve_smoke_scale"]
+_data = [Vector2(0, 0.3), 0.0, 1.2, 0, 0, Vector2(1, 1.8), 0.8, 0.0, 0, 0]
+point_count = 2
+
+[node name="ChimneySmoke" type="CPUParticles3D"]
+amount = 22
+lifetime = 4.5
+preprocess = 3.0
+mesh = SubResource("SphereMesh_smoke")
+direction = Vector3(0.35, 1, 0.1)
+spread = 15.0
+gravity = Vector3(0.08, -0.1, 0.04)
+initial_velocity_min = 1.8
+initial_velocity_max = 2.6
+damping_min = 0.3
+damping_max = 0.5
+scale_amount_curve = SubResource("Curve_smoke_scale")

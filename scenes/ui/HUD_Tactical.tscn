@@ -41,28 +41,42 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -340.0
-offset_bottom = 80.0
+offset_left = -380.0
+offset_bottom = 110.0
 grow_horizontal = 0
 mouse_filter = 2
 theme_override_constants/margin_top = 24
 theme_override_constants/margin_right = 24
 
-[node name="HBoxContainer" type="HBoxContainer" parent="TopRight"]
+[node name="VBoxContainer" type="VBoxContainer" parent="TopRight"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 4
+alignment = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TopRight/VBoxContainer"]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 16
+alignment = 2
 
-[node name="LabelWave" type="Label" parent="TopRight/HBoxContainer"]
+[node name="LabelWave" type="Label" parent="TopRight/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 26
 text = "Welle: 0/4"
 
-[node name="BtnSpeed" type="Button" parent="TopRight/HBoxContainer"]
+[node name="BtnSpeed" type="Button" parent="TopRight/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(64, 40)
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "1x"
+
+[node name="LabelWavePreview" type="Label" parent="TopRight/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.92, 0.65, 0.95)
+theme_override_font_sizes/font_size = 17
+text = "Nächste: 4x 🐌 Gartenschnecke"
+horizontal_alignment = 2
 
 [node name="BottomCenter" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -71,16 +85,16 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -120.0
+offset_left = -140.0
 offset_top = -90.0
-offset_right = 120.0
+offset_right = 140.0
 grow_horizontal = 2
 grow_vertical = 0
 mouse_filter = 2
 theme_override_constants/margin_bottom = 32
 
 [node name="BtnStartWave" type="Button" parent="BottomCenter"]
-custom_minimum_size = Vector2(240, 54)
+custom_minimum_size = Vector2(280, 54)
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
-text = "Welle starten 🌻"
+theme_override_font_sizes/font_size = 22
+text = "Welle starten 🌻 (Leertaste)"

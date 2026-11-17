@@ -130,6 +130,7 @@ func _play_shoot_sound() -> void:
 func _spawn_thorn_at_target(target: Node3D) -> void:
 	if not ThornProjectileScene:
 		return
+	_trigger_shoot_recoil()
 	var proj := ThornProjectileScene.instantiate() as Node3D
 	get_tree().current_scene.add_child(proj)
 	proj.global_position = first_person_mount.global_position
@@ -139,11 +140,20 @@ func _spawn_thorn_at_target(target: Node3D) -> void:
 func _spawn_thorn_direction(from_pos: Vector3, to_pos: Vector3) -> void:
 	if not ThornProjectileScene:
 		return
+	_trigger_shoot_recoil()
 	var proj := ThornProjectileScene.instantiate() as Node3D
 	get_tree().current_scene.add_child(proj)
 	proj.global_position = from_pos
 	if proj.has_method("setup_direction"):
 		proj.call("setup_direction", to_pos, self, attack_damage * 1.25)
+
+func _trigger_shoot_recoil() -> void:
+	var mesh_node: Node3D = get_node_or_null("FacetedRoseMesh")
+	if not mesh_node:
+		return
+	var tw := create_tween().set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tw.tween_property(mesh_node, "scale", Vector3(1.16, 0.82, 1.16), 0.06)
+	tw.tween_property(mesh_node, "scale", Vector3.ONE, 0.24)
 
 func trigger_special_ability() -> void:
 	if special_timer > 0.0:

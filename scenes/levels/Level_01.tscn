@@ -22,6 +22,9 @@
 [ext_resource type="Script" path="res://scripts/ui/HUDFirstPerson.gd" id="17_0rjyr"]
 [ext_resource type="Script" path="res://scripts/ui/RadialMenu.gd" id="19_0k37p"]
 [ext_resource type="ArrayMesh" path="res://assets/models/soil_ridges.obj" id="20_4h14u"]
+[ext_resource type="PackedScene" path="res://scenes/effects/RangeIndicator.tscn" id="21_range"]
+[ext_resource type="PackedScene" path="res://scenes/environment/SunPollen.tscn" id="22_pollen"]
+[ext_resource type="PackedScene" path="res://scenes/environment/Butterfly.tscn" id="23_bfly"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ghibli"]
 sky_top_color = Color(0.48, 0.68, 0.86, 1)
@@ -237,6 +240,12 @@ spot_id = 4
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.5, 0, 6)
 script = ExtResource("13_x6f5j")
 spot_id = 5
+
+[node name="RangeIndicator" parent="." instance=ExtResource("21_range")]
+
+[node name="SunPollen" parent="." instance=ExtResource("22_pollen")]
+
+[node name="Butterfly" parent="." instance=ExtResource("23_bfly")]
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=1929011447]
 

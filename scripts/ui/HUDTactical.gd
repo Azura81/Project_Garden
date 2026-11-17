@@ -1,13 +1,21 @@
 class_name HUDTactical
 extends Control
 
-## HUDTactical: Benutzeroberfläche im Taktik-Modus (Vogelperspektive).
+## HUDTactical: Benutzeroberfläche im Taktik-Modus mit Wellenvorschau & Geschwindigkeitsregelung.
 
 @onready var label_dewdrops: Label = $TopLeft/HBoxContainer/LabelDewdrops
 @onready var bar_core_hp: ProgressBar = $TopLeft/HBoxContainer/BarCoreHP
-@onready var label_wave: Label = $TopRight/HBoxContainer/LabelWave
-@onready var btn_speed: Button = $TopRight/HBoxContainer/BtnSpeed
+@onready var label_wave: Label = $TopRight/VBoxContainer/HBoxContainer/LabelWave
+@onready var btn_speed: Button = $TopRight/VBoxContainer/HBoxContainer/BtnSpeed
+@onready var label_wave_preview: Label = $TopRight/VBoxContainer/LabelWavePreview
 @onready var btn_start_wave: Button = $BottomCenter/BtnStartWave
+
+const WAVE_INFOS = {
+	0: "Nächste: 4x 🐌 Gartenschnecke (Gemächlich)",
+	1: "Nächste: 7x 🐌 Gartenschnecke (Flink)",
+	2: "Nächste: 10x 🐌 Schneckenschwarm!",
+	3: "⚠️ FINALE: 13x 🐌 Schnecken-Großangriff!"
+}
 
 func _ready() -> void:
 	GameManager.dewdrops_changed.connect(_on_dewdrops_changed)
@@ -35,6 +43,20 @@ func _update_all() -> void:
 		label_wave.text = "Welle: " + str(GameManager.current_wave) + "/" + str(GameManager.total_waves)
 	if btn_start_wave:
 		btn_start_wave.disabled = GameManager.is_wave_active
+	_update_wave_preview(GameManager.current_wave)
+
+func _update_wave_preview(current_w: int) -> void:
+	if not label_wave_preview:
+		return
+	if GameManager.is_wave_active:
+		label_wave_preview.text = "⚔️ Angriff im Gange..."
+		label_wave_preview.add_theme_color_override("font_color", Color(1.0, 0.6, 0.4, 0.95))
+	elif current_w >= GameManager.total_waves:
+		label_wave_preview.text = "🎉 Alle Wellen abgewehrt!"
+		label_wave_preview.add_theme_color_override("font_color", Color(0.6, 1.0, 0.5, 0.95))
+	else:
+		label_wave_preview.text = WAVE_INFOS.get(current_w, "Nächste Welle vorbereiten")
+		label_wave_preview.add_theme_color_override("font_color", Color(1.0, 0.92, 0.65, 0.95))
 
 func _on_dewdrops_changed(amount: int) -> void:
 	if label_dewdrops:
@@ -50,10 +72,12 @@ func _on_wave_started(current: int, total: int) -> void:
 		label_wave.text = "Welle: " + str(current) + "/" + str(total)
 	if btn_start_wave:
 		btn_start_wave.disabled = true
+	_update_wave_preview(current)
 
-func _on_wave_completed(_wave: int) -> void:
+func _on_wave_completed(wave_idx: int) -> void:
 	if btn_start_wave:
 		btn_start_wave.disabled = false
+	_update_wave_preview(wave_idx)
 
 func _on_speed_changed(mult: float) -> void:
 	if btn_speed:

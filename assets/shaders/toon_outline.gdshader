@@ -16,6 +16,9 @@ uniform float rim_threshold : hint_range(0.0, 1.0) = 0.55;
 uniform float wind_strength : hint_range(0.0, 0.2) = 0.035;
 uniform float wind_speed : hint_range(0.0, 5.0) = 2.2;
 
+uniform float hit_flash : hint_range(0.0, 1.0) = 0.0;
+uniform vec4 flash_color : source_color = vec4(1.0, 1.0, 1.0, 1.0);
+
 varying float v_y;
 varying vec3 v_normal;
 
@@ -45,7 +48,8 @@ void fragment() {
 	float rim = smoothstep(1.0 - rim_threshold, 1.0, fresnel);
 	grad_rgb = mix(grad_rgb, rim_color.rgb, rim * 0.28);
 	
-	ALBEDO = grad_rgb;
+	ALBEDO = mix(grad_rgb, flash_color.rgb, hit_flash);
+	EMISSION = flash_color.rgb * (hit_flash * 0.75);
 	ROUGHNESS = 0.82;
 	METALLIC = 0.0;
 }

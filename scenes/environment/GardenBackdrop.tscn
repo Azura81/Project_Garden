@@ -17,6 +17,7 @@
 [ext_resource type="ArrayMesh" path="res://assets/models/grass_tuft.obj" id="13_6711h"]
 [ext_resource type="ArrayMesh" path="res://assets/models/apple_tree.obj" id="13_jd6k4"]
 [ext_resource type="ArrayMesh" path="res://assets/models/rain_barrel.obj" id="14_6i730"]
+[ext_resource type="PackedScene" path="res://scenes/environment/ChimneySmoke.tscn" id="15_smoke"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_4r8qd"]
 size = Vector2(220, 220)
@@ -505,6 +506,9 @@ surface_material_override/0 = SubResource("StandardMaterial3D_e2kmc")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 24.7, -32)
 mesh = SubResource("BoxMesh_tb5vq")
 surface_material_override/0 = SubResource("StandardMaterial3D_x3iun")
+
+[node name="ChimneySmoke" parent="." instance=ExtResource("15_smoke")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 25.8, -32)
 
 [node name="Porch_Foundation" type="MeshInstance3D" parent="." unique_id=1093696205]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, -18.7)
