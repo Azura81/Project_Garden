@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3 uid="uid://cx6e78qj4m85y"]
+[gd_scene load_steps=48 format=3 uid="uid://cx6e78qj4m85y"]
 
 [ext_resource type="ArrayMesh" path="res://assets/models/picket_fence.obj" id="1_fence_mesh"]
 [ext_resource type="ArrayMesh" path="res://assets/models/watering_can.obj" id="2_can_mesh"]
@@ -6,6 +6,10 @@
 [ext_resource type="ArrayMesh" path="res://assets/models/river_stones.obj" id="4_stones_mesh"]
 [ext_resource type="Shader" path="res://assets/shaders/toon_outline.gdshader" id="5_toon_shd"]
 [ext_resource type="Shader" path="res://assets/shaders/outline_pass.gdshader" id="6_outl_shd"]
+[ext_resource type="Texture2D" path="res://assets/textures/path_ground.jpg" id="7_gravel_tex"]
+[ext_resource type="ArrayMesh" path="res://assets/models/grass_tuft.obj" id="8_grass_mesh"]
+[ext_resource type="ArrayMesh" path="res://assets/models/garden_bush.obj" id="9_bush_mesh"]
+[ext_resource type="ArrayMesh" path="res://assets/models/detailed_tree.obj" id="10_tree_mesh"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_grass"]
 albedo_color = Color(0.36, 0.58, 0.24, 1)
@@ -104,6 +108,32 @@ roughness = 0.85
 material = SubResource("StandardMaterial3D_path_flagstone")
 size = Vector3(2.6, 0.08, 1.8)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gravel"]
+albedo_color = Color(0.85, 0.80, 0.72, 1)
+albedo_texture = ExtResource("7_gravel_tex")
+uv1_scale = Vector3(1, 4, 1)
+roughness = 0.9
+
+[sub_resource type="BoxMesh" id="BoxMesh_gravel_1"]
+material = SubResource("StandardMaterial3D_gravel")
+size = Vector3(3.4, 0.03, 6)
+
+[sub_resource type="BoxMesh" id="BoxMesh_gravel_2"]
+material = SubResource("StandardMaterial3D_gravel")
+size = Vector3(3.2, 0.03, 6)
+
+[sub_resource type="BoxMesh" id="BoxMesh_gravel_3"]
+material = SubResource("StandardMaterial3D_gravel")
+size = Vector3(3.0, 0.03, 6)
+
+[sub_resource type="BoxMesh" id="BoxMesh_gravel_4"]
+material = SubResource("StandardMaterial3D_gravel")
+size = Vector3(2.8, 0.03, 6.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_gravel_5"]
+material = SubResource("StandardMaterial3D_gravel")
+size = Vector3(2.6, 0.03, 7.5)
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_can_body"]
 albedo_color = Color(0.36, 0.52, 0.42, 1)
 metallic = 0.15
@@ -122,437 +152,551 @@ roughness = 0.85
 albedo_color = Color(0.26, 0.18, 0.12, 1)
 roughness = 0.9
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tree_wood"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tree_bark"]
 albedo_color = Color(0.42, 0.28, 0.18, 1)
-roughness = 0.9
+roughness = 0.88
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_trunk"]
-material = SubResource("StandardMaterial3D_tree_wood")
-top_radius = 0.8
-bottom_radius = 1.3
-height = 11.0
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_outl_foliage"]
+render_priority = 0
+shader = ExtResource("6_outl_shd")
+shader_parameter/outline_color = Color(0.12, 0.22, 0.08, 1)
+shader_parameter/outline_width = 0.014
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_foliage"]
-albedo_color = Color(0.25, 0.54, 0.22, 1)
-roughness = 0.75
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_foliage_canopy"]
+render_priority = 0
+next_pass = SubResource("ShaderMaterial_outl_foliage")
+shader = ExtResource("5_toon_shd")
+shader_parameter/base_color = Color(0.25, 0.54, 0.22, 1)
+shader_parameter/gradient_color = Color(0.58, 0.78, 0.28, 1)
+shader_parameter/shadow_color = Color(0.12, 0.26, 0.1, 1)
+shader_parameter/rim_color = Color(0.82, 0.96, 0.52, 1)
+shader_parameter/gradient_strength = 0.5
+shader_parameter/gradient_min_y = 4.0
+shader_parameter/gradient_max_y = 16.0
+shader_parameter/facet_variation = 0.14
+shader_parameter/rim_threshold = 0.5
+shader_parameter/wind_strength = 0.015
+shader_parameter/wind_speed = 1.6
 
-[sub_resource type="SphereMesh" id="SphereMesh_canopy"]
-material = SubResource("StandardMaterial3D_foliage")
-radius = 6.0
-height = 10.0
+[sub_resource type="SphereMesh" id="SphereMesh_canopy_lobe"]
+material = SubResource("ShaderMaterial_foliage_canopy")
+radius = 4.8
+height = 8.2
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_grass"]
+render_priority = 0
+next_pass = SubResource("ShaderMaterial_outl_foliage")
+shader = ExtResource("5_toon_shd")
+shader_parameter/base_color = Color(0.42, 0.64, 0.22, 1)
+shader_parameter/gradient_color = Color(0.78, 0.82, 0.28, 1)
+shader_parameter/shadow_color = Color(0.22, 0.35, 0.12, 1)
+shader_parameter/rim_color = Color(0.92, 0.96, 0.55, 1)
+shader_parameter/gradient_strength = 0.65
+shader_parameter/gradient_min_y = 0.0
+shader_parameter/gradient_max_y = 1.2
+shader_parameter/facet_variation = 0.12
+shader_parameter/rim_threshold = 0.52
+shader_parameter/wind_strength = 0.04
+shader_parameter/wind_speed = 2.4
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bush"]
+render_priority = 0
+next_pass = SubResource("ShaderMaterial_outl_foliage")
+shader = ExtResource("5_toon_shd")
+shader_parameter/base_color = Color(0.28, 0.52, 0.22, 1)
+shader_parameter/gradient_color = Color(0.58, 0.76, 0.28, 1)
+shader_parameter/shadow_color = Color(0.14, 0.28, 0.12, 1)
+shader_parameter/rim_color = Color(0.78, 0.94, 0.5, 1)
+shader_parameter/gradient_strength = 0.55
+shader_parameter/gradient_min_y = 0.0
+shader_parameter/gradient_max_y = 1.6
+shader_parameter/facet_variation = 0.15
+shader_parameter/rim_threshold = 0.5
+shader_parameter/wind_strength = 0.02
+shader_parameter/wind_speed = 1.8
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_outl_stone"]
+render_priority = 0
+shader = ExtResource("6_outl_shd")
+shader_parameter/outline_color = Color(0.22, 0.22, 0.2, 1)
+shader_parameter/outline_width = 0.012
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_stone"]
+render_priority = 0
+next_pass = SubResource("ShaderMaterial_outl_stone")
+shader = ExtResource("5_toon_shd")
+shader_parameter/base_color = Color(0.6, 0.6, 0.55, 1)
+shader_parameter/gradient_color = Color(0.8, 0.78, 0.72, 1)
+shader_parameter/shadow_color = Color(0.38, 0.38, 0.34, 1)
+shader_parameter/rim_color = Color(0.92, 0.92, 0.88, 1)
+shader_parameter/gradient_strength = 0.45
+shader_parameter/gradient_min_y = 0.0
+shader_parameter/gradient_max_y = 0.6
+shader_parameter/facet_variation = 0.14
+shader_parameter/rim_threshold = 0.5
+shader_parameter/wind_strength = 0.0
+shader_parameter/wind_speed = 0.0
 
 [node name="GardenBackdrop" type="Node3D"]
 
 [node name="Meadow" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
 mesh = SubResource("PlaneMesh_meadow")
+surface_material_override/0 = SubResource("StandardMaterial3D_grass")
 
-[node name="CottageHouse" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -48)
-
-[node name="Plinth" type="MeshInstance3D" parent="CottageHouse"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
+[node name="House_Plinth" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, -48)
 mesh = SubResource("BoxMesh_plinth")
 
-[node name="HouseWalls" type="MeshInstance3D" parent="CottageHouse"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.7, 0)
+[node name="House_Walls" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.7, -48)
 mesh = SubResource("BoxMesh_house_base")
 
-[node name="Roof" type="MeshInstance3D" parent="CottageHouse"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20.2, 0)
+[node name="House_Roof" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20.2, -48)
 mesh = SubResource("PrismMesh_roof")
 
-[node name="Dormer_L" type="Node3D" parent="CottageHouse"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 16.5, 9.5)
-
-[node name="DormerBase" type="MeshInstance3D" parent="CottageHouse/Dormer_L"]
+[node name="House_Dormer_L_Base" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 16.5, -38.5)
 mesh = SubResource("BoxMesh_dormer_base")
 
-[node name="DormerRoof" type="MeshInstance3D" parent="CottageHouse/Dormer_L"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+[node name="House_Dormer_L_Roof" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 19.0, -38.5)
 mesh = SubResource("PrismMesh_dormer_roof")
 
-[node name="DormerWindow" type="MeshInstance3D" parent="CottageHouse/Dormer_L"]
-transform = Transform3D(0.65, 0, 0, 0, 0.65, 0, 0, 0, 0.65, 0, 0, 2.3)
+[node name="House_Dormer_L_Win" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.65, 0, 0, 0, 0.65, 0, 0, 0, 0.65, -14, 16.5, -36.2)
 mesh = SubResource("BoxMesh_window")
 
-[node name="Dormer_R" type="Node3D" parent="CottageHouse"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 16.5, 9.5)
-
-[node name="DormerBase" type="MeshInstance3D" parent="CottageHouse/Dormer_R"]
+[node name="House_Dormer_R_Base" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 16.5, -38.5)
 mesh = SubResource("BoxMesh_dormer_base")
 
-[node name="DormerRoof" type="MeshInstance3D" parent="CottageHouse/Dormer_R"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+[node name="House_Dormer_R_Roof" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 19.0, -38.5)
 mesh = SubResource("PrismMesh_dormer_roof")
 
-[node name="DormerWindow" type="MeshInstance3D" parent="CottageHouse/Dormer_R"]
-transform = Transform3D(0.65, 0, 0, 0, 0.65, 0, 0, 0, 0.65, 0, 0, 2.3)
+[node name="House_Dormer_R_Win" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.65, 0, 0, 0, 0.65, 0, 0, 0, 0.65, 14, 16.5, -36.2)
 mesh = SubResource("BoxMesh_window")
 
-[node name="Chimney" type="MeshInstance3D" parent="CottageHouse"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 21.5, -4)
+[node name="House_Chimney" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 21.5, -52)
 mesh = SubResource("BoxMesh_chimney")
 
-[node name="FrontDoor" type="MeshInstance3D" parent="CottageHouse"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.65, 14.1)
+[node name="House_Door" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.65, -33.9)
 mesh = SubResource("BoxMesh_door")
 
-[node name="Porch" type="Node3D" parent="CottageHouse"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 14)
-
-[node name="Deck" type="MeshInstance3D" parent="CottageHouse/Porch"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 3.5)
+[node name="House_Porch_Deck" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, -30.5)
 mesh = SubResource("BoxMesh_porch")
 
-[node name="Pillar_L" type="MeshInstance3D" parent="CottageHouse/Porch"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.2, 3.2, 6.5)
+[node name="House_Pillar_L" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.2, 3.2, -27.5)
 mesh = SubResource("BoxMesh_porch_pillar")
 
-[node name="Pillar_R" type="MeshInstance3D" parent="CottageHouse/Porch"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.2, 3.2, 6.5)
+[node name="House_Pillar_R" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.2, 3.2, -27.5)
 mesh = SubResource("BoxMesh_porch_pillar")
 
-[node name="PorchRoof" type="MeshInstance3D" parent="CottageHouse/Porch"]
-transform = Transform3D(1, 0, 0, 0, 0.984808, 0.173648, 0, -0.173648, 0.984808, 0, 6.2, 3.5)
+[node name="House_Porch_Roof" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.984808, 0.173648, 0, -0.173648, 0.984808, 0, 6.2, -30.5)
 mesh = SubResource("BoxMesh_porch_roof")
 
-[node name="Window_L1" type="MeshInstance3D" parent="CottageHouse"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 5, 14.1)
+[node name="House_Win_L1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 5, -33.9)
 mesh = SubResource("BoxMesh_window")
 
-[node name="Window_L2" type="MeshInstance3D" parent="CottageHouse"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 5, 14.1)
+[node name="House_Win_L2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 5, -33.9)
 mesh = SubResource("BoxMesh_window")
 
-[node name="Window_R1" type="MeshInstance3D" parent="CottageHouse"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 5, 14.1)
+[node name="House_Win_R1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 5, -33.9)
 mesh = SubResource("BoxMesh_window")
 
-[node name="Window_R2" type="MeshInstance3D" parent="CottageHouse"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 5, 14.1)
+[node name="House_Win_R2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 5, -33.9)
 mesh = SubResource("BoxMesh_window")
 
-[node name="Window_TopL" type="MeshInstance3D" parent="CottageHouse"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 11, 14.1)
+[node name="House_Win_TopL" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 11, -33.9)
 mesh = SubResource("BoxMesh_window")
 
-[node name="Window_TopR" type="MeshInstance3D" parent="CottageHouse"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 11, 14.1)
+[node name="House_Win_TopR" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 11, -33.9)
 mesh = SubResource("BoxMesh_window")
 
-[node name="GardenPath" type="Node3D" parent="."]
+[node name="Kiesweg_1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.015, -31)
+mesh = SubResource("BoxMesh_gravel_1")
 
-[node name="Step1" type="MeshInstance3D" parent="GardenPath"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, -30)
+[node name="Kiesweg_2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, -1.2, 0.015, -25.5)
+mesh = SubResource("BoxMesh_gravel_2")
+
+[node name="Kiesweg_3" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.906308, 0, -0.422618, 0, 1, 0, 0.422618, 0, 0.906308, -3.2, 0.015, -20.2)
+mesh = SubResource("BoxMesh_gravel_3")
+
+[node name="Kiesweg_4" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.819152, 0, -0.573576, 0, 1, 0, 0.573576, 0, 0.819152, -6.5, 0.015, -15.5)
+mesh = SubResource("BoxMesh_gravel_4")
+
+[node name="Kiesweg_5" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -11.5, 0.015, -11.5)
+mesh = SubResource("BoxMesh_gravel_5")
+
+[node name="Step1" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.9, 0, 0.2, 0, 1, 0, -0.2, 0, 0.9, 0, 0.04, -31)
 mesh = SubResource("BoxMesh_flagstone")
 
-[node name="Step2" type="MeshInstance3D" parent="GardenPath"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, -26)
+[node name="Step2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.8, 0, -0.3, 0, 1, 0, 0.3, 0, 0.8, -1.5, 0.04, -25.5)
 mesh = SubResource("BoxMesh_flagstone")
 
-[node name="Step3" type="MeshInstance3D" parent="GardenPath"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, -22)
+[node name="Step3" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.85, 0, -0.25, 0, 1, 0, 0.25, 0, 0.85, -3.5, 0.04, -20.2)
 mesh = SubResource("BoxMesh_flagstone")
 
-[node name="EnclosedGardenFence" type="Node3D" parent="."]
+[node name="Step4" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.75, 0, -0.4, 0, 1, 0, 0.4, 0, 0.75, -7.0, 0.04, -15.5)
+mesh = SubResource("BoxMesh_flagstone")
 
-[node name="NorthFence" type="Node3D" parent="EnclosedGardenFence"]
-
-[node name="F_N1" type="MeshInstance3D" parent="EnclosedGardenFence/NorthFence"]
+[node name="F_N1" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, 0, -20)
 mesh = ExtResource("1_fence_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_fence")
 
-[node name="F_N2" type="MeshInstance3D" parent="EnclosedGardenFence/NorthFence"]
+[node name="F_N2" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 0, -20)
 mesh = ExtResource("1_fence_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_fence")
 
-[node name="F_N3" type="MeshInstance3D" parent="EnclosedGardenFence/NorthFence"]
+[node name="F_N3" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 0, -20)
 mesh = ExtResource("1_fence_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_fence")
 
-[node name="F_N4" type="MeshInstance3D" parent="EnclosedGardenFence/NorthFence"]
+[node name="F_N4" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 0, -20)
 mesh = ExtResource("1_fence_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_fence")
 
-[node name="F_N5" type="MeshInstance3D" parent="EnclosedGardenFence/NorthFence"]
+[node name="F_N5" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -20)
 mesh = ExtResource("1_fence_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_fence")
 
-[node name="F_N6" type="MeshInstance3D" parent="EnclosedGardenFence/NorthFence"]
+[node name="F_N6" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -20)
 mesh = ExtResource("1_fence_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_fence")
 
-[node name="F_N7" type="MeshInstance3D" parent="EnclosedGardenFence/NorthFence"]
+[node name="F_N7" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -20)
 mesh = ExtResource("1_fence_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_fence")
 
-[node name="F_N8" type="MeshInstance3D" parent="EnclosedGardenFence/NorthFence"]
+[node name="F_N8" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, -20)
 mesh = ExtResource("1_fence_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_fence")
 
-[node name="F_N9" type="MeshInstance3D" parent="EnclosedGardenFence/NorthFence"]
+[node name="F_N9" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, -20)
 mesh = ExtResource("1_fence_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_fence")
 
-[node name="F_N10" type="MeshInstance3D" parent="EnclosedGardenFence/NorthFence"]
+[node name="F_N10" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0, -20)
 mesh = ExtResource("1_fence_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_fence")
 
-[node name="F_N11" type="MeshInstance3D" parent="EnclosedGardenFence/NorthFence"]
+[node name="F_N11" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 0, -20)
 mesh = ExtResource("1_fence_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_fence")
 
-[node name="F_N12" type="MeshInstance3D" parent="EnclosedGardenFence/NorthFence"]
+[node name="F_N12" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 0, -20)
 mesh = ExtResource("1_fence_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_fence")
 
-[node name="WestFence" type="Node3D" parent="EnclosedGardenFence"]
-
-[node name="F_W1" type="MeshInstance3D" parent="EnclosedGardenFence/WestFence"]
+[node name="F_W1" type="MeshInstance3D" parent="."]
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -28, 0, -18)
 mesh = ExtResource("1_fence_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_fence")
 
-[node name="F_W2" type="MeshInstance3D" parent="EnclosedGardenFence/WestFence"]
+[node name="F_W2" type="MeshInstance3D" parent="."]
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -28, 0, -14)
 mesh = ExtResource("1_fence_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_fence")
 
-[node name="F_W3" type="MeshInstance3D" parent="EnclosedGardenFence/WestFence"]
+[node name="F_W3" type="MeshInstance3D" parent="."]
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -28, 0, -10)
 mesh = ExtResource("1_fence_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_fence")
 
-[node name="F_W4" type="MeshInstance3D" parent="EnclosedGardenFence/WestFence"]
+[node name="F_W4" type="MeshInstance3D" parent="."]
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -28, 0, -6)
 mesh = ExtResource("1_fence_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_fence")
 
-[node name="F_W5" type="MeshInstance3D" parent="EnclosedGardenFence/WestFence"]
+[node name="F_W5" type="MeshInstance3D" parent="."]
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -28, 0, -2)
 mesh = ExtResource("1_fence_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_fence")
 
-[node name="F_W6" type="MeshInstance3D" parent="EnclosedGardenFence/WestFence"]
+[node name="F_W6" type="MeshInstance3D" parent="."]
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -28, 0, 2)
 mesh = ExtResource("1_fence_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_fence")
 
-[node name="F_W7" type="MeshInstance3D" parent="EnclosedGardenFence/WestFence"]
+[node name="F_W7" type="MeshInstance3D" parent="."]
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -28, 0, 6)
 mesh = ExtResource("1_fence_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_fence")
 
-[node name="F_W8" type="MeshInstance3D" parent="EnclosedGardenFence/WestFence"]
+[node name="F_W8" type="MeshInstance3D" parent="."]
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -28, 0, 10)
 mesh = ExtResource("1_fence_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_fence")
 
-[node name="F_W9" type="MeshInstance3D" parent="EnclosedGardenFence/WestFence"]
+[node name="F_W9" type="MeshInstance3D" parent="."]
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -28, 0, 14)
 mesh = ExtResource("1_fence_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_fence")
 
-[node name="EastFence" type="Node3D" parent="EnclosedGardenFence"]
-
-[node name="F_E1" type="MeshInstance3D" parent="EnclosedGardenFence/EastFence"]
+[node name="F_E1" type="MeshInstance3D" parent="."]
 transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 28, 0, -18)
 mesh = ExtResource("1_fence_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_fence")
 
-[node name="F_E2" type="MeshInstance3D" parent="EnclosedGardenFence/EastFence"]
+[node name="F_E2" type="MeshInstance3D" parent="."]
 transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 28, 0, -14)
 mesh = ExtResource("1_fence_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_fence")
 
-[node name="F_E3" type="MeshInstance3D" parent="EnclosedGardenFence/EastFence"]
+[node name="F_E3" type="MeshInstance3D" parent="."]
 transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 28, 0, -10)
 mesh = ExtResource("1_fence_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_fence")
 
-[node name="F_E4" type="MeshInstance3D" parent="EnclosedGardenFence/EastFence"]
+[node name="F_E4" type="MeshInstance3D" parent="."]
 transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 28, 0, -6)
 mesh = ExtResource("1_fence_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_fence")
 
-[node name="F_E5" type="MeshInstance3D" parent="EnclosedGardenFence/EastFence"]
+[node name="F_E5" type="MeshInstance3D" parent="."]
 transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 28, 0, -2)
 mesh = ExtResource("1_fence_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_fence")
 
-[node name="F_E6" type="MeshInstance3D" parent="EnclosedGardenFence/EastFence"]
+[node name="F_E6" type="MeshInstance3D" parent="."]
 transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 28, 0, 2)
 mesh = ExtResource("1_fence_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_fence")
 
-[node name="F_E7" type="MeshInstance3D" parent="EnclosedGardenFence/EastFence"]
+[node name="F_E7" type="MeshInstance3D" parent="."]
 transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 28, 0, 6)
 mesh = ExtResource("1_fence_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_fence")
 
-[node name="F_E8" type="MeshInstance3D" parent="EnclosedGardenFence/EastFence"]
+[node name="F_E8" type="MeshInstance3D" parent="."]
 transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 28, 0, 10)
 mesh = ExtResource("1_fence_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_fence")
 
-[node name="F_E9" type="MeshInstance3D" parent="EnclosedGardenFence/EastFence"]
+[node name="F_E9" type="MeshInstance3D" parent="."]
 transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 28, 0, 14)
 mesh = ExtResource("1_fence_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_fence")
 
-[node name="SouthFence" type="Node3D" parent="EnclosedGardenFence"]
-
-[node name="F_S1" type="MeshInstance3D" parent="EnclosedGardenFence/SouthFence"]
+[node name="F_S1" type="MeshInstance3D" parent="."]
 transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -26, 0, 16)
 mesh = ExtResource("1_fence_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_fence")
 
-[node name="F_S2" type="MeshInstance3D" parent="EnclosedGardenFence/SouthFence"]
+[node name="F_S2" type="MeshInstance3D" parent="."]
 transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -22, 0, 16)
 mesh = ExtResource("1_fence_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_fence")
 
-[node name="F_S3" type="MeshInstance3D" parent="EnclosedGardenFence/SouthFence"]
+[node name="F_S3" type="MeshInstance3D" parent="."]
 transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -18, 0, 16)
 mesh = ExtResource("1_fence_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_fence")
 
-[node name="F_S4" type="MeshInstance3D" parent="EnclosedGardenFence/SouthFence"]
+[node name="F_S4" type="MeshInstance3D" parent="."]
 transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -14, 0, 16)
 mesh = ExtResource("1_fence_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_fence")
 
-[node name="F_S5" type="MeshInstance3D" parent="EnclosedGardenFence/SouthFence"]
+[node name="F_S5" type="MeshInstance3D" parent="."]
 transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -10, 0, 16)
 mesh = ExtResource("1_fence_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_fence")
 
-[node name="F_S6" type="MeshInstance3D" parent="EnclosedGardenFence/SouthFence"]
+[node name="F_S6" type="MeshInstance3D" parent="."]
 transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -6, 0, 16)
 mesh = ExtResource("1_fence_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_fence")
 
-[node name="F_S7" type="MeshInstance3D" parent="EnclosedGardenFence/SouthFence"]
+[node name="F_S7" type="MeshInstance3D" parent="."]
 transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -2, 0, 16)
 mesh = ExtResource("1_fence_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_fence")
 
-[node name="F_S8" type="MeshInstance3D" parent="EnclosedGardenFence/SouthFence"]
+[node name="F_S8" type="MeshInstance3D" parent="."]
 transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 2, 0, 16)
 mesh = ExtResource("1_fence_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_fence")
 
-[node name="F_S9" type="MeshInstance3D" parent="EnclosedGardenFence/SouthFence"]
+[node name="F_S9" type="MeshInstance3D" parent="."]
 transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 6, 0, 16)
 mesh = ExtResource("1_fence_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_fence")
 
-[node name="F_S10" type="MeshInstance3D" parent="EnclosedGardenFence/SouthFence"]
+[node name="F_S10" type="MeshInstance3D" parent="."]
 transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 10, 0, 16)
 mesh = ExtResource("1_fence_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_fence")
 
-[node name="F_S11" type="MeshInstance3D" parent="EnclosedGardenFence/SouthFence"]
+[node name="F_S11" type="MeshInstance3D" parent="."]
 transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 14, 0, 16)
 mesh = ExtResource("1_fence_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_fence")
 
-[node name="F_S12" type="MeshInstance3D" parent="EnclosedGardenFence/SouthFence"]
+[node name="F_S12" type="MeshInstance3D" parent="."]
 transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 18, 0, 16)
 mesh = ExtResource("1_fence_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_fence")
 
-[node name="F_S13" type="MeshInstance3D" parent="EnclosedGardenFence/SouthFence"]
+[node name="F_S13" type="MeshInstance3D" parent="."]
 transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 22, 0, 16)
 mesh = ExtResource("1_fence_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_fence")
 
-[node name="F_S14" type="MeshInstance3D" parent="EnclosedGardenFence/SouthFence"]
+[node name="F_S14" type="MeshInstance3D" parent="."]
 transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 26, 0, 16)
 mesh = ExtResource("1_fence_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_fence")
 
-[node name="GardenProps" type="Node3D" parent="."]
-
-[node name="WateringCan" type="MeshInstance3D" parent="GardenProps"]
+[node name="WateringCan" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -21.5, 0, -14.5)
 mesh = ExtResource("2_can_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_can_body")
 surface_material_override/1 = SubResource("StandardMaterial3D_can_handle")
 
-[node name="Pot_Gate_Left" type="MeshInstance3D" parent="GardenProps"]
+[node name="Grass_Can" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, -22.8, 0, -14.8)
+mesh = ExtResource("8_grass_mesh")
+surface_material_override/0 = SubResource("ShaderMaterial_grass")
+
+[node name="Pot_Gate_Left" type="MeshInstance3D" parent="."]
 transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, -4.5, 0, -19.5)
 mesh = ExtResource("3_pot_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_pot")
 surface_material_override/1 = SubResource("StandardMaterial3D_pot_soil")
 
-[node name="Pot_Gate_Right" type="MeshInstance3D" parent="GardenProps"]
+[node name="Grass_Gate_L" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 0, -19.2)
+mesh = ExtResource("8_grass_mesh")
+surface_material_override/0 = SubResource("ShaderMaterial_grass")
+
+[node name="Pot_Gate_Right" type="MeshInstance3D" parent="."]
 transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, 4.5, 0, -19.5)
 mesh = ExtResource("3_pot_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_pot")
 surface_material_override/1 = SubResource("StandardMaterial3D_pot_soil")
 
-[node name="Pot_East" type="MeshInstance3D" parent="GardenProps"]
+[node name="Grass_Gate_R" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5, 0, -19.2)
+mesh = ExtResource("8_grass_mesh")
+surface_material_override/0 = SubResource("ShaderMaterial_grass")
+
+[node name="Pot_East" type="MeshInstance3D" parent="."]
 transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, 21.5, 0, -14.5)
 mesh = ExtResource("3_pot_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_pot")
 surface_material_override/1 = SubResource("StandardMaterial3D_pot_soil")
 
-[node name="Trees" type="Node3D" parent="."]
+[node name="Bush_East_Pot" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 21.5, 0.5, -14.5)
+mesh = ExtResource("9_bush_mesh")
+surface_material_override/0 = SubResource("ShaderMaterial_bush")
 
-[node name="Tree1" type="Node3D" parent="Trees"]
-transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, -36, 0, -26)
+[node name="Tree_Left_Trunk" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.4, 0, 0.3, 0, 1.4, 0, -0.3, 0, 1.4, -25.5, 0, -11.0)
+mesh = ExtResource("10_tree_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_tree_bark")
 
-[node name="Trunk" type="MeshInstance3D" parent="Trees/Tree1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.5, 0)
-mesh = SubResource("CylinderMesh_trunk")
+[node name="Tree_Left_Canopy1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, -25.5, 11.5, -11.0)
+mesh = SubResource("SphereMesh_canopy_lobe")
 
-[node name="Canopy" type="MeshInstance3D" parent="Trees/Tree1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13.5, 0)
-mesh = SubResource("SphereMesh_canopy")
+[node name="Tree_Left_Canopy2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, -29.0, 11.0, -9.5)
+mesh = SubResource("SphereMesh_canopy_lobe")
 
-[node name="Tree2" type="Node3D" parent="Trees"]
-transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 38, 0, -28)
+[node name="Tree_Left_Canopy3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, -22.0, 12.0, -12.5)
+mesh = SubResource("SphereMesh_canopy_lobe")
 
-[node name="Trunk" type="MeshInstance3D" parent="Trees/Tree2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.5, 0)
-mesh = SubResource("CylinderMesh_trunk")
+[node name="Tree_Left_CanopyTop" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.0, 0, 0, 0, 1.0, 0, 0, 0, 1.0, -25.0, 15.0, -10.5)
+mesh = SubResource("SphereMesh_canopy_lobe")
 
-[node name="Canopy" type="MeshInstance3D" parent="Trees/Tree2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13.5, 0)
-mesh = SubResource("SphereMesh_canopy")
+[node name="Tree_Left_Bush1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, -23.8, 0, -10.0)
+mesh = ExtResource("9_bush_mesh")
+surface_material_override/0 = SubResource("ShaderMaterial_bush")
 
-[node name="Tree3" type="Node3D" parent="Trees"]
-transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, -36, 0, 6)
+[node name="Tree_Left_Bush2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, -27.0, 0, -12.5)
+mesh = ExtResource("9_bush_mesh")
+surface_material_override/0 = SubResource("ShaderMaterial_bush")
 
-[node name="Trunk" type="MeshInstance3D" parent="Trees/Tree3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.5, 0)
-mesh = SubResource("CylinderMesh_trunk")
+[node name="Tree_Left_Grass1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.3, 0, 0, 0, 1.3, 0, 0, 0, 1.3, -24.2, 0, -9.0)
+mesh = ExtResource("8_grass_mesh")
+surface_material_override/0 = SubResource("ShaderMaterial_grass")
 
-[node name="Canopy" type="MeshInstance3D" parent="Trees/Tree3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13.5, 0)
-mesh = SubResource("SphereMesh_canopy")
+[node name="Tree_Left_Stones" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, -27.5, 0.05, -10.2)
+mesh = ExtResource("4_stones_mesh")
+surface_material_override/0 = SubResource("ShaderMaterial_stone")
 
-[node name="Tree4" type="Node3D" parent="Trees"]
-transform = Transform3D(1.3, 0, 0, 0, 1.3, 0, 0, 0, 1.3, 38, 0, 8)
+[node name="Tree_Right_Trunk" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1.3, 0, 0.4, 0, 1.4, 0, -0.4, 0, -1.3, 27.5, 0, -9.5)
+mesh = ExtResource("10_tree_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_tree_bark")
 
-[node name="Trunk" type="MeshInstance3D" parent="Trees/Tree4"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.5, 0)
-mesh = SubResource("CylinderMesh_trunk")
+[node name="Tree_Right_Canopy1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, 27.5, 11.5, -9.5)
+mesh = SubResource("SphereMesh_canopy_lobe")
 
-[node name="Canopy" type="MeshInstance3D" parent="Trees/Tree4"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13.5, 0)
-mesh = SubResource("SphereMesh_canopy")
+[node name="Tree_Right_Canopy2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, 24.5, 11.0, -8.0)
+mesh = SubResource("SphereMesh_canopy_lobe")
+
+[node name="Tree_Right_Canopy3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 31.0, 12.0, -11.0)
+mesh = SubResource("SphereMesh_canopy_lobe")
+
+[node name="Tree_Right_Bush" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.3, 0, 0, 0, 1.3, 0, 0, 0, 1.3, 25.8, 0, -8.8)
+mesh = ExtResource("9_bush_mesh")
+surface_material_override/0 = SubResource("ShaderMaterial_bush")
+
+[node name="Tree_Right_Grass" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 28.2, 0, -7.8)
+mesh = ExtResource("8_grass_mesh")
+surface_material_override/0 = SubResource("ShaderMaterial_grass")
+
+[node name="Tree_Right_Stones" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, 29.0, 0.05, -10.0)
+mesh = ExtResource("4_stones_mesh")
+surface_material_override/0 = SubResource("ShaderMaterial_stone")

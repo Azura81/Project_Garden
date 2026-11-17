@@ -1,7 +1,6 @@
 extends Node3D
 
 func _ready() -> void:
-	# Clean up template environment/lights
 	for c in get_children():
 		c.queue_free()
 	await get_tree().process_frame
@@ -31,15 +30,15 @@ func _ready() -> void:
 	var img1 := get_viewport().get_texture().get_image()
 	img1.save_png("C:/Users/maxri/.gemini/antigravity/brain/c4b57433-d9b8-4684-a230-f8ebc51e9a53/showcase_garden_upgrade.png")
 	
-	# 2. Wide Perspective Showcase (Showing the full backyard proportions, fence, watering can & cottage)
-	var prop_cam := Camera3D.new()
-	lvl.add_child(prop_cam)
-	prop_cam.position = Vector3(0, 10.5, 24.0)
-	prop_cam.look_at(Vector3(0, 2.5, -10.0), Vector3.UP)
-	prop_cam.fov = 70.0
-	prop_cam.current = true
+	# 2. Cinematic Close-up Angle of the Snail Entrance Opening, Thicket, and Gravel Path
+	var close_cam := Camera3D.new()
+	lvl.add_child(close_cam)
+	close_cam.position = Vector3(-13.5, 4.5, -0.5)
+	close_cam.look_at(Vector3(-17.5, 0.8, -4.5), Vector3.UP)
+	close_cam.fov = 65.0
+	close_cam.current = true
 	await get_tree().create_timer(0.3).timeout
 	var img2 := get_viewport().get_texture().get_image()
-	img2.save_png("C:/Users/maxri/.gemini/antigravity/brain/c4b57433-d9b8-4684-a230-f8ebc51e9a53/showcase_proportions.png")
+	img2.save_png("C:/Users/maxri/.gemini/antigravity/brain/c4b57433-d9b8-4684-a230-f8ebc51e9a53/showcase_entrance_detail.png")
 	
 	get_tree().quit()

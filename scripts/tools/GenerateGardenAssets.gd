@@ -10,7 +10,10 @@ func _init() -> void:
 	_generate_picket_fence()
 	_generate_watering_can()
 	_generate_flower_pot()
-	print("Garden assets regenerated with fence, watering can, and flower pot.")
+	_generate_grass_tuft()
+	_generate_garden_bush()
+	_generate_detailed_tree()
+	print("Garden assets regenerated with grass tufts, bushes, and detailed trees.")
 	quit()
 
 # -------------------------------------------------------------
@@ -575,6 +578,170 @@ func _generate_flower_pot() -> void:
 	for tri in faces_soil:
 		f.store_line("f %d %d %d" % [tri[0], tri[1], tri[2]])
 	f.close()
+
+# -------------------------------------------------------------
+# 8. GRASS TUFT (Stylized faceted tall garden grass)
+# -------------------------------------------------------------
+func _generate_grass_tuft() -> void:
+	var path := "res://assets/models/grass_tuft.obj"
+	var verts: Array[Vector3] = []
+	var faces: Array[PackedInt32Array] = []
+	
+	var blade_defs := [
+		{"a": 0.2, "h": 1.1, "curve": 0.45, "w": 0.14},
+		{"a": 0.9, "h": 0.85, "curve": 0.38, "w": 0.12},
+		{"a": 1.6, "h": 1.25, "curve": 0.52, "w": 0.15},
+		{"a": 2.3, "h": 0.95, "curve": 0.42, "w": 0.13},
+		{"a": 3.0, "h": 1.15, "curve": 0.48, "w": 0.14},
+		{"a": 3.7, "h": 0.78, "curve": 0.35, "w": 0.11},
+		{"a": 4.4, "h": 1.05, "curve": 0.46, "w": 0.13},
+		{"a": 5.1, "h": 0.9, "curve": 0.4, "w": 0.12},
+		{"a": 5.8, "h": 1.2, "curve": 0.5, "w": 0.15}
+	]
+	
+	for bd in blade_defs:
+		var angle: float = bd.a
+		var h: float = bd.h
+		var curve: float = bd.curve
+		var w: float = bd.w
+		
+		var dir := Vector3(cos(angle), 0, sin(angle))
+		var side := dir.cross(Vector3.UP).normalized()
+		
+		var root_pos := dir * 0.08
+		var mid_pos := root_pos + dir * (curve * 0.5) + Vector3(0, h * 0.55, 0)
+		var tip_pos := root_pos + dir * curve + Vector3(0, h * 0.88, 0)
+		
+		var r_l := _add_vert(verts, root_pos + side * (w * 0.4))
+		var r_r := _add_vert(verts, root_pos - side * (w * 0.4))
+		var m_spine := _add_vert(verts, mid_pos + dir * (w * 0.15))
+		var m_l := _add_vert(verts, mid_pos + side * (w * 0.5))
+		var m_r := _add_vert(verts, mid_pos - side * (w * 0.5))
+		var tip := _add_vert(verts, tip_pos)
+		
+		# Front faces
+		faces.append(PackedInt32Array([r_l, m_l, m_spine]))
+		faces.append(PackedInt32Array([r_l, m_spine, r_r]))
+		faces.append(PackedInt32Array([r_r, m_spine, m_r]))
+		faces.append(PackedInt32Array([m_l, tip, m_spine]))
+		faces.append(PackedInt32Array([m_spine, tip, m_r]))
+		
+		# Back faces
+		faces.append(PackedInt32Array([r_l, m_spine, m_l]))
+		faces.append(PackedInt32Array([r_l, r_r, m_spine]))
+		faces.append(PackedInt32Array([r_r, m_r, m_spine]))
+		faces.append(PackedInt32Array([m_l, m_spine, tip]))
+		faces.append(PackedInt32Array([m_spine, m_r, tip]))
+		
+	var f := FileAccess.open(path, FileAccess.WRITE)
+	f.store_line("# Tall Grass Tuft")
+	for v in verts:
+		f.store_line("v %.4f %.4f %.4f" % [v.x, v.y, v.z])
+	f.store_line("g Grass")
+	f.store_line("usemtl GrassMat")
+	for tri in faces:
+		f.store_line("f %d %d %d" % [tri[0], tri[1], tri[2]])
+	f.close()
+
+# -------------------------------------------------------------
+# 9. GARDEN BUSH (Faceted leafy shrub)
+# -------------------------------------------------------------
+func _generate_garden_bush() -> void:
+	var path := "res://assets/models/garden_bush.obj"
+	var verts: Array[Vector3] = []
+	var faces: Array[PackedInt32Array] = []
+	
+	var lobes := [
+		{"pos": Vector3(0, 0.75, 0), "size": Vector3(0.9, 0.75, 0.85), "rot": 0.2},
+		{"pos": Vector3(0.55, 0.55, 0.35), "size": Vector3(0.75, 0.65, 0.7), "rot": 1.1},
+		{"pos": Vector3(-0.6, 0.5, 0.25), "size": Vector3(0.7, 0.6, 0.75), "rot": 2.2},
+		{"pos": Vector3(0.1, 0.45, -0.65), "size": Vector3(0.75, 0.6, 0.7), "rot": 3.4},
+		{"pos": Vector3(-0.15, 1.15, -0.1), "size": Vector3(0.65, 0.55, 0.6), "rot": 0.7}
+	]
+	
+	for l in lobes:
+		_add_faceted_stone(verts, faces, l.pos, l.size, l.rot)
+		
+	var f := FileAccess.open(path, FileAccess.WRITE)
+	f.store_line("# Garden Bush")
+	for v in verts:
+		f.store_line("v %.4f %.4f %.4f" % [v.x, v.y, v.z])
+	f.store_line("g Bush")
+	f.store_line("usemtl BushFoliageMat")
+	for tri in faces:
+		f.store_line("f %d %d %d" % [tri[0], tri[1], tri[2]])
+	f.close()
+
+# -------------------------------------------------------------
+# 10. DETAILED BRANCHING TREE TRUNK
+# -------------------------------------------------------------
+func _generate_detailed_tree() -> void:
+	var path := "res://assets/models/detailed_tree.obj"
+	var verts: Array[Vector3] = []
+	var faces: Array[PackedInt32Array] = []
+	
+	# Main trunk spine: from ground up to branching point at y=5.5
+	var spine: Array[Vector3] = [
+		Vector3(0, 0, 0),
+		Vector3(0.15, 1.8, -0.1),
+		Vector3(-0.1, 3.6, 0.15),
+		Vector3(0.05, 5.5, 0.0)
+	]
+	var radii := [1.25, 0.95, 0.75, 0.62]
+	var prev_ring: Array[int] = []
+	for p_idx in range(spine.size()):
+		var cp := spine[p_idx]
+		var r: float = radii[p_idx]
+		var cur_ring: Array[int] = []
+		for i in range(8):
+			var a := float(i) * TAU / 8.0
+			var root_flare: float = 1.0
+			if p_idx == 0 and (i % 2 == 0):
+				root_flare = 1.35 # root buttresses at ground
+			verts.append(cp + Vector3(cos(a) * r * root_flare, 0, sin(a) * r * root_flare))
+			cur_ring.append(verts.size())
+		if p_idx > 0:
+			for i in range(8):
+				var ni := (i + 1) % 8
+				faces.append(PackedInt32Array([prev_ring[i], cur_ring[i], cur_ring[ni]]))
+				faces.append(PackedInt32Array([prev_ring[i], cur_ring[ni], prev_ring[ni]]))
+		prev_ring = cur_ring
+		
+	# 3 Branches extending outward from spine[3]
+	_add_tree_limb(verts, faces, spine[3], Vector3(-2.6, 3.8, 1.4), 0.38, 0.18)
+	_add_tree_limb(verts, faces, spine[3], Vector3(2.8, 4.2, -1.2), 0.42, 0.2)
+	_add_tree_limb(verts, faces, spine[3], Vector3(0.5, 4.8, 2.2), 0.36, 0.16)
+	
+	var f := FileAccess.open(path, FileAccess.WRITE)
+	f.store_line("# Detailed Branching Tree")
+	for v in verts:
+		f.store_line("v %.4f %.4f %.4f" % [v.x, v.y, v.z])
+	f.store_line("g TreeTrunk")
+	f.store_line("usemtl TreeTrunkMat")
+	for tri in faces:
+		f.store_line("f %d %d %d" % [tri[0], tri[1], tri[2]])
+	f.close()
+
+func _add_tree_limb(verts: Array[Vector3], faces: Array[PackedInt32Array], start_pos: Vector3, offset: Vector3, r_start: float, r_end: float) -> void:
+	var end_pos := start_pos + offset
+	var dir := offset.normalized()
+	var side := dir.cross(Vector3.UP).normalized()
+	if side.length_squared() < 0.1:
+		side = dir.cross(Vector3.FORWARD).normalized()
+	var up := side.cross(dir).normalized()
+	
+	var b_ring: Array[int] = []
+	var t_ring: Array[int] = []
+	for i in range(6):
+		var a := float(i) * TAU / 6.0
+		var cos_a := cos(a)
+		var sin_a := sin(a)
+		b_ring.append(_add_vert(verts, start_pos + (side * cos_a + up * sin_a) * r_start))
+		t_ring.append(_add_vert(verts, end_pos + (side * cos_a + up * sin_a) * r_end))
+	for i in range(6):
+		var ni := (i + 1) % 6
+		faces.append(PackedInt32Array([b_ring[i], t_ring[i], t_ring[ni]]))
+		faces.append(PackedInt32Array([b_ring[i], t_ring[ni], b_ring[ni]]))
 
 func _add_vert(verts: Array[Vector3], v: Vector3) -> int:
 	verts.append(v)
