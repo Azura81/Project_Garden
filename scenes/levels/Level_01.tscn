@@ -42,12 +42,17 @@ sky_material = SubResource("ProceduralSkyMaterial_ghibli")
 background_mode = 2
 sky = SubResource("Sky_main")
 ambient_light_source = 3
-ambient_light_color = Color(0.92, 0.88, 0.8, 1)
-ambient_light_sky_contribution = 0.65
-ambient_light_energy = 0.52
+ambient_light_color = Color(1, 0.965, 0.878, 1)
+ambient_light_sky_contribution = 0.5
+ambient_light_energy = 0.88
 tonemap_mode = 2
-tonemap_exposure = 0.98
-glow_enabled = false
+tonemap_exposure = 1.0
+glow_enabled = true
+glow_normalized = true
+glow_intensity = 0.4
+glow_bloom = 0.22
+glow_hdr_threshold = 1.05
+glow_hdr_scale = 1.2
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_ground"]
 size = Vector2(32, 16)
@@ -196,11 +201,11 @@ environment = SubResource("Environment_main")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1479602195]
 transform = Transform3D(0.707107, -0.353553, 0.612372, 0, 0.866025, 0.5, -0.707107, -0.353553, 0.612372, -10, 15, 10)
-light_color = Color(1, 0.96, 0.88, 1)
-light_energy = 0.92
+light_color = Color(1, 0.95, 0.87, 1)
+light_energy = 1.15
 shadow_enabled = true
 shadow_bias = 0.03
-shadow_blur = 1.8
+shadow_blur = 1.6
 
 [node name="Ground" type="MeshInstance3D" parent="." unique_id=1000973222]
 mesh = SubResource("PlaneMesh_ground")

@@ -10,11 +10,14 @@ extends Node3D
 @onready var ground_ring: MeshInstance3D = get_node_or_null("GroundRing")
 
 var _base_y: float = 0.0
+var _base_cutout_y: float = 0.35
 var _shake_timer: float = 0.0
 var _prev_hp: int = 100
 
 func _ready() -> void:
 	_base_y = position.y
+	if model:
+		_base_cutout_y = model.position.y
 	_prev_hp = GameManager.core_health
 	if GameManager.has_signal("core_health_changed"):
 		GameManager.core_health_changed.connect(_on_health_changed)
@@ -23,10 +26,10 @@ func _process(delta: float) -> void:
 	var t := Time.get_ticks_msec() * 0.001
 	
 	# Sanftes Atmen / Schweben
-	var bob := sin(t * 1.8) * 0.04
+	var bob := sin(t * 1.8) * 0.05
 	var sway := sin(t * 1.2) * 0.02
 	if model:
-		model.position.y = bob
+		model.position.y = _base_cutout_y + bob
 		model.rotation.z = sway
 		model.rotation.y = sin(t * 0.6) * 0.05
 	

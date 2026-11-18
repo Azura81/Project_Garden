@@ -34,7 +34,7 @@ void fragment() {
 	
 	vec3 tone = mix(col_meadow.rgb, col_sunlit.rgb, blend);
 	
-	ALBEDO = tone * (tex.rgb * 1.4);
+	ALBEDO = tone * mix(vec3(1.0), tex.rgb * 1.6, 0.4);
 	NORMAL_MAP = n_tex;
 	NORMAL_MAP_DEPTH = normal_scale;
 	ROUGHNESS = 0.85;

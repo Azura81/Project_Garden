@@ -29,7 +29,7 @@ outer_radius = 1.25
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_magic"]
 shading_mode = 0
-albedo_color = Color(0.961, 0.816, 0.38, 1)
+albedo_color = Color(1.15, 0.98, 0.52, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_mini"]
 render_priority = 0
@@ -67,3 +67,10 @@ surface_material_override/0 = SubResource("StandardMaterial3D_magic")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0)
 mesh = ExtResource("3_mini_mesh")
 surface_material_override/0 = SubResource("ShaderMaterial_mini")
+
+[node name="SpotLight" type="OmniLight3D" parent="." unique_id=482019482]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 0)
+light_color = Color(0.961, 0.816, 0.38, 1)
+light_energy = 0.8
+omni_range = 2.2
+omni_attenuation = 1.3

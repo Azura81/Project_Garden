@@ -11,6 +11,7 @@ var current_plant: Node3D = null
 @onready var mesh_instance: MeshInstance3D = get_node_or_null("MoundMesh")
 @onready var magic_ring: Node3D = get_node_or_null("MagicRing")
 @onready var idle_sprout: Node3D = get_node_or_null("IdleSprout")
+@onready var spot_light: OmniLight3D = get_node_or_null("SpotLight")
 
 func _ready() -> void:
 	input_ray_pickable = true
@@ -27,6 +28,8 @@ func _process(delta: float) -> void:
 	if idle_sprout:
 		idle_sprout.rotation.y = sin(t * 1.5 + float(spot_id)) * 0.1
 		idle_sprout.position.y = sin(t * 2.0 + float(spot_id)) * 0.015
+	if spot_light:
+		spot_light.light_energy = 0.75 + sin(t * 2.4 + float(spot_id)) * 0.15
 
 func is_empty() -> bool:
 	return current_plant == null
@@ -52,6 +55,8 @@ func _update_visual_state() -> void:
 		magic_ring.visible = empty
 	if idle_sprout:
 		idle_sprout.visible = empty
+	if spot_light:
+		spot_light.visible = empty
 
 func _on_input_event(_camera: Node, event: InputEvent, _pos: Vector3, _normal: Vector3, _shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:

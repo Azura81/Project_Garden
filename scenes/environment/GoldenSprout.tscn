@@ -6,26 +6,26 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/plants/golden_seedling.png" id="4_sprout_tex"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_mound"]
-top_radius = 1.45
-bottom_radius = 1.85
-height = 0.28
+top_radius = 2.4
+bottom_radius = 2.9
+height = 0.35
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mound"]
 albedo_texture = ExtResource("2_spot_tex")
-uv1_scale = Vector3(2.5, 2.5, 1)
+uv1_scale = Vector3(3.5, 3.5, 1)
 roughness = 0.85
 
 [sub_resource type="TorusMesh" id="TorusMesh_ring"]
-inner_radius = 1.15
-outer_radius = 1.3
+inner_radius = 1.95
+outer_radius = 2.35
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ring"]
 shading_mode = 0
-albedo_color = Color(0.961, 0.816, 0.38, 0.95)
+albedo_color = Color(0.961, 0.816, 0.38, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_particle"]
 shading_mode = 0
-albedo_color = Color(1, 0.9, 0.42, 0.9)
+albedo_color = Color(1, 0.92, 0.5, 0.95)
 billboard_mode = 3
 particles_anim_h_frames = 1
 particles_anim_v_frames = 1
@@ -33,31 +33,31 @@ particles_anim_loop = false
 
 [sub_resource type="SphereMesh" id="SphereMesh_particle"]
 material = SubResource("StandardMaterial3D_particle")
-radius = 0.04
-height = 0.08
-radial_segments = 4
-rings = 2
+radius = 0.05
+height = 0.1
+radial_segments = 5
+rings = 3
 
 [sub_resource type="Curve" id="Curve_scale"]
-_data = [Vector2(0, 0.3), 0.0, 2.0, 0, 0, Vector2(0.5, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -2.5, 0.0, 0, 0]
+_data = [Vector2(0, 0.3), 0.0, 2.0, 0, 0, Vector2(0.5, 1.2), 0.0, 0.0, 0, 0, Vector2(1, 0), -2.5, 0.0, 0, 0]
 point_count = 3
 
 [node name="GoldenSprout" type="Node3D"]
 script = ExtResource("1_sprout_script")
 
 [node name="EarthMound" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0)
 mesh = SubResource("CylinderMesh_mound")
 surface_material_override/0 = SubResource("StandardMaterial3D_mound")
 
 [node name="GroundRing" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.22, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.32, 0)
 mesh = SubResource("TorusMesh_ring")
 surface_material_override/0 = SubResource("StandardMaterial3D_ring")
 
 [node name="PaperCutout" type="Sprite3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.28, 0)
-pixel_size = 0.0058
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35, 0)
+pixel_size = 0.0116
 offset = Vector2(0, 256)
 shaded = true
 alpha_cut = 1
@@ -65,30 +65,31 @@ texture_filter = 2
 texture = ExtResource("4_sprout_tex")
 billboard = 2
 cast_shadow = 1
+modulate = Color(1.15, 1.08, 0.9, 1)
 script = ExtResource("3_cutout_script")
 wobble_frequency = 2.2
 wobble_amplitude = 0.04
 wobble_tilt = 0.025
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
-light_color = Color(1, 0.86, 0.42, 1)
-light_energy = 1.4
-omni_range = 4.5
-omni_attenuation = 1.2
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.8, 0)
+light_color = Color(0.961, 0.816, 0.38, 1)
+light_energy = 2.5
+omni_range = 6.5
+omni_attenuation = 1.1
 
 [node name="CPUParticles3D" type="CPUParticles3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
-amount = 20
-lifetime = 2.4
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
+amount = 32
+lifetime = 3.0
 mesh = SubResource("SphereMesh_particle")
 emission_shape = 2
-emission_sphere_radius = 0.55
+emission_sphere_radius = 1.3
 direction = Vector3(0, 1, 0)
-spread = 25.0
-gravity = Vector3(0, 0.12, 0)
-initial_velocity_min = 0.15
-initial_velocity_max = 0.4
-scale_amount_min = 0.8
-scale_amount_max = 1.5
+spread = 35.0
+gravity = Vector3(0, 0.35, 0)
+initial_velocity_min = 0.25
+initial_velocity_max = 0.65
+scale_amount_min = 1.2
+scale_amount_max = 2.4
 scale_amount_curve = SubResource("Curve_scale")
