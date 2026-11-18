@@ -7,6 +7,7 @@ extends Control
 @onready var btn_special: Button = $BottomRight/BtnSpecial
 @onready var energy_bar: ProgressBar = $CenterContainer/Crosshair/EnergyBar
 @onready var crosshair: Control = $CenterContainer/Crosshair
+@onready var cockpit_overlay: TextureRect = $CockpitOverlay
 
 var active_tower: Node3D = null
 
@@ -18,6 +19,13 @@ func _ready() -> void:
 
 	GameManager.symbiosis_entered.connect(_on_symbiosis_entered)
 	GameManager.symbiosis_exited.connect(_on_symbiosis_exited)
+
+func _unhandled_input(event: InputEvent) -> void:
+	if not visible:
+		return
+	if event.is_action_pressed("ui_cancel") or (event is InputEventKey and event.keycode == KEY_ESCAPE and event.pressed):
+		GameManager.exit_symbiosis()
+		get_viewport().set_input_as_handled()
 
 func _process(_delta: float) -> void:
 	if active_tower and energy_bar:
@@ -32,6 +40,16 @@ func _on_special_pressed() -> void:
 
 func _on_symbiosis_entered(tower: Node3D) -> void:
 	active_tower = tower
+	visible = true
+	if cockpit_overlay:
+		if tower is ThornRose or tower.name.begins_with("ThornRose"):
+			cockpit_overlay.texture = preload("res://assets/sprites/cockpits/rose_cockpit.png")
+			cockpit_overlay.visible = true
+		else:
+			cockpit_overlay.visible = false
+	if crosshair and crosshair.has_method("queue_redraw"):
+		crosshair.queue_redraw()
 
 func _on_symbiosis_exited() -> void:
 	active_tower = null
+	visible = false

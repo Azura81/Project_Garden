@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://dndcatapult01"]
+
+[ext_resource type="PackedScene" uid="uid://dfh1vjksmq3q8" path="res://scenes/towers/TowerBase.tscn" id="1_base"]
+[ext_resource type="Script" path="res://scripts/towers/DandelionCatapult.gd" id="2_dnd"]
+[ext_resource type="Script" path="res://scripts/components/PaperCutout3D.gd" id="3_cutout_script"]
+[ext_resource type="Texture2D" path="res://assets/sprites/plants/dandelion_idle.png" id="4_dnd_tex"]
+
+[node name="DandelionCatapult" instance=ExtResource("1_base")]
+script = ExtResource("2_dnd")
+seed_speed = 12.0
+splash_radius = 2.4
+
+[node name="StemMesh" parent="." index="0"]
+visible = false
+
+[node name="FirstPersonMount" parent="." index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6, 0)
+
+[node name="PaperCutout" type="Sprite3D" parent="." index="3"]
+pixel_size = 0.0058
+offset = Vector2(0, 256)
+shaded = true
+alpha_cut = 1
+texture_filter = 2
+texture = ExtResource("4_dnd_tex")
+billboard = 2
+cast_shadow = 1
+script = ExtResource("3_cutout_script")
+wobble_frequency = 2.1
+wobble_amplitude = 0.04
+wobble_tilt = 0.035

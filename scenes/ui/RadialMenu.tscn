@@ -3,18 +3,18 @@
 [ext_resource type="Script" path="res://scripts/ui/RadialMenu.gd" id="1_rad"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_radial"]
-bg_color = Color(0.15, 0.12, 0.1, 0.9)
+bg_color = Color(0.957, 0.918, 0.835, 0.96)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(0.85, 0.75, 0.5, 0.75)
-corner_radius_top_left = 14
-corner_radius_top_right = 14
-corner_radius_bottom_right = 14
-corner_radius_bottom_left = 14
-shadow_color = Color(0, 0, 0, 0.35)
-shadow_size = 8
+border_color = Color(0.29, 0.208, 0.145, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+shadow_color = Color(0.1, 0.07, 0.04, 0.25)
+shadow_size = 10
 shadow_offset = Vector2(0, 4)
 
 [node name="RadialMenu" type="Control"]
@@ -24,10 +24,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -160.0
-offset_top = -140.0
-offset_right = 160.0
-offset_bottom = 140.0
+offset_left = -175.0
+offset_top = -170.0
+offset_right = 175.0
+offset_bottom = 170.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_rad")
@@ -52,30 +52,41 @@ offset_right = -16.0
 offset_bottom = -16.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 10
+theme_override_constants/separation = 8
 alignment = 1
 
 [node name="BtnPlantRose" type="Button" parent="Panel/VBoxContainer"]
 custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
+theme_override_colors/font_color = Color(0.169, 0.129, 0.094, 1)
 text = "🌹 Rose pflanzen (50💧)"
+
+[node name="BtnPlantDandelion" type="Button" parent="Panel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.169, 0.129, 0.094, 1)
+text = "🌼 Pusteblume (70💧)"
 
 [node name="BtnUpgrade" type="Button" parent="Panel/VBoxContainer"]
 custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
+theme_override_colors/font_color = Color(0.169, 0.129, 0.094, 1)
 text = "💧 Gießen (Stufe 2)"
 
 [node name="BtnSymbiosisUnlock" type="Button" parent="Panel/VBoxContainer"]
 custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
+theme_override_colors/font_color = Color(0.169, 0.129, 0.094, 1)
 text = "✨ Symbiose freischalten"
 
 [node name="BtnEnterSymbiosis" type="Button" parent="Panel/VBoxContainer"]
 custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
+theme_override_colors/font_color = Color(0.169, 0.129, 0.094, 1)
 text = "🐝 In die Blüte schlüpfen"
 
 [node name="BtnClose" type="Button" parent="Panel/VBoxContainer"]
 custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
+theme_override_colors/font_color = Color(0.35, 0.25, 0.18, 1)
 text = "Abbrechen"

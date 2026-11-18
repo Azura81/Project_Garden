@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://dndgroundtarget01"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ring"]
+shading_mode = 0
+albedo_color = Color(1, 0.95, 0.65, 0.85)
+
+[sub_resource type="TorusMesh" id="TorusMesh_target"]
+material = SubResource("StandardMaterial3D_ring")
+inner_radius = 2.1
+outer_radius = 2.35
+rings = 32
+ring_segments = 4
+
+[node name="DandelionGroundTarget" type="Node3D"]
+
+[node name="RingMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+mesh = SubResource("TorusMesh_target")

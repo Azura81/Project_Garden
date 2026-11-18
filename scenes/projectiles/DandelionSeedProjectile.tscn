@@ -1,0 +1,42 @@
+[gd_scene load_steps=5 format=3 uid="uid://dndseedproj01"]
+
+[ext_resource type="Script" path="res://scripts/projectiles/DandelionSeedProjectile.gd" id="1_dnd_script"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_puff"]
+shading_mode = 1
+albedo_color = Color(1, 0.98, 0.92, 1)
+roughness = 0.95
+emission_enabled = true
+emission = Color(1, 0.96, 0.82, 1)
+emission_energy_multiplier = 0.5
+
+[sub_resource type="SphereMesh" id="SphereMesh_puff"]
+material = SubResource("StandardMaterial3D_puff")
+radius = 0.18
+height = 0.36
+radial_segments = 8
+rings = 4
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_seed_motes"]
+shading_mode = 0
+albedo_color = Color(1, 1, 0.95, 0.85)
+billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[node name="DandelionSeedProjectile" type="Node3D"]
+script = ExtResource("1_dnd_script")
+
+[node name="PuffBall" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_puff")
+
+[node name="TrailParticles" type="CPUParticles3D" parent="."]
+amount = 10
+lifetime = 0.4
+mesh = SubResource("SphereMesh_puff")
+direction = Vector3(0, 0, 0)
+spread = 30.0
+gravity = Vector3(0, -1, 0)
+scale_amount_min = 0.3
+scale_amount_max = 0.6

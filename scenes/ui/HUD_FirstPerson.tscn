@@ -1,7 +1,22 @@
-[gd_scene load_steps=3 format=3 uid="uid://df7w0r8xlyr2j"]
+[gd_scene load_steps=5 format=3 uid="uid://df7w0r8xlyr2j"]
 
 [ext_resource type="Script" path="res://scripts/ui/HUDFirstPerson.gd" id="1_fp"]
 [ext_resource type="Texture2D" path="res://assets/sprites/cockpits/rose_cockpit.png" id="2_cockpit"]
+[ext_resource type="Script" path="res://scripts/ui/CrosshairDraw.gd" id="3_crosshair"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_exit"]
+bg_color = Color(0.957, 0.918, 0.835, 0.92)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.29, 0.208, 0.145, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+expand_margin_left = 8.0
+expand_margin_right = 8.0
 
 [node name="HUD_FirstPerson" type="Control"]
 visible = false
@@ -34,10 +49,15 @@ theme_override_constants/margin_left = 24
 theme_override_constants/margin_top = 24
 
 [node name="BtnExit" type="Button" parent="TopLeft"]
-custom_minimum_size = Vector2(180, 48)
+custom_minimum_size = Vector2(200, 48)
 layout_mode = 2
-theme_override_font_sizes/font_size = 20
-text = "â†– Aussteigen"
+theme_override_colors/font_color = Color(0.169, 0.129, 0.094, 1)
+theme_override_colors/font_hover_color = Color(0.08, 0.05, 0.02, 1)
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_exit")
+theme_override_styles/hover = SubResource("StyleBoxFlat_exit")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_exit")
+text = "↖ Aussteigen (ESC)"
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 1
@@ -58,6 +78,7 @@ mouse_filter = 2
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 mouse_filter = 2
+script = ExtResource("3_crosshair")
 
 [node name="EnergyBar" type="ProgressBar" parent="CenterContainer/Crosshair"]
 layout_mode = 1
@@ -79,15 +100,19 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -220.0
-offset_top = -140.0
+offset_left = -260.0
+offset_top = -120.0
 grow_horizontal = 0
 grow_vertical = 0
 theme_override_constants/margin_right = 32
 theme_override_constants/margin_bottom = 32
 
 [node name="BtnSpecial" type="Button" parent="BottomRight"]
-custom_minimum_size = Vector2(160, 80)
+custom_minimum_size = Vector2(200, 52)
 layout_mode = 2
-theme_override_font_sizes/font_size = 20
-text = "ðŸŒ¸ Duftwolke"
+theme_override_colors/font_color = Color(0.169, 0.129, 0.094, 1)
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_exit")
+theme_override_styles/hover = SubResource("StyleBoxFlat_exit")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_exit")
+text = "🌸 Duftwolke"

@@ -56,9 +56,9 @@ mesh = SubResource("TorusMesh_ring")
 surface_material_override/0 = SubResource("StandardMaterial3D_ring")
 
 [node name="PaperCutout" type="Sprite3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35, 0)
-pixel_size = 0.0116
-offset = Vector2(0, 256)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.22, 0)
+pixel_size = 0.0075
+offset = Vector2(0, 512)
 shaded = true
 alpha_cut = 1
 texture_filter = 2

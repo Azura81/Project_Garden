@@ -1,0 +1,41 @@
+[gd_scene load_steps=7 format=3 uid="uid://gardenbeetle01"]
+
+[ext_resource type="PackedScene" uid="uid://b5u2n60x61x5g" path="res://scenes/enemies/EnemyBase.tscn" id="1_ebase"]
+[ext_resource type="Script" path="res://scripts/enemies/GardenBeetle.gd" id="2_beetle"]
+[ext_resource type="Script" path="res://scripts/components/WeakspotComponent.gd" id="3_weakspot"]
+[ext_resource type="Script" path="res://scripts/components/PaperCutout3D.gd" id="4_cutout_script"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/beetle_walk.png" id="5_beetle_tex"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_weak"]
+radius = 0.25
+
+[node name="GardenBeetle" instance=ExtResource("1_ebase")]
+script = ExtResource("2_beetle")
+
+[node name="PaperCutout" type="Sprite3D" parent="." index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, 0)
+pixel_size = 0.003
+offset = Vector2(0, 256)
+shaded = true
+alpha_cut = 1
+texture_filter = 2
+texture = ExtResource("5_beetle_tex")
+billboard = 2
+cast_shadow = 1
+script = ExtResource("4_cutout_script")
+wobble_frequency = 6.5
+wobble_amplitude = 0.045
+wobble_tilt = 0.04
+auto_flip = true
+
+[node name="HeadWeakspot" type="Area3D" parent="." index="3" node_paths=PackedStringArray("health_component")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.22, 0.52, 0)
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("3_weakspot")
+crit_multiplier = 2.0
+weakspot_name = "Käfer-Kopf"
+health_component = NodePath("../HealthComponent")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HeadWeakspot" index="0"]
+shape = SubResource("SphereShape3D_weak")

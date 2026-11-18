@@ -5,7 +5,9 @@ extends Node3D
 
 @export var level_number: int = 1
 @export var enemy_snail_scene: PackedScene
+@export var enemy_beetle_scene: PackedScene
 @export var rose_tower_scene: PackedScene
+@export var dandelion_tower_scene: PackedScene
 
 @onready var path3d: Path3D = $Path3D
 @onready var radial_menu: Control = $UI/RadialMenu
@@ -15,10 +17,13 @@ extends Node3D
 @onready var range_indicator: RangeIndicator = get_node_or_null("RangeIndicator")
 
 var active_enemies: int = 0
+var current_spawn_wave: int = 0
 
 func _ready() -> void:
 	GameManager.reset_level_state()
 	GameManager.wave_started.connect(_on_wave_started)
+	GameManager.wave_completed.connect(_on_wave_completed)
+	GameManager.game_over.connect(_on_game_over)
 	GameManager.symbiosis_entered.connect(_on_symbiosis_entered)
 	GameManager.symbiosis_exited.connect(_on_symbiosis_exited)
 	GameManager.spot_selected.connect(_on_spot_selected_range)
@@ -44,18 +49,39 @@ func _on_spot_deselected_range() -> void:
 		range_indicator.hide_range()
 
 func _on_wave_started(wave_idx: int, _total: int) -> void:
+	current_spawn_wave = wave_idx
 	_trigger_entrance_warning()
+	
 	# Richtungspfeil verschwindet bei Start der ersten Runde
 	if start_arrow and is_instance_valid(start_arrow):
 		var tw := create_tween()
 		tw.tween_property(start_arrow, "scale", Vector3.ZERO, 0.4).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
 		tw.tween_callback(start_arrow.queue_free)
 
-	var count := 4 + wave_idx * 3
-	active_enemies = count
-	for i in range(count):
+	var spawn_queue: Array[String] = []
+	match wave_idx:
+		1:
+			# Welle 1: 4x Gartenschnecke (ruhiger Einstieg)
+			spawn_queue = ["snail", "snail", "snail", "snail"]
+		2:
+			# Welle 2: 4x Gartenschnecke + 2x Schmuckkäfer
+			spawn_queue = ["snail", "snail", "beetle", "snail", "snail", "beetle"]
+		3:
+			# Welle 3: 5x Schmuckkäfer (schnelle Welle)
+			spawn_queue = ["beetle", "beetle", "beetle", "beetle", "beetle"]
+		4:
+			# Welle 4: 6x Gartenschnecke + 4x Schmuckkäfer (Finale von Level 1)
+			spawn_queue = ["snail", "snail", "beetle", "snail", "beetle", "snail", "snail", "beetle", "snail", "beetle"]
+		_:
+			for i in range(4 + wave_idx * 2):
+				spawn_queue.append("snail" if randf() > 0.4 else "beetle")
+
+	active_enemies = spawn_queue.size()
+	for enemy_type in spawn_queue:
 		await get_tree().create_timer(1.2).timeout
-		_spawn_enemy()
+		if not is_instance_valid(self):
+			return
+		_spawn_enemy(enemy_type)
 
 func _trigger_entrance_warning() -> void:
 	var p := CPUParticles3D.new()
@@ -81,20 +107,40 @@ func _trigger_entrance_warning() -> void:
 	p.emitting = true
 	get_tree().create_timer(1.0).timeout.connect(p.queue_free)
 
-func _spawn_enemy() -> void:
-	if not path3d or not enemy_snail_scene:
+func _spawn_enemy(type: String) -> void:
+	if not path3d:
 		return
-	var snail := enemy_snail_scene.instantiate() as PathFollow3D
-	if snail.has_signal("defeated"):
-		snail.connect("defeated", func(_r): _on_enemy_removed())
-	if snail.has_signal("reached_core"):
-		snail.connect("reached_core", func(_d): _on_enemy_removed())
-	path3d.add_child(snail)
+	
+	var scene_to_spawn: PackedScene = enemy_snail_scene
+	if type == "beetle" and enemy_beetle_scene:
+		scene_to_spawn = enemy_beetle_scene
+	elif not enemy_snail_scene:
+		return
+
+	var enemy := scene_to_spawn.instantiate() as PathFollow3D
+	if enemy.has_signal("defeated"):
+		enemy.connect("defeated", func(_r): _on_enemy_removed())
+	if enemy.has_signal("reached_core"):
+		enemy.connect("reached_core", func(_d): _on_enemy_removed())
+	path3d.add_child(enemy)
 
 func _on_enemy_removed() -> void:
 	active_enemies = max(active_enemies - 1, 0)
 	if active_enemies == 0 and GameManager.is_wave_active:
 		GameManager.complete_wave()
+
+func _on_wave_completed(wave_idx: int) -> void:
+	if wave_idx >= 4:
+		_trigger_golden_growth()
+
+func _on_game_over(victory: bool) -> void:
+	if victory:
+		_trigger_golden_growth()
+
+func _trigger_golden_growth() -> void:
+	var sprout: Node = find_child("GoldenSprout", true, false)
+	if sprout and sprout.has_method("celebrate_growth"):
+		sprout.call("celebrate_growth")
 
 func _on_tower_spot_clicked(spot: Area3D) -> void:
 	if GameManager.active_symbiosis_tower:

@@ -164,7 +164,7 @@ func _on_spot_deselected() -> void:
 	focus_tween.tween_method(func(_v: float): _apply_camera_transform(), 0.0, 1.0, focus_transition_duration)
 
 func _handle_first_person_input(event: InputEvent) -> void:
-	if event is InputEventMouseMotion and (Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) or Input.mouse_mode == Input.MOUSE_MODE_CAPTURED):
+	if event is InputEventMouseMotion:
 		var mm := event as InputEventMouseMotion
 		var dx: float = -mm.relative.x * aim_sensitivity
 		var dy: float = -mm.relative.y * aim_sensitivity
@@ -173,6 +173,32 @@ func _handle_first_person_input(event: InputEvent) -> void:
 		if camera and active_mount:
 			camera.rotation.y = current_yaw
 			camera.rotation.x = current_pitch
+	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		_shoot_first_person()
+	elif event.is_action_pressed("ui_cancel") or (event is InputEventKey and event.keycode == KEY_ESCAPE and event.pressed):
+		GameManager.exit_symbiosis()
+
+func _shoot_first_person() -> void:
+	var tower := GameManager.active_symbiosis_tower
+	if not tower or not is_instance_valid(tower) or not camera:
+		return
+	
+	var vp_size := get_viewport().get_visible_rect().size
+	var ray_origin := camera.project_ray_origin(vp_size * 0.5)
+	var ray_dir := camera.project_ray_normal(vp_size * 0.5)
+	
+	var space_state := get_world_3d().direct_space_state
+	var query := PhysicsRayQueryParameters3D.create(ray_origin, ray_origin + ray_dir * 80.0)
+	var result := space_state.intersect_ray(query)
+	
+	var target_point := ray_origin + ray_dir * 35.0
+	if not result.is_empty():
+		target_point = result["position"]
+		
+	if tower.has_method("fire_manual_target"):
+		tower.call("fire_manual_target", target_point)
+	elif tower.has_method("fire_manual"):
+		tower.call("fire_manual", null)
 
 func _on_symbiosis_entered(tower: Node3D) -> void:
 	if not tower:

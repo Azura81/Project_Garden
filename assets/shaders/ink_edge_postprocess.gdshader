@@ -7,10 +7,10 @@ uniform sampler2D screen_texture : hint_screen_texture, filter_linear_mipmap;
 uniform sampler2D depth_texture : hint_depth_texture, filter_nearest;
 
 uniform vec4 ink_color : source_color = vec4(0.169, 0.129, 0.094, 1.0); // #2B2118
-uniform float line_thickness : hint_range(0.5, 4.0) = 1.6;
-uniform float depth_threshold : hint_range(0.001, 0.1) = 0.012;
-uniform float color_threshold : hint_range(0.01, 0.5) = 0.09;
-uniform float ink_strength : hint_range(0.0, 1.0) = 0.90;
+uniform float line_thickness : hint_range(0.5, 4.0) = 1.5;
+uniform float depth_threshold : hint_range(0.001, 0.1) = 0.018;
+uniform float color_threshold : hint_range(0.01, 0.5) = 0.12;
+uniform float ink_strength : hint_range(0.0, 1.0) = 0.88;
 
 void vertex() {
 	// Fullscreen Quad im NDC-Raum
@@ -44,7 +44,7 @@ void fragment() {
 		float d_diff_y = abs(d_d - d_u);
 		float max_d_diff = max(d_diff_x, d_diff_y);
 		float thresh = depth_threshold * max(1.0, d_c * 0.12);
-		depth_edge = smoothstep(thresh, thresh * 1.8, max_d_diff);
+		depth_edge = smoothstep(thresh, thresh * 2.2, max_d_diff);
 	}
 	
 	// 2. Color / Luminance Sobel (Feldsteine, Holzplanken, Kanten, Pfadbegrenzung)
@@ -53,7 +53,7 @@ void fragment() {
 	float l_u = get_luminance(texture(screen_texture, SCREEN_UV - vec2(0.0, texel.y)).rgb);
 	float l_d = get_luminance(texture(screen_texture, SCREEN_UV + vec2(0.0, texel.y)).rgb);
 	
-	// Diagonale Taps fÃ¼r saubere runde Konturen
+	// Diagonale Taps für saubere runde Konturen
 	float l_ul = get_luminance(texture(screen_texture, SCREEN_UV + vec2(-texel.x, -texel.y)).rgb);
 	float l_ur = get_luminance(texture(screen_texture, SCREEN_UV + vec2(texel.x, -texel.y)).rgb);
 	float l_dl = get_luminance(texture(screen_texture, SCREEN_UV + vec2(-texel.x, texel.y)).rgb);
@@ -62,7 +62,7 @@ void fragment() {
 	float sx = (l_ur + 2.0 * l_r + l_dr) - (l_ul + 2.0 * l_l + l_dl);
 	float sy = (l_dl + 2.0 * l_d + l_dr) - (l_ul + 2.0 * l_u + l_ur);
 	float sobel = sqrt(sx * sx + sy * sy);
-	float color_edge = smoothstep(color_threshold, color_threshold * 2.0, sobel);
+	float color_edge = smoothstep(color_threshold, color_threshold * 2.4, sobel);
 	
 	// 3. Tuschekante zusammenfÃ¼hren
 	float edge = clamp(depth_edge + color_edge * 0.85, 0.0, 1.0) * ink_strength;

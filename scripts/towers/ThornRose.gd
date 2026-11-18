@@ -116,6 +116,11 @@ func fire_at_target(target: Node3D) -> void:
 	_play_shoot_sound()
 	_spawn_thorn_at_target(target)
 
+func fire_manual_target(p_target_pos: Vector3) -> void:
+	_play_shoot_sound()
+	var spawn_pos: Vector3 = first_person_mount.global_position
+	_spawn_thorn_direction(spawn_pos, p_target_pos)
+
 func fire_manual(aim_ray: RayCast3D) -> void:
 	_play_shoot_sound()
 	var spawn_pos: Vector3 = first_person_mount.global_position

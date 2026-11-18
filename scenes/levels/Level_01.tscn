@@ -2,7 +2,9 @@
 
 [ext_resource type="Script" path="res://scripts/levels/LevelBase.gd" id="1_lvl"]
 [ext_resource type="PackedScene" path="res://scenes/enemies/GardenSnail.tscn" id="2_snail"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/GardenBeetle.tscn" id="2_beetle"]
 [ext_resource type="PackedScene" path="res://scenes/towers/ThornRose.tscn" id="3_rose"]
+[ext_resource type="PackedScene" path="res://scenes/towers/DandelionCatapult.tscn" id="3_dandelion"]
 [ext_resource type="Script" path="res://scripts/camera/CameraRig.gd" id="4_cam"]
 [ext_resource type="Shader" path="res://assets/shaders/watercolor_ground.gdshader" id="5_fcgrt"]
 [ext_resource type="PackedScene" path="res://scenes/levels/TowerSpot.tscn" id="5_spot_scene"]
@@ -99,10 +101,10 @@ size = Vector2(2, 2)
 render_priority = 10
 shader = ExtResource("29_ink_shd")
 shader_parameter/ink_color = Color(0.169, 0.129, 0.094, 1)
-shader_parameter/line_thickness = 1.6
-shader_parameter/depth_threshold = 0.012
-shader_parameter/color_threshold = 0.08
-shader_parameter/ink_strength = 0.9
+shader_parameter/line_thickness = 1.5
+shader_parameter/depth_threshold = 0.018
+shader_parameter/color_threshold = 0.12
+shader_parameter/ink_strength = 0.88
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_arrow"]
 albedo_color = Color(0.98, 0.84, 0.15, 1)
@@ -192,7 +194,9 @@ shader_parameter/use_world_coords = true
 [node name="Level_01" type="Node3D" unique_id=1019938663]
 script = ExtResource("1_lvl")
 enemy_snail_scene = ExtResource("2_snail")
+enemy_beetle_scene = ExtResource("2_beetle")
 rose_tower_scene = ExtResource("3_rose")
+dandelion_tower_scene = ExtResource("3_dandelion")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=75895993]
 environment = SubResource("Environment_main")
@@ -334,6 +338,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("19_0k37p")
 rose_scene = ExtResource("3_rose")
+dandelion_scene = ExtResource("3_dandelion")
 
 [node name="SoilRidge_1" type="MeshInstance3D" parent="." unique_id=1314727681]
 transform = Transform3D(0.9, 0, 0, 0, 1.5, 0, 0, 0, 0.9, -8, 0, -6.2)

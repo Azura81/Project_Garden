@@ -59,3 +59,16 @@ func _on_health_changed(current: int, _max_hp: int) -> void:
 			tw.tween_property(aura_light, "light_color", Color(1.0, 0.35, 0.2), 0.1)
 			tw.tween_property(aura_light, "light_color", Color(1.0, 0.86, 0.42), 0.35)
 	_prev_hp = current
+
+## Sichtbares Wachstum nach dem Sieg über Welle 4
+func celebrate_growth() -> void:
+	if not model:
+		return
+	var tw := create_tween().set_parallel(true).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tw.tween_property(model, "scale", Vector3(1.35, 1.35, 1.35), 1.8)
+	if aura_light:
+		tw.tween_property(aura_light, "light_energy", 4.2, 0.8)
+		tw.chain().tween_property(aura_light, "light_energy", 2.2, 1.0)
+	if particles:
+		particles.amount = 64
+		particles.scale_amount_max = 3.5

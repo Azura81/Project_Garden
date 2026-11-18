@@ -17,33 +17,34 @@ func _setup_showcase() -> void:
 	var lvl := lvl_scene.instantiate() as Node3D
 	add_child(lvl)
 
-	# PaperOverlay Autoload-Szene instanziieren falls nötig
+	# PaperOverlay Autoload-Szene instanziieren
 	var overlay_scene: PackedScene = load("res://scenes/ui/PaperOverlay.tscn")
 	if overlay_scene:
 		var overlay = overlay_scene.instantiate()
 		add_child(overlay)
 
-	# Schnecken auf dem Pfad platzieren
+	# Schnecke und Käfer auf dem Pfad platzieren
 	var path_node: Path3D = lvl.get_node_or_null("Path3D")
 	var snail_scene: PackedScene = load("res://scenes/enemies/GardenSnail.tscn")
-	var s1: Node3D = null
-	var s2: Node3D = null
+	var beetle_scene: PackedScene = load("res://scenes/enemies/GardenBeetle.tscn")
 	
-	if path_node and snail_scene:
-		s1 = snail_scene.instantiate() as Node3D
-		path_node.add_child(s1)
-		s1.set("progress_ratio", 0.28)
+	if path_node:
+		if snail_scene:
+			var s1 = snail_scene.instantiate() as Node3D
+			path_node.add_child(s1)
+			s1.set("progress_ratio", 0.32)
 
-		s2 = snail_scene.instantiate() as Node3D
-		path_node.add_child(s2)
-		s2.set("progress_ratio", 0.52)
-		var cutout2 = s2.find_child("PaperCutout", true, false)
-		if cutout2 and cutout2.has_method("set_facing"):
-			cutout2.call("set_facing", false)
+		if beetle_scene:
+			var b1 = beetle_scene.instantiate() as Node3D
+			path_node.add_child(b1)
+			b1.set("progress_ratio", 0.55)
+			var cutout_b = b1.find_child("PaperCutout", true, false)
+			if cutout_b and cutout_b.has_method("set_facing"):
+				cutout_b.call("set_facing", false)
 
-		var s3 = snail_scene.instantiate() as Node3D
-		path_node.add_child(s3)
-		s3.set("progress_ratio", 0.08)
+			var b2 = beetle_scene.instantiate() as Node3D
+			path_node.add_child(b2)
+			b2.set("progress_ratio", 0.12)
 
 	# Rose auf Spot 1 pflanzen
 	var spot1: TowerSpot = lvl.get_node_or_null("TowerSpots/TowerSpot_1")
@@ -55,13 +56,23 @@ func _setup_showcase() -> void:
 		spot1.current_plant = rose
 		spot1._update_visual_state()
 
+	# Pusteblume auf Spot 2 pflanzen
+	var spot2: TowerSpot = lvl.get_node_or_null("TowerSpots/TowerSpot_2")
+	var dandelion_scene: PackedScene = load("res://scenes/towers/DandelionCatapult.tscn")
+	var dandelion: Node3D = null
+	if spot2 and dandelion_scene:
+		dandelion = dandelion_scene.instantiate() as Node3D
+		spot2.add_child(dandelion)
+		spot2.current_plant = dandelion
+		spot2._update_visual_state()
+
 	var cam_rig = lvl.get_node_or_null("CameraRig")
 	var cam: Camera3D = lvl.get_node_or_null("CameraRig/Camera3D")
 	if cam:
 		cam.current = true
 
 	# --- SHOT 1: Taktische Pop-up Diorama Übersicht ---
-	print("Render Shot 1: Taktische Übersicht...")
+	print("Render Shot 1: Taktische Übersicht mit Rose, Pusteblume, Schnecke & Käfer...")
 	if cam:
 		cam.global_position = Vector3(0.0, 16.5, 12.0)
 		cam.look_at(Vector3(0.0, 0.0, 0.5), Vector3.UP)
@@ -74,17 +85,17 @@ func _setup_showcase() -> void:
 		cam_rig.set_process(false)
 		cam_rig.set_physics_process(false)
 
-	# --- SHOT 2: Nahaufnahme Paper Cutouts & Schatten ---
-	print("Render Shot 2: Nahaufnahme Pappaufsteller Schnecke & Rose...")
+	# --- SHOT 2: Nahaufnahme Pusteblume & Schmuckkäfer ---
+	print("Render Shot 2: Nahaufnahme Pusteblume & Schmuckkäfer...")
 	if cam:
-		cam.global_position = Vector3(-7.8, 2.2, 2.0)
-		cam.look_at(Vector3(-10.5, 1.2, -1.0), Vector3.UP)
+		cam.global_position = Vector3(3.5, 2.8, 5.5)
+		cam.look_at(Vector3(0.8, 1.2, 0.5), Vector3.UP)
 
 	await get_tree().create_timer(0.5).timeout
 	_capture_and_save("showcase_paper_cutout_closeup.png")
 
-	# --- SHOT 2b: Schnecke auf S-Kurven-Pfad ---
-	print("Render Shot 2b: Nahaufnahme Schnecke auf S-Kurve...")
+	# --- SHOT 2b: Käfer & Schnecke auf S-Kurven-Pfad ---
+	print("Render Shot 2b: Käfer & Schnecke in Bewegung auf S-Kurve...")
 	if cam:
 		cam.global_position = Vector3(-0.5, 2.2, 4.2)
 		cam.look_at(Vector3(-1.8, 0.4, 1.6), Vector3.UP)
@@ -93,7 +104,7 @@ func _setup_showcase() -> void:
 	_capture_and_save("showcase_paper_snail_action.png")
 
 	# --- SHOT 3: 1st-Person Blüten-Cockpit ---
-	print("Render Shot 3: 1st-Person Rosen-Cockpit mit Aquarell-Blütenrand...")
+	print("Render Shot 3: 1st-Person Rosen-Cockpit mit Fadenkreuz & Aquarell-Blütenrand...")
 	if rose:
 		GameManager.enter_symbiosis(rose)
 

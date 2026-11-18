@@ -3,9 +3,11 @@ extends Control
 
 ## RadialMenu: Ring-Menü zum Pflanzen, Gießen (Upgraden), Symbiose freischalten & Einsteigen.
 
-@export var rose_scene: PackedScene
+@export var rose_scene: PackedScene = preload("res://scenes/towers/ThornRose.tscn")
+@export var dandelion_scene: PackedScene = preload("res://scenes/towers/DandelionCatapult.tscn")
 
 @onready var btn_plant_rose: Button = $Panel/VBoxContainer/BtnPlantRose
+@onready var btn_plant_dandelion: Button = $Panel/VBoxContainer/BtnPlantDandelion
 @onready var btn_upgrade: Button = $Panel/VBoxContainer/BtnUpgrade
 @onready var btn_symbiosis_unlock: Button = $Panel/VBoxContainer/BtnSymbiosisUnlock
 @onready var btn_enter_symbiosis: Button = $Panel/VBoxContainer/BtnEnterSymbiosis
@@ -17,6 +19,8 @@ func _ready() -> void:
 	visible = false
 	if btn_plant_rose:
 		btn_plant_rose.pressed.connect(_on_plant_rose_pressed)
+	if btn_plant_dandelion:
+		btn_plant_dandelion.pressed.connect(_on_plant_dandelion_pressed)
 	if btn_upgrade:
 		btn_upgrade.pressed.connect(_on_upgrade_pressed)
 	if btn_symbiosis_unlock:
@@ -60,6 +64,11 @@ func _update_buttons() -> void:
 		btn_plant_rose.text = "🌹 Rose pflanzen (50💧)"
 		btn_plant_rose.disabled = not GameManager.can_afford(50)
 
+	if btn_plant_dandelion:
+		btn_plant_dandelion.visible = spot_is_empty
+		btn_plant_dandelion.text = "🌼 Pusteblume (70💧)"
+		btn_plant_dandelion.disabled = not GameManager.can_afford(70)
+
 	var current_plant: Node3D = null
 	if target_spot.get("current_plant") != null:
 		current_plant = target_spot.get("current_plant") as Node3D
@@ -77,7 +86,7 @@ func _update_buttons() -> void:
 
 		var has_symb: bool = bool(current_plant.get("has_symbiosis_upgrade"))
 		if btn_symbiosis_unlock:
-			btn_symbiosis_unlock.visible = (not has_symb) and (plant_level >= 2)
+			btn_symbiosis_unlock.visible = not has_symb
 			var symb_cost: int = int(current_plant.get("cost_symbiosis"))
 			btn_symbiosis_unlock.text = "✨ Symbiose freischalten (" + str(symb_cost) + "💧)"
 			btn_symbiosis_unlock.disabled = not GameManager.can_afford(symb_cost)
@@ -97,6 +106,12 @@ func _on_plant_rose_pressed() -> void:
 	if target_spot and target_spot.has_method("is_empty") and target_spot.is_empty():
 		if GameManager.spend_dewdrops(50):
 			target_spot.call("plant_tower", rose_scene)
+			close()
+
+func _on_plant_dandelion_pressed() -> void:
+	if target_spot and target_spot.has_method("is_empty") and target_spot.is_empty():
+		if GameManager.spend_dewdrops(70):
+			target_spot.call("plant_tower", dandelion_scene)
 			close()
 
 func _on_upgrade_pressed() -> void:
