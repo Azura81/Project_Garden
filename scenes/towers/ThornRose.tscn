@@ -1,77 +1,10 @@
-[gd_scene load_steps=18 format=3 uid="uid://cmeq7g7o2a12p"]
+[gd_scene load_steps=6 format=3 uid="uid://cmeq7g7o2a12p"]
 
 [ext_resource type="PackedScene" uid="uid://dfh1vjksmq3q8" path="res://scenes/towers/TowerBase.tscn" id="1_base"]
 [ext_resource type="Script" path="res://scripts/towers/ThornRose.gd" id="2_rose"]
-[ext_resource type="ArrayMesh" path="res://assets/models/faceted_rose.obj" id="3_mesh"]
 [ext_resource type="AudioStream" path="res://assets/audio/thorn_shoot.wav" id="4_sfx_shoot"]
-[ext_resource type="Shader" path="res://assets/shaders/toon_outline.gdshader" id="5_toon_shd"]
-[ext_resource type="Shader" path="res://assets/shaders/outline_pass.gdshader" id="6_outl_shd"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_outl_stem"]
-render_priority = 0
-shader = ExtResource("6_outl_shd")
-shader_parameter/outline_color = Color(0.08, 0.18, 0.06, 1)
-shader_parameter/outline_width = 0.016
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_stem"]
-render_priority = 0
-next_pass = SubResource("ShaderMaterial_outl_stem")
-shader = ExtResource("5_toon_shd")
-shader_parameter/base_color = Color(0.2, 0.42, 0.16, 1)
-shader_parameter/gradient_color = Color(0.52, 0.74, 0.28, 1)
-shader_parameter/shadow_color = Color(0.12, 0.28, 0.1, 1)
-shader_parameter/rim_color = Color(0.65, 0.88, 0.45, 1)
-shader_parameter/gradient_strength = 0.7
-shader_parameter/gradient_min_y = 0.0
-shader_parameter/gradient_max_y = 1.45
-shader_parameter/facet_variation = 0.1
-shader_parameter/rim_threshold = 0.55
-shader_parameter/wind_strength = 0.03
-shader_parameter/wind_speed = 2.2
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_outl_leaf"]
-render_priority = 0
-shader = ExtResource("6_outl_shd")
-shader_parameter/outline_color = Color(0.08, 0.18, 0.06, 1)
-shader_parameter/outline_width = 0.016
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_leaf"]
-render_priority = 0
-next_pass = SubResource("ShaderMaterial_outl_leaf")
-shader = ExtResource("5_toon_shd")
-shader_parameter/base_color = Color(0.26, 0.52, 0.2, 1)
-shader_parameter/gradient_color = Color(0.62, 0.82, 0.26, 1)
-shader_parameter/shadow_color = Color(0.14, 0.35, 0.12, 1)
-shader_parameter/rim_color = Color(0.72, 0.94, 0.48, 1)
-shader_parameter/gradient_strength = 0.6
-shader_parameter/gradient_min_y = 0.4
-shader_parameter/gradient_max_y = 1.3
-shader_parameter/facet_variation = 0.16
-shader_parameter/rim_threshold = 0.5
-shader_parameter/wind_strength = 0.035
-shader_parameter/wind_speed = 2.2
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_outl_petal"]
-render_priority = 0
-shader = ExtResource("6_outl_shd")
-shader_parameter/outline_color = Color(0.26, 0.04, 0.1, 1)
-shader_parameter/outline_width = 0.018
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_petal"]
-render_priority = 0
-next_pass = SubResource("ShaderMaterial_outl_petal")
-shader = ExtResource("5_toon_shd")
-shader_parameter/base_color = Color(0.82, 0.16, 0.32, 1)
-shader_parameter/gradient_color = Color(0.98, 0.44, 0.62, 1)
-shader_parameter/shadow_color = Color(0.45, 0.08, 0.18, 1)
-shader_parameter/rim_color = Color(1, 0.65, 0.78, 1)
-shader_parameter/gradient_strength = 0.65
-shader_parameter/gradient_min_y = 1.15
-shader_parameter/gradient_max_y = 1.6
-shader_parameter/facet_variation = 0.18
-shader_parameter/rim_threshold = 0.5
-shader_parameter/wind_strength = 0.04
-shader_parameter/wind_speed = 2.2
+[ext_resource type="Script" path="res://scripts/components/PaperCutout3D.gd" id="5_cutout_script"]
+[ext_resource type="Texture2D" path="res://assets/sprites/plants/rose_idle.png" id="6_rose_tex"]
 
 [node name="ThornRose" instance=ExtResource("1_base")]
 script = ExtResource("2_rose")
@@ -83,11 +16,19 @@ visible = false
 [node name="FirstPersonMount" parent="." index="1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.48, 0)
 
-[node name="FacetedRoseMesh" type="MeshInstance3D" parent="." index="3"]
-mesh = ExtResource("3_mesh")
-surface_material_override/0 = SubResource("ShaderMaterial_stem")
-surface_material_override/1 = SubResource("ShaderMaterial_leaf")
-surface_material_override/2 = SubResource("ShaderMaterial_petal")
+[node name="PaperCutout" type="Sprite3D" parent="." index="3"]
+pixel_size = 0.0038
+offset = Vector2(0, 256)
+shaded = true
+alpha_cut = 1
+texture_filter = 2
+texture = ExtResource("6_rose_tex")
+billboard = 2
+cast_shadow = 1
+script = ExtResource("5_cutout_script")
+wobble_frequency = 2.4
+wobble_amplitude = 0.035
+wobble_tilt = 0.03
 
 [node name="AudioShoot" type="AudioStreamPlayer3D" parent="." index="4"]
 stream = ExtResource("4_sfx_shoot")

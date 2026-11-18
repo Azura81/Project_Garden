@@ -1,0 +1,6 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/PaperOverlay.gd" id="1_overlay"]
+
+[node name="PaperOverlay" type="CanvasLayer"]
+script = ExtResource("1_overlay")

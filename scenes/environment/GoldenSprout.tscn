@@ -1,61 +1,9 @@
-[gd_scene load_steps=18 format=3 uid="uid://b8k1m3p4v9o2w"]
+[gd_scene load_steps=12 format=3 uid="uid://b8k1m3p4v9o2w"]
 
 [ext_resource type="Script" path="res://scripts/environment/GoldenSprout.gd" id="1_sprout_script"]
-[ext_resource type="ArrayMesh" path="res://assets/models/golden_sprout.obj" id="2_sprout_mesh"]
-[ext_resource type="Shader" path="res://assets/shaders/toon_outline.gdshader" id="3_toon_shd"]
-[ext_resource type="Shader" path="res://assets/shaders/outline_pass.gdshader" id="4_outl_shd"]
-[ext_resource type="Texture2D" path="res://assets/textures/ground_spot.jpg" id="5_spot_tex"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_outl_stem"]
-render_priority = 0
-shader = ExtResource("4_outl_shd")
-shader_parameter/outline_color = Color(0.25, 0.2, 0.04, 1)
-shader_parameter/outline_width = 0.016
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_stem"]
-render_priority = 0
-next_pass = SubResource("ShaderMaterial_outl_stem")
-shader = ExtResource("3_toon_shd")
-shader_parameter/base_color = Color(0.48, 0.55, 0.18, 1)
-shader_parameter/gradient_color = Color(0.92, 0.78, 0.22, 1)
-shader_parameter/shadow_color = Color(0.24, 0.28, 0.08, 1)
-shader_parameter/rim_color = Color(1, 0.92, 0.5, 1)
-shader_parameter/gradient_strength = 0.7
-shader_parameter/gradient_min_y = 0.0
-shader_parameter/gradient_max_y = 1.45
-shader_parameter/facet_variation = 0.12
-shader_parameter/rim_threshold = 0.55
-shader_parameter/wind_strength = 0.025
-shader_parameter/wind_speed = 1.8
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_outl_leaf"]
-render_priority = 0
-shader = ExtResource("4_outl_shd")
-shader_parameter/outline_color = Color(0.28, 0.22, 0.05, 1)
-shader_parameter/outline_width = 0.016
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_leaf"]
-render_priority = 0
-next_pass = SubResource("ShaderMaterial_outl_leaf")
-shader = ExtResource("3_toon_shd")
-shader_parameter/base_color = Color(0.85, 0.72, 0.18, 1)
-shader_parameter/gradient_color = Color(1, 0.9, 0.38, 1)
-shader_parameter/shadow_color = Color(0.38, 0.3, 0.06, 1)
-shader_parameter/rim_color = Color(1, 0.96, 0.65, 1)
-shader_parameter/gradient_strength = 0.6
-shader_parameter/gradient_min_y = 0.3
-shader_parameter/gradient_max_y = 1.4
-shader_parameter/facet_variation = 0.16
-shader_parameter/rim_threshold = 0.52
-shader_parameter/wind_strength = 0.03
-shader_parameter/wind_speed = 1.8
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bud"]
-albedo_color = Color(1, 0.94, 0.52, 1)
-roughness = 0.15
-emission_enabled = true
-emission = Color(1, 0.88, 0.32, 1)
-emission_energy_multiplier = 2.2
+[ext_resource type="Texture2D" path="res://assets/textures/ground_spot.jpg" id="2_spot_tex"]
+[ext_resource type="Script" path="res://scripts/components/PaperCutout3D.gd" id="3_cutout_script"]
+[ext_resource type="Texture2D" path="res://assets/sprites/plants/golden_seedling.png" id="4_sprout_tex"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_mound"]
 top_radius = 0.9
@@ -63,7 +11,7 @@ bottom_radius = 1.15
 height = 0.22
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mound"]
-albedo_texture = ExtResource("5_spot_tex")
+albedo_texture = ExtResource("2_spot_tex")
 uv1_scale = Vector3(2.5, 2.5, 1)
 roughness = 0.85
 
@@ -73,7 +21,7 @@ outer_radius = 0.78
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ring"]
 shading_mode = 0
-albedo_color = Color(1, 0.86, 0.35, 0.85)
+albedo_color = Color(0.96, 0.82, 0.38, 0.9)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_particle"]
 shading_mode = 0
@@ -107,12 +55,20 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.22, 0)
 mesh = SubResource("TorusMesh_ring")
 surface_material_override/0 = SubResource("StandardMaterial3D_ring")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
-mesh = ExtResource("2_sprout_mesh")
-surface_material_override/0 = SubResource("ShaderMaterial_stem")
-surface_material_override/1 = SubResource("ShaderMaterial_leaf")
-surface_material_override/2 = SubResource("StandardMaterial3D_bud")
+[node name="PaperCutout" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.22, 0)
+pixel_size = 0.0035
+offset = Vector2(0, 256)
+shaded = true
+alpha_cut = 1
+texture_filter = 2
+texture = ExtResource("4_sprout_tex")
+billboard = 2
+cast_shadow = 1
+script = ExtResource("3_cutout_script")
+wobble_frequency = 2.2
+wobble_amplitude = 0.04
+wobble_tilt = 0.025
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)

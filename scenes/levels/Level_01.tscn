@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" path="res://scenes/enemies/GardenSnail.tscn" id="2_snail"]
 [ext_resource type="PackedScene" path="res://scenes/towers/ThornRose.tscn" id="3_rose"]
 [ext_resource type="Script" path="res://scripts/camera/CameraRig.gd" id="4_cam"]
-[ext_resource type="Shader" path="res://assets/shaders/ghibli_soil.gdshader" id="5_fcgrt"]
+[ext_resource type="Shader" path="res://assets/shaders/watercolor_ground.gdshader" id="5_fcgrt"]
 [ext_resource type="PackedScene" path="res://scenes/levels/TowerSpot.tscn" id="5_spot_scene"]
 [ext_resource type="Texture2D" path="res://assets/textures/soil_normal.png" id="6_0rjyr"]
 [ext_resource type="PackedScene" path="res://scenes/ui/HUD_Tactical.tscn" id="6_tactical"]
@@ -25,6 +25,7 @@
 [ext_resource type="PackedScene" path="res://scenes/effects/RangeIndicator.tscn" id="21_range"]
 [ext_resource type="PackedScene" path="res://scenes/environment/SunPollen.tscn" id="22_pollen"]
 [ext_resource type="PackedScene" path="res://scenes/environment/Butterfly.tscn" id="23_bfly"]
+[ext_resource type="Texture2D" path="res://assets/textures/watercolor_paper.png" id="28_paper_tex"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ghibli"]
 sky_top_color = Color(0.48, 0.68, 0.86, 1)
@@ -54,13 +55,16 @@ size = Vector2(32, 16)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fcgrt"]
 render_priority = 0
 shader = ExtResource("5_fcgrt")
-shader_parameter/soil_texture = ExtResource("9_soil")
-shader_parameter/soil_normal = ExtResource("6_0rjyr")
-shader_parameter/soil_warm_tint = Color(0.95, 0.9, 0.85, 1)
-shader_parameter/soil_moist_tint = Color(0.7, 0.62, 0.55, 1)
-shader_parameter/uv_scale = Vector2(10, 5)
-shader_parameter/normal_depth = 1.8
-shader_parameter/wetness_factor = 0.45
+shader_parameter/base_color = Color(0.784, 0.635, 0.478, 1)
+shader_parameter/shade_color = Color(0.549, 0.384, 0.224, 1)
+shader_parameter/ink_edge_color = Color(0.169, 0.129, 0.094, 1)
+shader_parameter/noise_texture = ExtResource("28_paper_tex")
+shader_parameter/uv_scale = Vector2(3, 3)
+shader_parameter/noise_strength = 0.35
+shader_parameter/ink_edge_threshold = 0.72
+shader_parameter/ink_edge_strength = 0.75
+shader_parameter/roughness_val = 0.95
+shader_parameter/use_world_coords = true
 
 [sub_resource type="Curve3D" id="Curve3D_path"]
 _data = {
@@ -69,12 +73,19 @@ _data = {
 }
 point_count = 7
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_path"]
-albedo_texture = ExtResource("10_path_tex")
-roughness = 0.9
-uv1_scale = Vector3(0.35, 0.35, 0.35)
-uv1_triplanar = true
-uv1_world_triplanar = true
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_path"]
+render_priority = 0
+shader = ExtResource("5_fcgrt")
+shader_parameter/base_color = Color(0.88, 0.79, 0.68, 1)
+shader_parameter/shade_color = Color(0.74, 0.62, 0.48, 1)
+shader_parameter/ink_edge_color = Color(0.169, 0.129, 0.094, 1)
+shader_parameter/noise_texture = ExtResource("28_paper_tex")
+shader_parameter/uv_scale = Vector2(3.5, 3.5)
+shader_parameter/noise_strength = 0.28
+shader_parameter/ink_edge_threshold = 0.65
+shader_parameter/ink_edge_strength = 0.8
+shader_parameter/roughness_val = 0.92
+shader_parameter/use_world_coords = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_arrow"]
 albedo_color = Color(0.98, 0.84, 0.15, 1)
@@ -94,57 +105,72 @@ size = Vector3(0.45, 0.5, 0.08)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0rjyr"]
 render_priority = 0
 shader = ExtResource("5_fcgrt")
-shader_parameter/soil_texture = ExtResource("9_soil")
-shader_parameter/soil_normal = ExtResource("6_0rjyr")
-shader_parameter/soil_warm_tint = Color(0.95, 0.9, 0.85, 1)
-shader_parameter/soil_moist_tint = Color(0.72, 0.64, 0.58, 1)
-shader_parameter/uv_scale = Vector2(2.5, 1.5)
-shader_parameter/normal_depth = 1.8
-shader_parameter/wetness_factor = 0.3
+shader_parameter/base_color = Color(0.784, 0.635, 0.478, 1)
+shader_parameter/shade_color = Color(0.549, 0.384, 0.224, 1)
+shader_parameter/ink_edge_color = Color(0.169, 0.129, 0.094, 1)
+shader_parameter/noise_texture = ExtResource("28_paper_tex")
+shader_parameter/uv_scale = Vector2(3, 3)
+shader_parameter/noise_strength = 0.35
+shader_parameter/ink_edge_threshold = 0.72
+shader_parameter/ink_edge_strength = 0.75
+shader_parameter/roughness_val = 0.95
+shader_parameter/use_world_coords = true
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0k37p"]
 render_priority = 0
 shader = ExtResource("5_fcgrt")
-shader_parameter/soil_texture = ExtResource("9_soil")
-shader_parameter/soil_normal = ExtResource("6_0rjyr")
-shader_parameter/soil_warm_tint = Color(0.95, 0.9, 0.85, 1)
-shader_parameter/soil_moist_tint = Color(0.72, 0.64, 0.58, 1)
-shader_parameter/uv_scale = Vector2(2.5, 1.5)
-shader_parameter/normal_depth = 1.8
-shader_parameter/wetness_factor = 0.3
+shader_parameter/base_color = Color(0.784, 0.635, 0.478, 1)
+shader_parameter/shade_color = Color(0.549, 0.384, 0.224, 1)
+shader_parameter/ink_edge_color = Color(0.169, 0.129, 0.094, 1)
+shader_parameter/noise_texture = ExtResource("28_paper_tex")
+shader_parameter/uv_scale = Vector2(3, 3)
+shader_parameter/noise_strength = 0.35
+shader_parameter/ink_edge_threshold = 0.72
+shader_parameter/ink_edge_strength = 0.75
+shader_parameter/roughness_val = 0.95
+shader_parameter/use_world_coords = true
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4h14u"]
 render_priority = 0
 shader = ExtResource("5_fcgrt")
-shader_parameter/soil_texture = ExtResource("9_soil")
-shader_parameter/soil_normal = ExtResource("6_0rjyr")
-shader_parameter/soil_warm_tint = Color(0.95, 0.9, 0.85, 1)
-shader_parameter/soil_moist_tint = Color(0.72, 0.64, 0.58, 1)
-shader_parameter/uv_scale = Vector2(2.5, 1.5)
-shader_parameter/normal_depth = 1.8
-shader_parameter/wetness_factor = 0.3
+shader_parameter/base_color = Color(0.784, 0.635, 0.478, 1)
+shader_parameter/shade_color = Color(0.549, 0.384, 0.224, 1)
+shader_parameter/ink_edge_color = Color(0.169, 0.129, 0.094, 1)
+shader_parameter/noise_texture = ExtResource("28_paper_tex")
+shader_parameter/uv_scale = Vector2(3, 3)
+shader_parameter/noise_strength = 0.35
+shader_parameter/ink_edge_threshold = 0.72
+shader_parameter/ink_edge_strength = 0.75
+shader_parameter/roughness_val = 0.95
+shader_parameter/use_world_coords = true
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bbars"]
 render_priority = 0
 shader = ExtResource("5_fcgrt")
-shader_parameter/soil_texture = ExtResource("9_soil")
-shader_parameter/soil_normal = ExtResource("6_0rjyr")
-shader_parameter/soil_warm_tint = Color(0.95, 0.9, 0.85, 1)
-shader_parameter/soil_moist_tint = Color(0.72, 0.64, 0.58, 1)
-shader_parameter/uv_scale = Vector2(2.5, 1.5)
-shader_parameter/normal_depth = 1.8
-shader_parameter/wetness_factor = 0.3
+shader_parameter/base_color = Color(0.784, 0.635, 0.478, 1)
+shader_parameter/shade_color = Color(0.549, 0.384, 0.224, 1)
+shader_parameter/ink_edge_color = Color(0.169, 0.129, 0.094, 1)
+shader_parameter/noise_texture = ExtResource("28_paper_tex")
+shader_parameter/uv_scale = Vector2(3, 3)
+shader_parameter/noise_strength = 0.35
+shader_parameter/ink_edge_threshold = 0.72
+shader_parameter/ink_edge_strength = 0.75
+shader_parameter/roughness_val = 0.95
+shader_parameter/use_world_coords = true
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0f20a"]
 render_priority = 0
 shader = ExtResource("5_fcgrt")
-shader_parameter/soil_texture = ExtResource("9_soil")
-shader_parameter/soil_normal = ExtResource("6_0rjyr")
-shader_parameter/soil_warm_tint = Color(0.95, 0.9, 0.85, 1)
-shader_parameter/soil_moist_tint = Color(0.72, 0.64, 0.58, 1)
-shader_parameter/uv_scale = Vector2(2.5, 1.5)
-shader_parameter/normal_depth = 1.8
-shader_parameter/wetness_factor = 0.3
+shader_parameter/base_color = Color(0.784, 0.635, 0.478, 1)
+shader_parameter/shade_color = Color(0.549, 0.384, 0.224, 1)
+shader_parameter/ink_edge_color = Color(0.169, 0.129, 0.094, 1)
+shader_parameter/noise_texture = ExtResource("28_paper_tex")
+shader_parameter/uv_scale = Vector2(3, 3)
+shader_parameter/noise_strength = 0.35
+shader_parameter/ink_edge_threshold = 0.72
+shader_parameter/ink_edge_strength = 0.75
+shader_parameter/roughness_val = 0.95
+shader_parameter/use_world_coords = true
 
 [node name="Level_01" type="Node3D" unique_id=1019938663]
 script = ExtResource("1_lvl")
@@ -197,7 +223,7 @@ path_local = false
 path_continuous_u = true
 path_u_distance = 2.0
 path_joined = false
-material = SubResource("StandardMaterial3D_path")
+material = SubResource("ShaderMaterial_path")
 
 [node name="PathStartArrow" type="Node3D" parent="." unique_id=1130359811]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.8, 0.25, -4.5)

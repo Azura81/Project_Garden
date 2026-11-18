@@ -4,7 +4,7 @@ extends Node3D
 ## GoldenSprout: Der magische goldene Spross im Herzen des Gartens.
 ## Ersetzt die abstrakte Kern-Kugel mit einem lebendigen, leuchtenden Baumling.
 
-@onready var model: MeshInstance3D = $MeshInstance3D
+@onready var model: Node3D = get_node_or_null("PaperCutout") if get_node_or_null("PaperCutout") else get_node_or_null("MeshInstance3D")
 @onready var aura_light: OmniLight3D = $OmniLight3D
 @onready var particles: CPUParticles3D = $CPUParticles3D
 @onready var ground_ring: MeshInstance3D = get_node_or_null("GroundRing")

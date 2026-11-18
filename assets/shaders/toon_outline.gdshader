@@ -1,5 +1,5 @@
 shader_type spatial;
-render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_toon, specular_toon;
+render_mode blend_mix, depth_draw_opaque, cull_disabled, diffuse_toon, specular_toon;
 
 // Toon- & Aquarell-Shader mit weichem Farbverlauf und natürlicher Facetten-Variation
 uniform vec4 base_color : source_color = vec4(0.85, 0.18, 0.35, 1.0);

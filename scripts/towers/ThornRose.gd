@@ -77,12 +77,17 @@ func _ready() -> void:
 	_apply_random_color_theme()
 
 func _apply_random_color_theme() -> void:
+	var theme: Dictionary = COLOR_PALETTES.pick_random()
+	color_name = theme["name"]
+	
+	var cutout = get_node_or_null("PaperCutout")
+	if cutout:
+		var base_col: Color = theme["base"]
+		cutout.modulate = Color(base_col.r * 1.08, base_col.g * 1.08, base_col.b * 1.08, 1.0)
+	
 	var mesh_node: MeshInstance3D = get_node_or_null("FacetedRoseMesh")
 	if not mesh_node:
 		return
-	
-	var theme: Dictionary = COLOR_PALETTES.pick_random()
-	color_name = theme["name"]
 	
 	# Petal Material (Surface 2)
 	var mat_orig := mesh_node.get_surface_override_material(2)
@@ -132,7 +137,8 @@ func _spawn_thorn_at_target(target: Node3D) -> void:
 		return
 	_trigger_shoot_recoil()
 	var proj := ThornProjectileScene.instantiate() as Node3D
-	get_tree().current_scene.add_child(proj)
+	var target_parent: Node = get_tree().current_scene if get_tree().current_scene else get_tree().root
+	target_parent.add_child(proj)
 	proj.global_position = first_person_mount.global_position
 	if proj.has_method("setup"):
 		proj.call("setup", target, self, attack_damage)
@@ -142,12 +148,17 @@ func _spawn_thorn_direction(from_pos: Vector3, to_pos: Vector3) -> void:
 		return
 	_trigger_shoot_recoil()
 	var proj := ThornProjectileScene.instantiate() as Node3D
-	get_tree().current_scene.add_child(proj)
+	var target_parent: Node = get_tree().current_scene if get_tree().current_scene else get_tree().root
+	target_parent.add_child(proj)
 	proj.global_position = from_pos
 	if proj.has_method("setup_direction"):
 		proj.call("setup_direction", to_pos, self, attack_damage * 1.25)
 
 func _trigger_shoot_recoil() -> void:
+	var cutout = get_node_or_null("PaperCutout")
+	if cutout and cutout.has_method("trigger_hit_recoil"):
+		cutout.call("trigger_hit_recoil")
+		
 	var mesh_node: Node3D = get_node_or_null("FacetedRoseMesh")
 	if not mesh_node:
 		return

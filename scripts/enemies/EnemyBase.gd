@@ -85,6 +85,15 @@ func _on_damaged(_amount: float, _source: Node) -> void:
 			mat.set_shader_parameter("hit_flash", val)
 	, 1.0, 0.0, 0.09)
 
+	# 1b. Paper Cutout Hit Reaction & Flash
+	var cutout = find_child("PaperCutout", true, false)
+	if cutout and cutout.has_method("trigger_hit_recoil"):
+		cutout.call("trigger_hit_recoil")
+		var orig_mod: Color = cutout.get("modulate")
+		cutout.set("modulate", Color(2.5, 2.5, 2.5, 1.0))
+		var tw_cutout := create_tween()
+		tw_cutout.tween_property(cutout, "modulate", orig_mod, 0.12)
+
 	# 2. Schleimspritzer auf dem Boden
 	_spawn_slime_splash(global_position)
 
