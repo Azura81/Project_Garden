@@ -26,6 +26,7 @@
 [ext_resource type="PackedScene" path="res://scenes/environment/SunPollen.tscn" id="22_pollen"]
 [ext_resource type="PackedScene" path="res://scenes/environment/Butterfly.tscn" id="23_bfly"]
 [ext_resource type="Texture2D" path="res://assets/textures/watercolor_paper.png" id="28_paper_tex"]
+[ext_resource type="Shader" path="res://assets/shaders/ink_edge_postprocess.gdshader" id="29_ink_shd"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ghibli"]
 sky_top_color = Color(0.48, 0.68, 0.86, 1)
@@ -41,13 +42,12 @@ sky_material = SubResource("ProceduralSkyMaterial_ghibli")
 background_mode = 2
 sky = SubResource("Sky_main")
 ambient_light_source = 3
-ambient_light_color = Color(0.95, 0.91, 0.82, 1)
+ambient_light_color = Color(0.92, 0.88, 0.8, 1)
 ambient_light_sky_contribution = 0.65
-ambient_light_energy = 0.95
+ambient_light_energy = 0.52
 tonemap_mode = 2
-tonemap_exposure = 1.05
-glow_enabled = true
-glow_bloom = 0.12
+tonemap_exposure = 0.98
+glow_enabled = false
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_ground"]
 size = Vector2(32, 16)
@@ -55,8 +55,8 @@ size = Vector2(32, 16)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fcgrt"]
 render_priority = 0
 shader = ExtResource("5_fcgrt")
-shader_parameter/base_color = Color(0.784, 0.635, 0.478, 1)
-shader_parameter/shade_color = Color(0.549, 0.384, 0.224, 1)
+shader_parameter/base_color = Color(0.431, 0.294, 0.196, 1)
+shader_parameter/shade_color = Color(0.267, 0.176, 0.114, 1)
 shader_parameter/ink_edge_color = Color(0.169, 0.129, 0.094, 1)
 shader_parameter/noise_texture = ExtResource("28_paper_tex")
 shader_parameter/uv_scale = Vector2(3, 3)
@@ -68,16 +68,16 @@ shader_parameter/use_world_coords = true
 
 [sub_resource type="Curve3D" id="Curve3D_path"]
 _data = {
-"points": PackedVector3Array(0, 0, 0, 1.5, 0, 0, -18, 0.1, -4.5, -1.5, 0, 0, 1, 0, 1.8, -8, 0.1, -4.5, -1, 0, -1.8, 1.4, 0, -1.8, -4, 0.1, 3.5, -1.4, 0, 1.6, 0.2, 0, 1.6, 2, 0.1, -3, -0.2, 0, -1.4, 1.8, 0, 0, 2, 0.1, 2.5, -1.8, 0, 0, 0.8, 0, 0, 11, 0.1, 2.5, -0.8, 0, 0, 0, 0, 0, 13.8, 0.1, 2.5),
-"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0)
+"points": PackedVector3Array(0, 0, 0, 3.2, 0, 0.3, -17.5, 0.04, -4.5, -2.8, 0, -0.5, 3, 0, 0.8, -8.5, 0.04, -3.8, -3.2, 0, -2, 3, 0, 1.8, -1.8, 0.04, 1.6, -2.8, 0, 1.8, 2.8, 0, -1.8, 4.8, 0.04, -1.8, -2.8, 0, -1.2, 1.6, 0, 0.4, 11.2, 0.04, 2, -1, 0, -0.2, 0, 0, 0, 13.8, 0.04, 2.4),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0)
 }
-point_count = 7
+point_count = 6
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_path"]
 render_priority = 0
 shader = ExtResource("5_fcgrt")
-shader_parameter/base_color = Color(0.88, 0.79, 0.68, 1)
-shader_parameter/shade_color = Color(0.74, 0.62, 0.48, 1)
+shader_parameter/base_color = Color(0.784, 0.635, 0.478, 1)
+shader_parameter/shade_color = Color(0.612, 0.463, 0.314, 1)
 shader_parameter/ink_edge_color = Color(0.169, 0.129, 0.094, 1)
 shader_parameter/noise_texture = ExtResource("28_paper_tex")
 shader_parameter/uv_scale = Vector2(3.5, 3.5)
@@ -86,6 +86,18 @@ shader_parameter/ink_edge_threshold = 0.65
 shader_parameter/ink_edge_strength = 0.8
 shader_parameter/roughness_val = 0.92
 shader_parameter/use_world_coords = true
+
+[sub_resource type="QuadMesh" id="QuadMesh_ink"]
+size = Vector2(2, 2)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ink"]
+render_priority = 10
+shader = ExtResource("29_ink_shd")
+shader_parameter/ink_color = Color(0.169, 0.129, 0.094, 1)
+shader_parameter/line_thickness = 1.6
+shader_parameter/depth_threshold = 0.012
+shader_parameter/color_threshold = 0.08
+shader_parameter/ink_strength = 0.9
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_arrow"]
 albedo_color = Color(0.98, 0.84, 0.15, 1)
@@ -105,8 +117,8 @@ size = Vector3(0.45, 0.5, 0.08)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0rjyr"]
 render_priority = 0
 shader = ExtResource("5_fcgrt")
-shader_parameter/base_color = Color(0.784, 0.635, 0.478, 1)
-shader_parameter/shade_color = Color(0.549, 0.384, 0.224, 1)
+shader_parameter/base_color = Color(0.431, 0.294, 0.196, 1)
+shader_parameter/shade_color = Color(0.267, 0.176, 0.114, 1)
 shader_parameter/ink_edge_color = Color(0.169, 0.129, 0.094, 1)
 shader_parameter/noise_texture = ExtResource("28_paper_tex")
 shader_parameter/uv_scale = Vector2(3, 3)
@@ -119,8 +131,8 @@ shader_parameter/use_world_coords = true
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0k37p"]
 render_priority = 0
 shader = ExtResource("5_fcgrt")
-shader_parameter/base_color = Color(0.784, 0.635, 0.478, 1)
-shader_parameter/shade_color = Color(0.549, 0.384, 0.224, 1)
+shader_parameter/base_color = Color(0.431, 0.294, 0.196, 1)
+shader_parameter/shade_color = Color(0.267, 0.176, 0.114, 1)
 shader_parameter/ink_edge_color = Color(0.169, 0.129, 0.094, 1)
 shader_parameter/noise_texture = ExtResource("28_paper_tex")
 shader_parameter/uv_scale = Vector2(3, 3)
@@ -133,8 +145,8 @@ shader_parameter/use_world_coords = true
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4h14u"]
 render_priority = 0
 shader = ExtResource("5_fcgrt")
-shader_parameter/base_color = Color(0.784, 0.635, 0.478, 1)
-shader_parameter/shade_color = Color(0.549, 0.384, 0.224, 1)
+shader_parameter/base_color = Color(0.431, 0.294, 0.196, 1)
+shader_parameter/shade_color = Color(0.267, 0.176, 0.114, 1)
 shader_parameter/ink_edge_color = Color(0.169, 0.129, 0.094, 1)
 shader_parameter/noise_texture = ExtResource("28_paper_tex")
 shader_parameter/uv_scale = Vector2(3, 3)
@@ -147,8 +159,8 @@ shader_parameter/use_world_coords = true
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bbars"]
 render_priority = 0
 shader = ExtResource("5_fcgrt")
-shader_parameter/base_color = Color(0.784, 0.635, 0.478, 1)
-shader_parameter/shade_color = Color(0.549, 0.384, 0.224, 1)
+shader_parameter/base_color = Color(0.431, 0.294, 0.196, 1)
+shader_parameter/shade_color = Color(0.267, 0.176, 0.114, 1)
 shader_parameter/ink_edge_color = Color(0.169, 0.129, 0.094, 1)
 shader_parameter/noise_texture = ExtResource("28_paper_tex")
 shader_parameter/uv_scale = Vector2(3, 3)
@@ -161,8 +173,8 @@ shader_parameter/use_world_coords = true
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0f20a"]
 render_priority = 0
 shader = ExtResource("5_fcgrt")
-shader_parameter/base_color = Color(0.784, 0.635, 0.478, 1)
-shader_parameter/shade_color = Color(0.549, 0.384, 0.224, 1)
+shader_parameter/base_color = Color(0.431, 0.294, 0.196, 1)
+shader_parameter/shade_color = Color(0.267, 0.176, 0.114, 1)
 shader_parameter/ink_edge_color = Color(0.169, 0.129, 0.094, 1)
 shader_parameter/noise_texture = ExtResource("28_paper_tex")
 shader_parameter/uv_scale = Vector2(3, 3)
@@ -184,11 +196,11 @@ environment = SubResource("Environment_main")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1479602195]
 transform = Transform3D(0.707107, -0.353553, 0.612372, 0, 0.866025, 0.5, -0.707107, -0.353553, 0.612372, -10, 15, 10)
-light_color = Color(1, 0.95, 0.82, 1)
-light_energy = 1.35
+light_color = Color(1, 0.96, 0.88, 1)
+light_energy = 0.92
 shadow_enabled = true
 shadow_bias = 0.03
-shadow_blur = 1.6
+shadow_blur = 1.8
 
 [node name="Ground" type="MeshInstance3D" parent="." unique_id=1000973222]
 mesh = SubResource("PlaneMesh_ground")
@@ -206,12 +218,18 @@ tactical_rotation_deg = Vector3(-25, 0, 0)
 transform = Transform3D(1, 0, 0, 0, 0.906308, 0.422618, 0, -0.422618, 0.906308, 0, 9.2, 16.5)
 current = true
 
+[node name="PostProcessInk" type="MeshInstance3D" parent="CameraRig/Camera3D" unique_id=987123456]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.2)
+extra_cull_margin = 16384.0
+mesh = SubResource("QuadMesh_ink")
+surface_material_override/0 = SubResource("ShaderMaterial_ink")
+
 [node name="Path3D" type="Path3D" parent="." unique_id=1135221480]
 curve = SubResource("Curve3D_path")
 
 [node name="PathVisual" type="CSGPolygon3D" parent="." unique_id=680112437]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, 0)
-polygon = PackedVector2Array(-0.7, 0, 0.7, 0, 0.7, 0.02, -0.7, 0.02)
+polygon = PackedVector2Array(-0.85, 0, 0.85, 0, 0.85, 0.02, -0.85, 0.02)
 mode = 2
 path_node = NodePath("../Path3D")
 path_interval_type = 0
@@ -226,7 +244,7 @@ path_joined = false
 material = SubResource("ShaderMaterial_path")
 
 [node name="PathStartArrow" type="Node3D" parent="." unique_id=1130359811]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.8, 0.25, -4.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.2, 0.25, -4.5)
 script = ExtResource("14_arrow")
 
 [node name="Shaft" type="MeshInstance3D" parent="PathStartArrow" unique_id=614526178]
@@ -238,32 +256,32 @@ transform = Transform3D(0, 0, 1, 1, 0, 0, 0, 1, 0, 0.35, 0, 0)
 mesh = SubResource("PrismMesh_arrow_tip")
 
 [node name="GoldenSprout" type="Node3D" parent="." unique_id=1755724370 instance=ExtResource("13_sprout")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, 2.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.8, 0, 2.4)
 script = ExtResource("11_tj285")
 
 [node name="TowerSpots" type="Node3D" parent="." unique_id=918944300]
 
 [node name="TowerSpot_1" type="Area3D" parent="TowerSpots" unique_id=559734236 groups=["tower_spots"] instance=ExtResource("5_spot_scene")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 0, 0.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.5, 0, -1)
 script = ExtResource("13_x6f5j")
 
 [node name="TowerSpot_2" type="Area3D" parent="TowerSpots" unique_id=1832353345 groups=["tower_spots"] instance=ExtResource("5_spot_scene")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 0, -5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.2, 0, 4.4)
 script = ExtResource("13_x6f5j")
 spot_id = 2
 
 [node name="TowerSpot_3" type="Area3D" parent="TowerSpots" unique_id=1212035996 groups=["tower_spots"] instance=ExtResource("5_spot_scene")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4.8)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6, 0, -4.2)
 script = ExtResource("13_x6f5j")
 spot_id = 3
 
 [node name="TowerSpot_4" type="Area3D" parent="TowerSpots" unique_id=944259084 groups=["tower_spots"] instance=ExtResource("5_spot_scene")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 0, -1.2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.4, 0, 4.5)
 script = ExtResource("13_x6f5j")
 spot_id = 4
 
 [node name="TowerSpot_5" type="Area3D" parent="TowerSpots" unique_id=1829075547 groups=["tower_spots"] instance=ExtResource("5_spot_scene")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.5, 0, 6)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.6, 0, -3.8)
 script = ExtResource("13_x6f5j")
 spot_id = 5
 

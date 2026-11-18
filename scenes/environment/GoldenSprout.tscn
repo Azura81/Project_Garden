@@ -6,9 +6,9 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/plants/golden_seedling.png" id="4_sprout_tex"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_mound"]
-top_radius = 0.9
-bottom_radius = 1.15
-height = 0.22
+top_radius = 1.45
+bottom_radius = 1.85
+height = 0.28
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mound"]
 albedo_texture = ExtResource("2_spot_tex")
@@ -16,12 +16,12 @@ uv1_scale = Vector3(2.5, 2.5, 1)
 roughness = 0.85
 
 [sub_resource type="TorusMesh" id="TorusMesh_ring"]
-inner_radius = 0.72
-outer_radius = 0.78
+inner_radius = 1.15
+outer_radius = 1.3
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ring"]
 shading_mode = 0
-albedo_color = Color(0.96, 0.82, 0.38, 0.9)
+albedo_color = Color(0.961, 0.816, 0.38, 0.95)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_particle"]
 shading_mode = 0
@@ -56,8 +56,8 @@ mesh = SubResource("TorusMesh_ring")
 surface_material_override/0 = SubResource("StandardMaterial3D_ring")
 
 [node name="PaperCutout" type="Sprite3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.22, 0)
-pixel_size = 0.0035
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.28, 0)
+pixel_size = 0.0058
 offset = Vector2(0, 256)
 shaded = true
 alpha_cut = 1

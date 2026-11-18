@@ -14,10 +14,10 @@ thorn_speed = 26.0
 visible = false
 
 [node name="FirstPersonMount" parent="." index="1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.48, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2, 0)
 
 [node name="PaperCutout" type="Sprite3D" parent="." index="3"]
-pixel_size = 0.0038
+pixel_size = 0.0058
 offset = Vector2(0, 256)
 shaded = true
 alpha_cut = 1

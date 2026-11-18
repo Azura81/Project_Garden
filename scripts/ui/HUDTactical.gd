@@ -3,12 +3,12 @@ extends Control
 
 ## HUDTactical: Benutzeroberfläche im Taktik-Modus mit Wellenvorschau & Geschwindigkeitsregelung.
 
-@onready var label_dewdrops: Label = $TopLeft/HBoxContainer/LabelDewdrops
-@onready var bar_core_hp: ProgressBar = $TopLeft/HBoxContainer/BarCoreHP
-@onready var label_wave: Label = $TopRight/VBoxContainer/HBoxContainer/LabelWave
-@onready var btn_speed: Button = $TopRight/VBoxContainer/HBoxContainer/BtnSpeed
-@onready var label_wave_preview: Label = $TopRight/VBoxContainer/LabelWavePreview
-@onready var btn_start_wave: Button = $BottomCenter/BtnStartWave
+@onready var label_dewdrops: Label = find_child("LabelDewdrops", true, false)
+@onready var bar_core_hp: ProgressBar = find_child("BarCoreHP", true, false)
+@onready var label_wave: Label = find_child("LabelWave", true, false)
+@onready var btn_speed: Button = find_child("BtnSpeed", true, false)
+@onready var label_wave_preview: Label = find_child("LabelWavePreview", true, false)
+@onready var btn_start_wave: Button = find_child("BtnStartWave", true, false)
 
 const WAVE_INFOS = {
 	0: "Nächste: 4x 🐌 Gartenschnecke (Gemächlich)",
@@ -50,13 +50,13 @@ func _update_wave_preview(current_w: int) -> void:
 		return
 	if GameManager.is_wave_active:
 		label_wave_preview.text = "⚔️ Angriff im Gange..."
-		label_wave_preview.add_theme_color_override("font_color", Color(1.0, 0.6, 0.4, 0.95))
+		label_wave_preview.add_theme_color_override("font_color", Color(0.72, 0.22, 0.12, 1.0))
 	elif current_w >= GameManager.total_waves:
 		label_wave_preview.text = "🎉 Alle Wellen abgewehrt!"
-		label_wave_preview.add_theme_color_override("font_color", Color(0.6, 1.0, 0.5, 0.95))
+		label_wave_preview.add_theme_color_override("font_color", Color(0.2, 0.45, 0.15, 1.0))
 	else:
 		label_wave_preview.text = WAVE_INFOS.get(current_w, "Nächste Welle vorbereiten")
-		label_wave_preview.add_theme_color_override("font_color", Color(1.0, 0.92, 0.65, 0.95))
+		label_wave_preview.add_theme_color_override("font_color", Color(0.36, 0.25, 0.15, 1.0))
 
 func _on_dewdrops_changed(amount: int) -> void:
 	if label_dewdrops:

@@ -82,8 +82,7 @@ func _apply_random_color_theme() -> void:
 	
 	var cutout = get_node_or_null("PaperCutout")
 	if cutout:
-		var base_col: Color = theme["base"]
-		cutout.modulate = Color(base_col.r * 1.08, base_col.g * 1.08, base_col.b * 1.08, 1.0)
+		cutout.modulate = Color.WHITE
 	
 	var mesh_node: MeshInstance3D = get_node_or_null("FacetedRoseMesh")
 	if not mesh_node:

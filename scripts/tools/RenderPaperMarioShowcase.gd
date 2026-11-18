@@ -77,17 +77,17 @@ func _setup_showcase() -> void:
 	# --- SHOT 2: Nahaufnahme Paper Cutouts & Schatten ---
 	print("Render Shot 2: Nahaufnahme Pappaufsteller Schnecke & Rose...")
 	if cam:
-		cam.global_position = Vector3(-8.8, 2.0, 3.4)
-		cam.look_at(Vector3(-10.6, 1.1, 0.4), Vector3.UP)
+		cam.global_position = Vector3(-7.8, 2.2, 2.0)
+		cam.look_at(Vector3(-10.5, 1.2, -1.0), Vector3.UP)
 
 	await get_tree().create_timer(0.5).timeout
 	_capture_and_save("showcase_paper_cutout_closeup.png")
 
-	# --- SHOT 2b: Schnecke auf Pfad ---
-	print("Render Shot 2b: Nahaufnahme Schnecke...")
+	# --- SHOT 2b: Schnecke auf S-Kurven-Pfad ---
+	print("Render Shot 2b: Nahaufnahme Schnecke auf S-Kurve...")
 	if cam:
-		cam.global_position = Vector3(-4.8, 1.8, 0.6)
-		cam.look_at(Vector3(-5.9, 0.7, -1.4), Vector3.UP)
+		cam.global_position = Vector3(-0.5, 2.2, 4.2)
+		cam.look_at(Vector3(-1.8, 0.4, 1.6), Vector3.UP)
 
 	await get_tree().create_timer(0.4).timeout
 	_capture_and_save("showcase_paper_snail_action.png")
