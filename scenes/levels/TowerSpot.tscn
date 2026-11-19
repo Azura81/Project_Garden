@@ -10,26 +10,31 @@
 height = 0.4
 radius = 1.35
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_mound"]
-top_radius = 1.35
-bottom_radius = 1.65
-height = 0.24
+[sub_resource type="SphereMesh" id="SphereMesh_mound"]
+radius = 1.6
+height = 0.44
+radial_segments = 24
+rings = 10
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3dd1l"]
+albedo_color = Color(0.65, 0.50, 0.35, 1)
 albedo_texture = ExtResource("2_spot_tex")
-roughness = 0.88
+roughness = 0.95
 normal_enabled = true
-normal_scale = 1.6
+normal_scale = 1.2
 normal_texture = ExtResource("3_3dd1l")
 uv1_scale = Vector3(2.5, 2.5, 1)
 
 [sub_resource type="TorusMesh" id="TorusMesh_magic"]
-inner_radius = 1.05
-outer_radius = 1.25
+inner_radius = 1.14
+outer_radius = 1.28
+rings = 36
+ring_segments = 6
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_magic"]
+transparency = 1
 shading_mode = 0
-albedo_color = Color(1.15, 0.98, 0.52, 1)
+albedo_color = Color(1.0, 0.92, 0.58, 0.88)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_mini"]
 render_priority = 0
@@ -55,7 +60,7 @@ shape = SubResource("CylinderShape3D_hitbox")
 
 [node name="MoundMesh" type="MeshInstance3D" parent="." unique_id=2063928068]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0)
-mesh = SubResource("CylinderMesh_mound")
+mesh = SubResource("SphereMesh_mound")
 surface_material_override/0 = SubResource("StandardMaterial3D_3dd1l")
 
 [node name="MagicRing" type="MeshInstance3D" parent="." unique_id=466094021]

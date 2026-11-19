@@ -11,6 +11,11 @@
 [ext_resource type="ArrayMesh" path="res://assets/models/ivy_vines.obj" id="9_fvigg"]
 [ext_resource type="ArrayMesh" path="res://assets/models/garden_props.obj" id="10_jpahn"]
 [ext_resource type="ArrayMesh" path="res://assets/models/flower_pot.obj" id="11_ur8y7"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/grass_tuft_paper_1.png" id="14_grass1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/grass_tuft_paper_2.png" id="15_grass2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/wildflower_white_paper.png" id="16_flower_w"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/wildflower_yellow_paper.png" id="17_flower_y"]
+
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_beam"]
 albedo_color = Color(0.478, 0.345, 0.231, 1)
@@ -101,82 +106,82 @@ roughness = 0.95
 [node name="BeetBorder" type="Node3D" unique_id=315448081]
 
 [node name="Beam_N1" type="MeshInstance3D" parent="." unique_id=2034313624]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 0, -8)
+transform = Transform3D(0.999962, -0.000145, 0.011825, 0.000000, 1.379810, 0.022382, -0.008760, -0.022879, 1.349763, -14.0, -0.006, -8.0)
 mesh = ExtResource("1_beam_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_beam")
 
 [node name="Beam_N2" type="MeshInstance3D" parent="." unique_id=359338028]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -8)
+transform = Transform3D(0.999849, -0.000144, -0.023476, 0.000000, 1.379953, -0.011143, 0.017390, 0.011389, 1.349750, -10.0, 0.014, -8.0)
 mesh = ExtResource("1_beam_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_beam")
 
 [node name="Beam_N3" type="MeshInstance3D" parent="." unique_id=1806305236]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -8)
+transform = Transform3D(0.999696, -0.000355, 0.033259, 0.000000, 1.379857, 0.019464, -0.024639, -0.019891, 1.349450, -6.0, 0.001, -8.0)
 mesh = ExtResource("1_beam_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_beam")
 
 [node name="Beam_N4" type="MeshInstance3D" parent="." unique_id=2114473303]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -8)
+transform = Transform3D(0.999564, 0.000290, -0.039876, 0.000000, 1.379933, 0.013259, 0.029539, -0.013547, 1.349346, -2.0, 0.005, -8.0)
 mesh = ExtResource("1_beam_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_beam")
 
 [node name="Beam_N5" type="MeshInstance3D" parent="." unique_id=2123927276]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -8)
+transform = Transform3D(0.999558, 0.000313, -0.040152, 0.000000, 1.379924, 0.014192, 0.029744, -0.014501, 1.349328, 2.0, 0.012, -8.0)
 mesh = ExtResource("1_beam_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_beam")
 
 [node name="Beam_N6" type="MeshInstance3D" parent="." unique_id=1340991065]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -8)
+transform = Transform3D(0.999996, -0.000028, 0.003812, 0.000000, 1.379934, 0.013174, -0.002824, -0.013466, 1.349930, 6.0, 0.009, -8.0)
 mesh = ExtResource("1_beam_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_beam")
 
 [node name="Beam_N7" type="MeshInstance3D" parent="." unique_id=593540974]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, -8)
+transform = Transform3D(0.999811, -0.000335, 0.026241, 0.000000, 1.379795, 0.023255, -0.019441, -0.023767, 1.349545, 10.0, 0.020, -8.0)
 mesh = ExtResource("1_beam_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_beam")
 
 [node name="Beam_N8" type="MeshInstance3D" parent="." unique_id=999193552]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, -8)
+transform = Transform3D(0.999923, -0.000069, 0.016806, 0.000000, 1.379979, 0.007528, -0.012449, -0.007695, 1.349874, 14.0, -0.012, -8.0)
 mesh = ExtResource("1_beam_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_beam")
 
 [node name="Beam_S1" type="MeshInstance3D" parent="." unique_id=717393133]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 0, 8)
+transform = Transform3D(0.999587, -0.000164, 0.038776, 0.000000, 1.379978, 0.007700, -0.028724, -0.007868, 1.349421, -14.0, -0.015, 8.0)
 mesh = ExtResource("1_beam_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_beam")
 
 [node name="Beam_S2" type="MeshInstance3D" parent="." unique_id=1078162395]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 8)
+transform = Transform3D(0.999679, -0.000307, -0.034202, 0.000000, 1.379898, -0.016375, 0.025336, 0.016733, 1.349467, -10.0, 0.010, 8.0)
 mesh = ExtResource("1_beam_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_beam")
 
 [node name="Beam_S3" type="MeshInstance3D" parent="." unique_id=1365383440]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 8)
+transform = Transform3D(0.999814, 0.000155, 0.026049, 0.000000, 1.379956, -0.010826, -0.019296, 0.011064, 1.349705, -6.0, 0.007, 8.0)
 mesh = ExtResource("1_beam_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_beam")
 
 [node name="Beam_S4" type="MeshInstance3D" parent="." unique_id=540303874]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 8)
+transform = Transform3D(0.999558, -0.000126, 0.040125, 0.000000, 1.379988, 0.005724, -0.029722, -0.005849, 1.349391, -2.0, 0.008, 8.0)
 mesh = ExtResource("1_beam_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_beam")
 
 [node name="Beam_S5" type="MeshInstance3D" parent="." unique_id=289502853]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 8)
+transform = Transform3D(0.999786, 0.000086, 0.027939, 0.000000, 1.379988, -0.005585, -0.020696, 0.005708, 1.349699, 2.0, 0.023, 8.0)
 mesh = ExtResource("1_beam_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_beam")
 
 [node name="Beam_S6" type="MeshInstance3D" parent="." unique_id=1380341965]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 8)
+transform = Transform3D(0.999988, 0.000035, 0.006561, 0.000000, 1.379965, -0.009640, -0.004860, 0.009854, 1.349950, 6.0, -0.018, 8.0)
 mesh = ExtResource("1_beam_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_beam")
 
 [node name="Beam_S7" type="MeshInstance3D" parent="." unique_id=452772045]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 8)
+transform = Transform3D(0.999854, 0.000126, -0.023079, 0.000000, 1.379963, 0.009925, 0.017096, -0.010144, 1.349766, 10.0, -0.016, 8.0)
 mesh = ExtResource("1_beam_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_beam")
 
 [node name="Beam_S8" type="MeshInstance3D" parent="." unique_id=1266882061]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, 8)
+transform = Transform3D(0.999859, 0.000234, -0.022662, 0.000000, 1.379866, 0.018802, 0.016788, -0.019217, 1.349679, 14.0, -0.006, 8.0)
 mesh = ExtResource("1_beam_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_beam")
 
@@ -452,3 +457,205 @@ transform = Transform3D(0.17677669, 0, 0.17677669, 0, 0.25, 0, -0.17677669, 0, 0
 mesh = ExtResource("11_ur8y7")
 surface_material_override/0 = SubResource("StandardMaterial3D_5j1hm")
 surface_material_override/1 = SubResource("StandardMaterial3D_mrm1u")
+
+# --- Dichte organische Steingruppen (Feldsteine an den Ecken und Kanten) ---
+[node name="Stones_CornerSW_Cluster1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.3, 0, 0.4, 0, 1.4, 0, -0.4, 0, 1.3, -15.1, 0.06, 7.8)
+mesh = ExtResource("2_stones_mesh")
+surface_material_override/0 = SubResource("ShaderMaterial_stone")
+
+[node name="Stones_CornerSW_Cluster2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.9, 0, -0.7, 0, 1.2, 0, 0.7, 0, 0.9, -16.2, 0.08, 6.9)
+mesh = ExtResource("2_stones_mesh")
+surface_material_override/0 = SubResource("ShaderMaterial_stone")
+
+[node name="Stones_Sprout_Crescent1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.2, 0, -0.6, 0, 1.3, 0, 0.6, 0, 1.2, 14.8, 0.06, 4.2)
+mesh = ExtResource("2_stones_mesh")
+surface_material_override/0 = SubResource("ShaderMaterial_stone")
+
+[node name="Stones_Sprout_Crescent2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.9, 0, 0.8, 0, 1.2, 0, -0.8, 0, 0.9, 15.2, 0.08, 1.8)
+mesh = ExtResource("2_stones_mesh")
+surface_material_override/0 = SubResource("ShaderMaterial_stone")
+
+[node name="Stones_Sprout_Crescent3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.1, 0, 0.3, 0, 1.2, 0, -0.3, 0, 1.1, 13.8, 0.06, -0.2)
+mesh = ExtResource("2_stones_mesh")
+surface_material_override/0 = SubResource("ShaderMaterial_stone")
+
+[node name="Stones_South_Cluster1" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.85, 0, 0.4, 0, 1.0, 0, -0.4, 0, 0.85, -4.2, 0.04, 8.2)
+mesh = ExtResource("2_stones_mesh")
+surface_material_override/0 = SubResource("ShaderMaterial_stone")
+
+[node name="Stones_South_Cluster2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.95, 0, -0.3, 0, 1.1, 0, 0.3, 0, 0.95, 4.2, 0.04, 8.2)
+mesh = ExtResource("2_stones_mesh")
+surface_material_override/0 = SubResource("ShaderMaterial_stone")
+
+# --- 2.5D Aquarell-Grasbüschel & Wildblumen (Sprite3D) ---
+[node name="PaperGrass_SW1" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.4, 0.02, 8.5)
+pixel_size = 0.0028
+offset = Vector2(0, 256)
+shaded = true
+alpha_cut = 1
+texture_filter = 2
+texture = ExtResource("14_grass1")
+billboard = 2
+cast_shadow = 1
+
+[node name="PaperFlower_White_SW1" type="Sprite3D" parent="."]
+transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, -15.6, 0.02, 8.7)
+pixel_size = 0.0028
+offset = Vector2(0, 256)
+shaded = true
+alpha_cut = 1
+texture_filter = 2
+texture = ExtResource("16_flower_w")
+billboard = 2
+cast_shadow = 1
+
+[node name="PaperFlower_Yellow_SW1" type="Sprite3D" parent="."]
+transform = Transform3D(0.85, 0, 0, 0, 0.85, 0, 0, 0, 0.85, -14.6, 0.02, 8.4)
+pixel_size = 0.0028
+offset = Vector2(0, 256)
+shaded = true
+alpha_cut = 1
+texture_filter = 2
+texture = ExtResource("17_flower_y")
+billboard = 2
+cast_shadow = 1
+
+[node name="PaperGrass_S1" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.2, 0.02, 8.4)
+pixel_size = 0.0028
+offset = Vector2(0, 256)
+shaded = true
+alpha_cut = 1
+texture_filter = 2
+texture = ExtResource("15_grass2")
+billboard = 2
+cast_shadow = 1
+
+[node name="PaperFlower_White_S1" type="Sprite3D" parent="."]
+transform = Transform3D(0.85, 0, 0, 0, 0.85, 0, 0, 0, 0.85, -7.8, 0.02, 8.5)
+pixel_size = 0.0028
+offset = Vector2(0, 256)
+shaded = true
+alpha_cut = 1
+texture_filter = 2
+texture = ExtResource("16_flower_w")
+billboard = 2
+cast_shadow = 1
+
+[node name="PaperGrass_S2" type="Sprite3D" parent="."]
+transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, -1.2, 0.02, 8.4)
+pixel_size = 0.0028
+offset = Vector2(0, 256)
+shaded = true
+alpha_cut = 1
+texture_filter = 2
+texture = ExtResource("14_grass1")
+billboard = 2
+cast_shadow = 1
+
+[node name="PaperFlower_Yellow_S2" type="Sprite3D" parent="."]
+transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, 0.6, 0.02, 8.5)
+pixel_size = 0.0028
+offset = Vector2(0, 256)
+shaded = true
+alpha_cut = 1
+texture_filter = 2
+texture = ExtResource("17_flower_y")
+billboard = 2
+cast_shadow = 1
+
+[node name="PaperGrass_S3" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.8, 0.02, 8.4)
+pixel_size = 0.0028
+offset = Vector2(0, 256)
+shaded = true
+alpha_cut = 1
+texture_filter = 2
+texture = ExtResource("15_grass2")
+billboard = 2
+cast_shadow = 1
+
+[node name="PaperFlower_White_S3" type="Sprite3D" parent="."]
+transform = Transform3D(0.85, 0, 0, 0, 0.85, 0, 0, 0, 0.85, 8.5, 0.02, 8.5)
+pixel_size = 0.0028
+offset = Vector2(0, 256)
+shaded = true
+alpha_cut = 1
+texture_filter = 2
+texture = ExtResource("16_flower_w")
+billboard = 2
+cast_shadow = 1
+
+[node name="PaperGrass_SE1" type="Sprite3D" parent="."]
+transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, 15.2, 0.02, 6.2)
+pixel_size = 0.0028
+offset = Vector2(0, 256)
+shaded = true
+alpha_cut = 1
+texture_filter = 2
+texture = ExtResource("14_grass1")
+billboard = 2
+cast_shadow = 1
+
+[node name="PaperFlower_Yellow_SE1" type="Sprite3D" parent="."]
+transform = Transform3D(0.95, 0, 0, 0, 0.95, 0, 0, 0, 0.95, 15.8, 0.02, 4.8)
+pixel_size = 0.0028
+offset = Vector2(0, 256)
+shaded = true
+alpha_cut = 1
+texture_filter = 2
+texture = ExtResource("17_flower_y")
+billboard = 2
+cast_shadow = 1
+
+[node name="PaperGrass_Sprout1" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.6, 0.02, 2.5)
+pixel_size = 0.0028
+offset = Vector2(0, 256)
+shaded = true
+alpha_cut = 1
+texture_filter = 2
+texture = ExtResource("15_grass2")
+billboard = 2
+cast_shadow = 1
+
+[node name="PaperFlower_White_Sprout1" type="Sprite3D" parent="."]
+transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, 14.5, 0.02, 0.2)
+pixel_size = 0.0028
+offset = Vector2(0, 256)
+shaded = true
+alpha_cut = 1
+texture_filter = 2
+texture = ExtResource("16_flower_w")
+billboard = 2
+cast_shadow = 1
+
+[node name="PaperGrass_Entrance1" type="Sprite3D" parent="."]
+transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, -17.1, 0.02, -5.2)
+pixel_size = 0.0028
+offset = Vector2(0, 256)
+shaded = true
+alpha_cut = 1
+texture_filter = 2
+texture = ExtResource("14_grass1")
+billboard = 2
+cast_shadow = 1
+
+[node name="PaperGrass_Entrance2" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.1, 0.02, -2.4)
+pixel_size = 0.0028
+offset = Vector2(0, 256)
+shaded = true
+alpha_cut = 1
+texture_filter = 2
+texture = ExtResource("15_grass2")
+billboard = 2
+cast_shadow = 1

@@ -6,15 +6,15 @@ extends Node3D
 
 @export var camera: Camera3D
 
-# Feste Diorama-Ausrichtung
-@export var tactical_position: Vector3 = Vector3(0, 9.2, 16.5)
-@export var tactical_rotation_deg: Vector3 = Vector3(-25, 0, 0)
+# Feste Diorama-Ausrichtung (35° diagonaler Winkel wie in ref_perspective_1.jpg)
+@export var tactical_position: Vector3 = Vector3(-10.5, 9.6, 16.8)
+@export var tactical_rotation_deg: Vector3 = Vector3(-26.0, -34.0, 0.0)
 
 # Zoom-Einstellungen entlang der Sichtachse
 @export var zoom_speed: float = 1.6
-@export var min_zoom_dist: float = 13.0
-@export var max_zoom_dist: float = 27.0
-@export var default_zoom_dist: float = 21.77
+@export var min_zoom_dist: float = 12.0
+@export var max_zoom_dist: float = 28.0
+@export var default_zoom_dist: float = 21.5
 
 # Fokus-Punch bei Turmauswahl
 @export var focus_distance: float = 11.2
@@ -39,11 +39,11 @@ var active_mount: Marker3D = null
 var current_pitch: float = 0.0
 var current_yaw: float = 0.0
 
-var current_target_dist: float = 21.77
-var current_zoom_dist: float = 21.77
-var current_focus_center: Vector3 = Vector3(0, 0, -3.23)
-var default_focus_center: Vector3 = Vector3(0, 0, -3.23)
-var cam_back_dir: Vector3 = Vector3(0, 0.422618, 0.906308)
+var current_target_dist: float = 21.5
+var current_zoom_dist: float = 21.5
+var current_focus_center: Vector3 = Vector3(0.0, 0.0, 0.5)
+var default_focus_center: Vector3 = Vector3(0.0, 0.0, 0.5)
+var cam_back_dir: Vector3 = Vector3(-0.496, 0.438, 0.750)
 
 var is_focused_on_spot: bool = false
 var focused_spot: Area3D = null
@@ -53,26 +53,24 @@ func _ready() -> void:
 	if not camera:
 		camera = get_node_or_null("Camera3D") as Camera3D
 
-	# Exakte Richtungsachse basierend auf Neigungswinkel berechnen
-	var pitch_rad: float = deg_to_rad(absf(tactical_rotation_deg.x))
-	cam_back_dir = Vector3(0.0, sin(pitch_rad), cos(pitch_rad)).normalized()
-	
-	# Standard-Fokuspunkt auf dem Boden berechnen
-	if cam_back_dir.y > 0.001:
-		default_zoom_dist = tactical_position.y / cam_back_dir.y
-		var z_ground: float = tactical_position.z - cam_back_dir.z * default_zoom_dist
-		default_focus_center = Vector3(tactical_position.x, 0.0, z_ground)
-	
-	current_target_dist = default_zoom_dist
-	current_zoom_dist = default_zoom_dist
-	current_focus_center = default_focus_center
-
+	_update_cam_vectors()
 	setup_tactical_view()
 
 	GameManager.symbiosis_entered.connect(_on_symbiosis_entered)
 	GameManager.symbiosis_exited.connect(_on_symbiosis_exited)
 	GameManager.spot_selected.connect(_on_spot_selected)
 	GameManager.spot_deselected.connect(_on_spot_deselected)
+
+func _update_cam_vectors() -> void:
+	var basis_rot := Basis.from_euler(Vector3(
+		deg_to_rad(tactical_rotation_deg.x),
+		deg_to_rad(tactical_rotation_deg.y),
+		deg_to_rad(tactical_rotation_deg.z)
+	))
+	cam_back_dir = basis_rot.z.normalized()
+	current_target_dist = default_zoom_dist
+	current_zoom_dist = default_zoom_dist
+	current_focus_center = default_focus_center
 
 func setup_tactical_view() -> void:
 	is_in_symbiosis = false
@@ -137,8 +135,13 @@ func _on_spot_selected(spot: Area3D) -> void:
 	focused_spot = spot
 
 	# Intelligenter Versatz: Platziert die Blume elegant mit komfortablem Abstand neben dem Radial-Menü
-	var side_offset_x: float = 5.0 if spot.global_position.x <= 0.0 else -5.0
-	var target_center: Vector3 = spot.global_position + Vector3(side_offset_x, spot_frame_offset.y, spot_frame_offset.z)
+	var basis_rot := Basis.from_euler(Vector3(
+		deg_to_rad(tactical_rotation_deg.x),
+		deg_to_rad(tactical_rotation_deg.y),
+		deg_to_rad(tactical_rotation_deg.z)
+	))
+	var cam_right := basis_rot.x.normalized()
+	var target_center: Vector3 = spot.global_position - cam_right * 2.8 + Vector3(0.0, spot_frame_offset.y, 0.0)
 
 	if focus_tween and focus_tween.is_valid():
 		focus_tween.kill()

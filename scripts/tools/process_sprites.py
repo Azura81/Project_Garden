@@ -98,19 +98,32 @@ def process_sprite(config):
         
     elif mode == "dandelion_hybrid":
         # Pusteblume:
-        # A. Flood-Fill von den Bildrändern für den Gesamthintergrund
-        white_mask = (r_chan >= 242) & (g_chan >= 242) & (b_chan >= 242)
-        labeled, _ = label(white_mask)
+        # A. Flood-Fill von den Bildrändern für den reinen weißen Außenhintergrund
+        bg_seed = (r_chan >= 252) & (g_chan >= 252) & (b_chan >= 252)
+        labeled, _ = label(bg_seed)
         border_labels = set(np.unique(np.concatenate([
             labeled[0, :], labeled[-1, :], labeled[:, 0], labeled[:, -1]
         ])))
         border_labels.discard(0)
-        is_bg = np.isin(labeled, list(border_labels))
+        is_outer_bg = np.isin(labeled, list(border_labels))
         
-        # B. Für den unteren Bereich (Rosettenblätter und Stängel, y >= 800):
-        # Alle eingeschlossenen weißen Flächen zwischen den Blättern entfernen
-        is_lower_white = (min_rgb >= 205) & (diff_rgb <= 28)
-        is_bg[800:, :] = is_bg[800:, :] | is_lower_white[800:, :]
+        plant_mask = ~is_outer_bg
+
+        # B. Für den unteren Bereich (Rosettenblätter und Stängel, y >= 850):
+        # Eingeschlossene weiße Flächen zwischen den Blättern transparent machen
+        diff = max_rgb - min_rgb
+        is_lower_white = (min_rgb >= 200) & (diff <= 28)
+        plant_mask[850:, :] = plant_mask[850:, :] & (~is_lower_white[850:, :])
+
+        # C. Für die oberen Pusteblumen-Kugeln (y < 850):
+        # Alle Innenräume schließen und Samen-Filamente verbinden -> 100% deckend!
+        from scipy.ndimage import binary_fill_holes, binary_closing
+        puff_mask = plant_mask[:850, :]
+        puff_filled = binary_fill_holes(puff_mask)
+        puff_solid = binary_closing(puff_filled, iterations=3)
+        plant_mask[:850, :] = puff_solid
+
+        is_bg = ~plant_mask
         
     elif mode == "sticker_flood":
         # Sticker (Schnecke & Käfer): Flood-Fill von außen mit Schattenschnitt
@@ -153,6 +166,15 @@ def process_sprite(config):
             new_w = max(1, int(crop_w * scale))
             new_h = max(1, int(crop_h * scale))
             scaled = cropped.resize((new_w, new_h), Image.Resampling.LANCZOS)
+            
+            # Pusteblumen-Köpfe nach Skalierung voll deckend halten (kein Lanczos-Alpha-Fading)
+            if mode == "dandelion_hybrid":
+                scaled_arr = np.array(scaled)
+                puff_h_scaled = int(850 * scale)
+                scaled_puff_alpha = scaled_arr[:puff_h_scaled, :, 3]
+                scaled_puff_alpha[scaled_puff_alpha >= 40] = 255
+                scaled_arr[:puff_h_scaled, :, 3] = scaled_puff_alpha
+                scaled = Image.fromarray(scaled_arr)
             
             canvas = Image.new("RGBA", (target_w, target_h), (0, 0, 0, 0))
             paste_x = (target_w - new_w) // 2

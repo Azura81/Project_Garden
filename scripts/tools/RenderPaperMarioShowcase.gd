@@ -71,11 +71,10 @@ func _setup_showcase() -> void:
 	if cam:
 		cam.current = true
 
-	# --- SHOT 1: Taktische Pop-up Diorama Übersicht ---
-	print("Render Shot 1: Taktische Übersicht mit Rose, Pusteblume, Schnecke & Käfer...")
-	if cam:
-		cam.global_position = Vector3(0.0, 16.5, 12.0)
-		cam.look_at(Vector3(0.0, 0.0, 0.5), Vector3.UP)
+	# --- SHOT 1: Diagonale Pop-up Diorama Übersicht (wie in ref_perspective_1.jpg) ---
+	print("Render Shot 1: Diagonale Übersicht (35° Winkel, warme Aquarell-Erde & Himmel)...")
+	if cam_rig and cam_rig.has_method("setup_tactical_view"):
+		cam_rig.call("setup_tactical_view")
 
 	await get_tree().create_timer(0.6).timeout
 	_capture_and_save("showcase_paper_diorama_overview.png")
@@ -85,20 +84,20 @@ func _setup_showcase() -> void:
 		cam_rig.set_process(false)
 		cam_rig.set_physics_process(false)
 
-	# --- SHOT 2: Nahaufnahme Pusteblume & Schmuckkäfer ---
-	print("Render Shot 2: Nahaufnahme Pusteblume & Schmuckkäfer...")
+	# --- SHOT 2: Nahaufnahme Pusteblume, Steine & 2.5D Deko ---
+	print("Render Shot 2: Nahaufnahme Pusteblume, Steingruppen & 2.5D-Gartendeko...")
 	if cam:
-		cam.global_position = Vector3(3.5, 2.8, 5.5)
-		cam.look_at(Vector3(0.8, 1.2, 0.5), Vector3.UP)
+		cam.global_position = Vector3(-6.8, 2.6, 7.8)
+		cam.look_at(Vector3(-1.5, 1.0, 1.2), Vector3.UP)
 
 	await get_tree().create_timer(0.5).timeout
 	_capture_and_save("showcase_paper_cutout_closeup.png")
 
-	# --- SHOT 2b: Käfer & Schnecke auf S-Kurven-Pfad ---
-	print("Render Shot 2b: Käfer & Schnecke in Bewegung auf S-Kurve...")
+	# --- SHOT 2b: Käfer & Schnecke auf S-Kurven-Pfad mit weichen Rändern ---
+	print("Render Shot 2b: S-Kurven-Pfad mit weichen Aquarell-Rändern...")
 	if cam:
-		cam.global_position = Vector3(-0.5, 2.2, 4.2)
-		cam.look_at(Vector3(-1.8, 0.4, 1.6), Vector3.UP)
+		cam.global_position = Vector3(-4.5, 3.2, 8.5)
+		cam.look_at(Vector3(1.8, 0.4, 0.2), Vector3.UP)
 
 	await get_tree().create_timer(0.4).timeout
 	_capture_and_save("showcase_paper_snail_action.png")
