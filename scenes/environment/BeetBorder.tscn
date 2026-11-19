@@ -659,3 +659,177 @@ texture_filter = 2
 texture = ExtResource("15_grass2")
 billboard = 2
 cast_shadow = 1
+
+# --- Dichte Feldsteine an allen Ecken & Balken (Farbe #8E8B82) ---
+[node name="Stones_CornerNE_Cluster1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.2, 0, 0.5, 0, 1.3, 0, -0.5, 0, 1.2, 15.5, 0.05, -7.5)
+mesh = ExtResource("2_stones_mesh")
+surface_material_override/0 = SubResource("ShaderMaterial_stone")
+
+[node name="Stones_CornerNE_Cluster2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.85, 0, -0.6, 0, 1.1, 0, 0.6, 0, 0.85, 16.2, 0.08, -6.5)
+mesh = ExtResource("2_stones_mesh")
+surface_material_override/0 = SubResource("ShaderMaterial_stone")
+
+[node name="Stones_CornerSE_Cluster1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.25, 0, -0.4, 0, 1.35, 0, 0.4, 0, 1.25, 15.2, 0.06, 7.5)
+mesh = ExtResource("2_stones_mesh")
+surface_material_override/0 = SubResource("ShaderMaterial_stone")
+
+[node name="Stones_CornerSE_Cluster2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.9, 0, 0.65, 0, 1.15, 0, -0.65, 0, 0.9, 16.3, 0.08, 6.5)
+mesh = ExtResource("2_stones_mesh")
+surface_material_override/0 = SubResource("ShaderMaterial_stone")
+
+[node name="Stones_CornerNW_Cluster1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.2, 0, 0.35, 0, 1.25, 0, -0.35, 0, 1.2, -15.2, 0.05, -7.6)
+mesh = ExtResource("2_stones_mesh")
+surface_material_override/0 = SubResource("ShaderMaterial_stone")
+
+[node name="Stones_CornerNW_Cluster2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.85, 0, -0.5, 0, 1.1, 0, 0.5, 0, 0.85, -16.4, 0.08, -6.5)
+mesh = ExtResource("2_stones_mesh")
+surface_material_override/0 = SubResource("ShaderMaterial_stone")
+
+[node name="Stones_FrontMid_Cluster1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.0, 0, 0.3, 0, 1.15, 0, -0.3, 0, 1.0, -11.5, 0.05, 8.2)
+mesh = ExtResource("2_stones_mesh")
+surface_material_override/0 = SubResource("ShaderMaterial_stone")
+
+[node name="Stones_FrontMid_Cluster2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.9, 0, -0.4, 0, 1.05, 0, 0.4, 0, 0.9, 11.5, 0.05, 8.2)
+mesh = ExtResource("2_stones_mesh")
+surface_material_override/0 = SubResource("ShaderMaterial_stone")
+
+# --- Zusätzliche 2.5D Grasbüschel & Wildblumen (Sprite3D) für dichte Übergänge ---
+[node name="PaperGrass_FrontL1" type="Sprite3D" parent="."]
+transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, -13.2, 0.02, 8.6)
+pixel_size = 0.0028
+offset = Vector2(0, 256)
+shaded = true
+alpha_cut = 1
+texture_filter = 2
+texture = ExtResource("14_grass1")
+billboard = 2
+cast_shadow = 1
+
+[node name="PaperFlower_Y_FrontL" type="Sprite3D" parent="."]
+transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, -12.1, 0.02, 8.5)
+pixel_size = 0.0028
+offset = Vector2(0, 256)
+shaded = true
+alpha_cut = 1
+texture_filter = 2
+texture = ExtResource("17_flower_y")
+billboard = 2
+cast_shadow = 1
+
+[node name="PaperGrass_FrontM1" type="Sprite3D" parent="."]
+transform = Transform3D(1.0, 0, 0, 0, 1.0, 0, 0, 0, 1.0, -5.5, 0.02, 8.4)
+pixel_size = 0.0028
+offset = Vector2(0, 256)
+shaded = true
+alpha_cut = 1
+texture_filter = 2
+texture = ExtResource("15_grass2")
+billboard = 2
+cast_shadow = 1
+
+[node name="PaperFlower_W_FrontM" type="Sprite3D" parent="."]
+transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, -4.5, 0.02, 8.6)
+pixel_size = 0.0028
+offset = Vector2(0, 256)
+shaded = true
+alpha_cut = 1
+texture_filter = 2
+texture = ExtResource("16_flower_w")
+billboard = 2
+cast_shadow = 1
+
+[node name="PaperGrass_FrontR1" type="Sprite3D" parent="."]
+transform = Transform3D(1.15, 0, 0, 0, 1.15, 0, 0, 0, 1.15, 2.8, 0.02, 8.5)
+pixel_size = 0.0028
+offset = Vector2(0, 256)
+shaded = true
+alpha_cut = 1
+texture_filter = 2
+texture = ExtResource("14_grass1")
+billboard = 2
+cast_shadow = 1
+
+[node name="PaperFlower_Y_FrontR" type="Sprite3D" parent="."]
+transform = Transform3D(0.85, 0, 0, 0, 0.85, 0, 0, 0, 0.85, 3.8, 0.02, 8.6)
+pixel_size = 0.0028
+offset = Vector2(0, 256)
+shaded = true
+alpha_cut = 1
+texture_filter = 2
+texture = ExtResource("17_flower_y")
+billboard = 2
+cast_shadow = 1
+
+[node name="PaperGrass_FrontFarR" type="Sprite3D" parent="."]
+transform = Transform3D(1.05, 0, 0, 0, 1.05, 0, 0, 0, 1.05, 10.5, 0.02, 8.4)
+pixel_size = 0.0028
+offset = Vector2(0, 256)
+shaded = true
+alpha_cut = 1
+texture_filter = 2
+texture = ExtResource("15_grass2")
+billboard = 2
+cast_shadow = 1
+
+[node name="PaperFlower_W_FrontFarR" type="Sprite3D" parent="."]
+transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, 12.0, 0.02, 8.6)
+pixel_size = 0.0028
+offset = Vector2(0, 256)
+shaded = true
+alpha_cut = 1
+texture_filter = 2
+texture = ExtResource("16_flower_w")
+billboard = 2
+cast_shadow = 1
+
+[node name="PaperGrass_RightBorder1" type="Sprite3D" parent="."]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 16.5, 0.02, 3.2)
+pixel_size = 0.0028
+offset = Vector2(0, 256)
+shaded = true
+alpha_cut = 1
+texture_filter = 2
+texture = ExtResource("14_grass1")
+billboard = 2
+cast_shadow = 1
+
+[node name="PaperFlower_Y_RightBorder1" type="Sprite3D" parent="."]
+transform = Transform3D(0.95, 0, 0, 0, 0.95, 0, 0, 0, 0.95, 16.8, 0.02, 1.2)
+pixel_size = 0.0028
+offset = Vector2(0, 256)
+shaded = true
+alpha_cut = 1
+texture_filter = 2
+texture = ExtResource("17_flower_y")
+billboard = 2
+cast_shadow = 1
+
+[node name="PaperGrass_BackWall1" type="Sprite3D" parent="."]
+transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, -6.5, 0.02, -8.3)
+pixel_size = 0.0028
+offset = Vector2(0, 256)
+shaded = true
+alpha_cut = 1
+texture_filter = 2
+texture = ExtResource("15_grass2")
+billboard = 2
+cast_shadow = 1
+
+[node name="PaperFlower_W_BackWall1" type="Sprite3D" parent="."]
+transform = Transform3D(0.85, 0, 0, 0, 0.85, 0, 0, 0, 0.85, 3.5, 0.02, -8.4)
+pixel_size = 0.0028
+offset = Vector2(0, 256)
+shaded = true
+alpha_cut = 1
+texture_filter = 2
+texture = ExtResource("16_flower_w")
+billboard = 2
+cast_shadow = 1

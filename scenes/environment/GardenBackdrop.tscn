@@ -18,6 +18,7 @@
 [ext_resource type="ArrayMesh" path="res://assets/models/apple_tree.obj" id="13_jd6k4"]
 [ext_resource type="ArrayMesh" path="res://assets/models/rain_barrel.obj" id="14_6i730"]
 [ext_resource type="PackedScene" path="res://scenes/environment/ChimneySmoke.tscn" id="15_smoke"]
+[ext_resource type="ArrayMesh" path="res://assets/models/rustic_beam.obj" id="16_beam_mesh"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_4r8qd"]
 size = Vector2(220, 220)
@@ -27,10 +28,10 @@ render_priority = 0
 shader = ExtResource("1_c8jhb")
 shader_parameter/grass_texture = ExtResource("3_r4o0c")
 shader_parameter/grass_normal = ExtResource("2_aiyih")
-shader_parameter/col_sunlit = Color(0.56, 0.74, 0.38, 1)
-shader_parameter/col_meadow = Color(0.42, 0.62, 0.3, 1)
+shader_parameter/col_sunlit = Color(0.604, 0.702, 0.396, 1)
+shader_parameter/col_meadow = Color(0.431, 0.545, 0.306, 1)
 shader_parameter/uv_scale = Vector2(70, 70)
-shader_parameter/macro_noise_scale = null
+shader_parameter/macro_noise_scale = 0.22
 shader_parameter/normal_scale = 1.4
 
 [sub_resource type="BoxMesh" id="BoxMesh_glm34"]
@@ -481,6 +482,11 @@ size = Vector3(1.1, 2.2, 1.1)
 [sub_resource type="BoxMesh" id="BoxMesh_pillar_cap"]
 size = Vector3(1.3, 0.28, 1.3)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_beam"]
+albedo_color = Color(0.478, 0.345, 0.231, 1)
+albedo_texture = ExtResource("1_uv68i")
+roughness = 0.88
+
 [node name="GardenBackdrop" type="Node3D" unique_id=1147056897]
 
 
@@ -749,131 +755,6 @@ surface_material_override/0 = SubResource("StandardMaterial3D_fvdtb")
 
 [node name="Fence_L_11" type="MeshInstance3D" parent="." unique_id=919956786]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -28, 0, 16)
-mesh = ExtResource("3_6i730")
-surface_material_override/0 = SubResource("StandardMaterial3D_fvdtb")
-
-[node name="Fence_R_1" type="MeshInstance3D" parent="." unique_id=1371919730]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 28, 0, -24)
-mesh = ExtResource("3_6i730")
-surface_material_override/0 = SubResource("StandardMaterial3D_fvdtb")
-
-[node name="Fence_R_2" type="MeshInstance3D" parent="." unique_id=1986338167]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 28, 0, -20)
-mesh = ExtResource("3_6i730")
-surface_material_override/0 = SubResource("StandardMaterial3D_fvdtb")
-
-[node name="Fence_R_3" type="MeshInstance3D" parent="." unique_id=1903431543]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 28, 0, -16)
-mesh = ExtResource("3_6i730")
-surface_material_override/0 = SubResource("StandardMaterial3D_fvdtb")
-
-[node name="Fence_R_4" type="MeshInstance3D" parent="." unique_id=1664962255]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 28, 0, -12)
-mesh = ExtResource("3_6i730")
-surface_material_override/0 = SubResource("StandardMaterial3D_fvdtb")
-
-[node name="Fence_R_5" type="MeshInstance3D" parent="." unique_id=259521073]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 28, 0, -8)
-mesh = ExtResource("3_6i730")
-surface_material_override/0 = SubResource("StandardMaterial3D_fvdtb")
-
-[node name="Fence_R_6" type="MeshInstance3D" parent="." unique_id=1388792951]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 28, 0, -4)
-mesh = ExtResource("3_6i730")
-surface_material_override/0 = SubResource("StandardMaterial3D_fvdtb")
-
-[node name="Fence_R_7" type="MeshInstance3D" parent="." unique_id=1384834584]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 28, 0, 0)
-mesh = ExtResource("3_6i730")
-surface_material_override/0 = SubResource("StandardMaterial3D_fvdtb")
-
-[node name="Fence_R_8" type="MeshInstance3D" parent="." unique_id=1671214144]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 28, 0, 4)
-mesh = ExtResource("3_6i730")
-surface_material_override/0 = SubResource("StandardMaterial3D_fvdtb")
-
-[node name="Fence_R_9" type="MeshInstance3D" parent="." unique_id=1789569490]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 28, 0, 8)
-mesh = ExtResource("3_6i730")
-surface_material_override/0 = SubResource("StandardMaterial3D_fvdtb")
-
-[node name="Fence_R_10" type="MeshInstance3D" parent="." unique_id=752935121]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 28, 0, 12)
-mesh = ExtResource("3_6i730")
-surface_material_override/0 = SubResource("StandardMaterial3D_fvdtb")
-
-[node name="Fence_R_11" type="MeshInstance3D" parent="." unique_id=2048672663]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 28, 0, 16)
-mesh = ExtResource("3_6i730")
-surface_material_override/0 = SubResource("StandardMaterial3D_fvdtb")
-
-[node name="Fence_S_1" type="MeshInstance3D" parent="." unique_id=1759473937]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -26, 0, 20)
-mesh = ExtResource("3_6i730")
-surface_material_override/0 = SubResource("StandardMaterial3D_fvdtb")
-
-[node name="Fence_S_2" type="MeshInstance3D" parent="." unique_id=545026388]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -22, 0, 20)
-mesh = ExtResource("3_6i730")
-surface_material_override/0 = SubResource("StandardMaterial3D_fvdtb")
-
-[node name="Fence_S_3" type="MeshInstance3D" parent="." unique_id=261600838]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -18, 0, 20)
-mesh = ExtResource("3_6i730")
-surface_material_override/0 = SubResource("StandardMaterial3D_fvdtb")
-
-[node name="Fence_S_4" type="MeshInstance3D" parent="." unique_id=253073539]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -14, 0, 20)
-mesh = ExtResource("3_6i730")
-surface_material_override/0 = SubResource("StandardMaterial3D_fvdtb")
-
-[node name="Fence_S_5" type="MeshInstance3D" parent="." unique_id=834332501]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -10, 0, 20)
-mesh = ExtResource("3_6i730")
-surface_material_override/0 = SubResource("StandardMaterial3D_fvdtb")
-
-[node name="Fence_S_6" type="MeshInstance3D" parent="." unique_id=1865470265]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -6, 0, 20)
-mesh = ExtResource("3_6i730")
-surface_material_override/0 = SubResource("StandardMaterial3D_fvdtb")
-
-[node name="Fence_S_7" type="MeshInstance3D" parent="." unique_id=1358989198]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -2, 0, 20)
-mesh = ExtResource("3_6i730")
-surface_material_override/0 = SubResource("StandardMaterial3D_fvdtb")
-
-[node name="Fence_S_8" type="MeshInstance3D" parent="." unique_id=1381114340]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 2, 0, 20)
-mesh = ExtResource("3_6i730")
-surface_material_override/0 = SubResource("StandardMaterial3D_fvdtb")
-
-[node name="Fence_S_9" type="MeshInstance3D" parent="." unique_id=1686499907]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 6, 0, 20)
-mesh = ExtResource("3_6i730")
-surface_material_override/0 = SubResource("StandardMaterial3D_fvdtb")
-
-[node name="Fence_S_10" type="MeshInstance3D" parent="." unique_id=1088165728]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 10, 0, 20)
-mesh = ExtResource("3_6i730")
-surface_material_override/0 = SubResource("StandardMaterial3D_fvdtb")
-
-[node name="Fence_S_11" type="MeshInstance3D" parent="." unique_id=172812213]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 14, 0, 20)
-mesh = ExtResource("3_6i730")
-surface_material_override/0 = SubResource("StandardMaterial3D_fvdtb")
-
-[node name="Fence_S_12" type="MeshInstance3D" parent="." unique_id=1664852559]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 18, 0, 20)
-mesh = ExtResource("3_6i730")
-surface_material_override/0 = SubResource("StandardMaterial3D_fvdtb")
-
-[node name="Fence_S_13" type="MeshInstance3D" parent="." unique_id=2113422245]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 22, 0, 20)
-mesh = ExtResource("3_6i730")
-surface_material_override/0 = SubResource("StandardMaterial3D_fvdtb")
-
-[node name="Fence_S_14" type="MeshInstance3D" parent="." unique_id=756030011]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 26, 0, 20)
 mesh = ExtResource("3_6i730")
 surface_material_override/0 = SubResource("StandardMaterial3D_fvdtb")
 
@@ -1165,3 +1046,147 @@ surface_material_override/0 = SubResource("StandardMaterial3D_e2kmc")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.2, 2.3, -14.5)
 mesh = SubResource("BoxMesh_pillar_cap")
 surface_material_override/0 = SubResource("StandardMaterial3D_x3iun")
+
+# --- Rechts & Vordergrund: Großer Baum, dichte Büsche & rustikaler Holzzaun (wie in ref_perspective_1.jpg) ---
+[node name="Tree_Right_Prominent" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.65, 0, -0.4, 0, 1.85, 0, 0.4, 0, 1.65, 13.6, 0, 4.5)
+mesh = ExtResource("13_jd6k4")
+surface_material_override/0 = SubResource("StandardMaterial3D_c8jhb")
+surface_material_override/1 = SubResource("ShaderMaterial_e5gui")
+surface_material_override/2 = SubResource("StandardMaterial3D_aiyih")
+
+[node name="Tree_Right_Back" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.5, 0, 0.35, 0, 1.6, 0, -0.35, 0, 1.5, 15.2, 0, -1.8)
+mesh = ExtResource("13_jd6k4")
+surface_material_override/0 = SubResource("StandardMaterial3D_c8jhb")
+surface_material_override/1 = SubResource("ShaderMaterial_e5gui")
+surface_material_override/2 = SubResource("StandardMaterial3D_aiyih")
+
+[node name="Tree_Left_Background" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.45, 0, 0.2, 0, 1.5, 0, -0.2, 0, 1.45, -24.0, 0, -18.0)
+mesh = ExtResource("13_jd6k4")
+surface_material_override/0 = SubResource("StandardMaterial3D_c8jhb")
+surface_material_override/1 = SubResource("ShaderMaterial_e5gui")
+surface_material_override/2 = SubResource("StandardMaterial3D_aiyih")
+
+[node name="Tree_Left_Mid" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.3, 0, -0.4, 0, 1.35, 0, 0.4, 0, 1.3, -26.0, 0, -8.0)
+mesh = ExtResource("13_jd6k4")
+surface_material_override/0 = SubResource("StandardMaterial3D_c8jhb")
+surface_material_override/1 = SubResource("ShaderMaterial_e5gui")
+surface_material_override/2 = SubResource("StandardMaterial3D_aiyih")
+
+[node name="Tree_BehindWall_L" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.4, 0, 0.5, 0, 1.5, 0, -0.5, 0, 1.4, -4.5, 0, -18.5)
+mesh = ExtResource("13_jd6k4")
+surface_material_override/0 = SubResource("StandardMaterial3D_c8jhb")
+surface_material_override/1 = SubResource("ShaderMaterial_e5gui")
+surface_material_override/2 = SubResource("StandardMaterial3D_aiyih")
+
+[node name="Tree_BehindWall_Mid" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.45, 0, -0.3, 0, 1.55, 0, 0.3, 0, 1.45, 2.5, 0, -19.5)
+mesh = ExtResource("13_jd6k4")
+surface_material_override/0 = SubResource("StandardMaterial3D_c8jhb")
+surface_material_override/1 = SubResource("ShaderMaterial_e5gui")
+surface_material_override/2 = SubResource("StandardMaterial3D_aiyih")
+
+[node name="Tree_BehindWall_R" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.5, 0, -0.3, 0, 1.55, 0, 0.3, 0, 1.5, 8.5, 0, -18.5)
+mesh = ExtResource("13_jd6k4")
+surface_material_override/0 = SubResource("StandardMaterial3D_c8jhb")
+surface_material_override/1 = SubResource("ShaderMaterial_e5gui")
+surface_material_override/2 = SubResource("StandardMaterial3D_aiyih")
+
+[node name="Tree_BehindWall_FarR" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.4, 0, 0.2, 0, 1.45, 0, -0.2, 0, 1.4, 14.5, 0, -16.5)
+mesh = ExtResource("13_jd6k4")
+surface_material_override/0 = SubResource("StandardMaterial3D_c8jhb")
+surface_material_override/1 = SubResource("ShaderMaterial_e5gui")
+surface_material_override/2 = SubResource("StandardMaterial3D_aiyih")
+
+# --- Rustikaler Holzzaun rechts (Breite Pfähle & Querlatten wie in ref_perspective_1.jpg) ---
+[node name="Fence_Post_R1" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.5, 0, 0.05, 0, 1.9, 0, -0.05, 0, 0.5, 11.2, 0, 6.2)
+mesh = ExtResource("16_beam_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_beam")
+
+[node name="Fence_Post_R2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.52, 0, -0.04, 0, 1.85, 0, 0.04, 0, 0.52, 11.8, 0, 2.8)
+mesh = ExtResource("16_beam_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_beam")
+
+[node name="Fence_Post_R3" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.5, 0, 0.06, 0, 1.95, 0, -0.06, 0, 0.5, 12.4, 0, -0.6)
+mesh = ExtResource("16_beam_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_beam")
+
+[node name="Fence_Post_R4" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.48, 0, -0.05, 0, 1.85, 0, 0.05, 0, 0.48, 13.0, 0, -3.8)
+mesh = ExtResource("16_beam_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_beam")
+
+[node name="Fence_Rail_R1_Top" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.38, 0, 0.95, 0, 0.42, 0, -0.95, 0, 0.38, 11.5, 1.25, 4.5)
+mesh = ExtResource("16_beam_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_beam")
+
+[node name="Fence_Rail_R1_Bot" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.38, 0, 0.95, 0, 0.42, 0, -0.95, 0, 0.38, 11.5, 0.65, 4.5)
+mesh = ExtResource("16_beam_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_beam")
+
+[node name="Fence_Rail_R2_Top" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.38, 0, 0.95, 0, 0.42, 0, -0.95, 0, 0.38, 12.1, 1.20, 1.1)
+mesh = ExtResource("16_beam_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_beam")
+
+[node name="Fence_Rail_R2_Bot" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.38, 0, 0.95, 0, 0.42, 0, -0.95, 0, 0.38, 12.1, 0.60, 1.1)
+mesh = ExtResource("16_beam_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_beam")
+
+[node name="Fence_Rail_R3_Top" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.38, 0, 0.95, 0, 0.42, 0, -0.95, 0, 0.38, 12.7, 1.18, -2.2)
+mesh = ExtResource("16_beam_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_beam")
+
+[node name="Fence_Rail_R3_Bot" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.38, 0, 0.95, 0, 0.42, 0, -0.95, 0, 0.38, 12.7, 0.58, -2.2)
+mesh = ExtResource("16_beam_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_beam")
+
+# --- Dichte Büsche rechts & an der Backsteinmauer ---
+[node name="Bush_Right_Fence1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.3, 0, 0, 0, 1.3, 0, 0, 0, 1.3, 12.5, 0, 5.2)
+mesh = ExtResource("11_btydk")
+surface_material_override/0 = SubResource("ShaderMaterial_e5gui")
+
+[node name="Bush_Right_Fence2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.4, 0, 0.3, 0, 1.35, 0, -0.3, 0, 1.4, 13.0, 0, 1.8)
+mesh = ExtResource("11_btydk")
+surface_material_override/0 = SubResource("ShaderMaterial_e5gui")
+
+[node name="Bush_Right_Fence3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.25, 0, -0.2, 0, 1.3, 0, 0.2, 0, 1.25, 13.8, 0, -1.2)
+mesh = ExtResource("11_btydk")
+surface_material_override/0 = SubResource("ShaderMaterial_e5gui")
+
+[node name="Bush_Wall_L1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.3, 0, 0, 0, 1.2, 0, 0, 0, 1.3, -11.5, 0, -13.5)
+mesh = ExtResource("11_btydk")
+surface_material_override/0 = SubResource("ShaderMaterial_e5gui")
+
+[node name="Bush_Wall_L2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.15, 0, 0.2, 0, 1.25, 0, -0.2, 0, 1.15, -7.5, 0, -13.5)
+mesh = ExtResource("11_btydk")
+surface_material_override/0 = SubResource("ShaderMaterial_e5gui")
+
+[node name="Bush_Wall_R1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.2, 0, -0.2, 0, 1.25, 0, 0.2, 0, 1.2, 7.5, 0, -13.5)
+mesh = ExtResource("11_btydk")
+surface_material_override/0 = SubResource("ShaderMaterial_e5gui")
+
+[node name="Bush_Wall_R2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.35, 0, 0, 0, 1.3, 0, 0, 0, 1.35, 11.5, 0, -13.5)
+mesh = ExtResource("11_btydk")
+surface_material_override/0 = SubResource("ShaderMaterial_e5gui")

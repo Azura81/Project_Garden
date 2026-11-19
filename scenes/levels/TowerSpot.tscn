@@ -1,23 +1,23 @@
-[gd_scene format=3]
+[gd_scene load_steps=8 format=3 uid="uid://c6j4h8x0m5rqe"]
 
 [ext_resource type="Script" path="res://scripts/levels/TowerSpot.gd" id="1_spot_script"]
 [ext_resource type="Texture2D" path="res://assets/textures/ground_spot.jpg" id="2_spot_tex"]
 [ext_resource type="Texture2D" path="res://assets/textures/soil_normal.png" id="3_3dd1l"]
-[ext_resource type="ArrayMesh" path="res://assets/models/mini_sprout.obj" id="3_mini_mesh"]
-[ext_resource type="Shader" path="res://assets/shaders/toon_outline.gdshader" id="4_toon_shd"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/spot_seedling_sprout.png" id="4_sprout_tex"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/spot_golden_ring.png" id="5_ring_tex"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_hitbox"]
 height = 0.4
 radius = 1.35
 
 [sub_resource type="SphereMesh" id="SphereMesh_mound"]
-radius = 1.6
-height = 0.44
+radius = 1.45
+height = 0.38
 radial_segments = 24
 rings = 10
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3dd1l"]
-albedo_color = Color(0.65, 0.50, 0.35, 1)
+albedo_color = Color(0.6, 0.44, 0.3, 1)
 albedo_texture = ExtResource("2_spot_tex")
 roughness = 0.95
 normal_enabled = true
@@ -25,57 +25,40 @@ normal_scale = 1.2
 normal_texture = ExtResource("3_3dd1l")
 uv1_scale = Vector3(2.5, 2.5, 1)
 
-[sub_resource type="TorusMesh" id="TorusMesh_magic"]
-inner_radius = 1.14
-outer_radius = 1.28
-rings = 36
-ring_segments = 6
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_magic"]
-transparency = 1
-shading_mode = 0
-albedo_color = Color(1.0, 0.92, 0.58, 0.88)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_mini"]
-render_priority = 0
-shader = ExtResource("4_toon_shd")
-shader_parameter/base_color = Color(0.42, 0.62, 0.2, 1)
-shader_parameter/gradient_color = Color(0.92, 0.84, 0.28, 1)
-shader_parameter/shadow_color = Color(0.2, 0.32, 0.1, 1)
-shader_parameter/rim_color = Color(1, 0.95, 0.6, 1)
-shader_parameter/gradient_strength = 0.7
-shader_parameter/gradient_min_y = 0.0
-shader_parameter/gradient_max_y = 0.25
-shader_parameter/facet_variation = 0.1
-shader_parameter/rim_threshold = 0.55
-shader_parameter/wind_strength = 0.02
-shader_parameter/wind_speed = 2.0
-
-[node name="TowerSpot" type="Area3D" unique_id=380295673 groups=["tower_spots"]]
+[node name="TowerSpot" type="Area3D" groups=["tower_spots"]]
 script = ExtResource("1_spot_script")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1123066874]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.12, 0)
 shape = SubResource("CylinderShape3D_hitbox")
 
-[node name="MoundMesh" type="MeshInstance3D" parent="." unique_id=2063928068]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0)
+[node name="MoundMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
 mesh = SubResource("SphereMesh_mound")
 surface_material_override/0 = SubResource("StandardMaterial3D_3dd1l")
 
-[node name="MagicRing" type="MeshInstance3D" parent="." unique_id=466094021]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
-mesh = SubResource("TorusMesh_magic")
-surface_material_override/0 = SubResource("StandardMaterial3D_magic")
+[node name="MagicRing" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.22, 0)
+axis = 1
+render_priority = 2
+texture_filter = 2
+texture = ExtResource("5_ring_tex")
+pixel_size = 0.0055
 
-[node name="IdleSprout" type="MeshInstance3D" parent="." unique_id=248211653]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0)
-mesh = ExtResource("3_mini_mesh")
-surface_material_override/0 = SubResource("ShaderMaterial_mini")
+[node name="IdleSprout" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.22, 0)
+offset = Vector2(0, 256)
+pixel_size = 0.0022
+billboard = 2
+shaded = true
+alpha_cut = 1
+texture_filter = 2
+texture = ExtResource("4_sprout_tex")
+cast_shadow = 1
 
-[node name="SpotLight" type="OmniLight3D" parent="." unique_id=482019482]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 0)
+[node name="SpotLight" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0)
 light_color = Color(0.961, 0.816, 0.38, 1)
-light_energy = 0.8
-omni_range = 2.2
-omni_attenuation = 1.3
+light_energy = 1.4
+omni_range = 2.8
+omni_attenuation = 1.2

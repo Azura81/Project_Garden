@@ -23,13 +23,16 @@ func _process(delta: float) -> void:
 		return
 	var t := Time.get_ticks_msec() * 0.001
 	if magic_ring:
-		magic_ring.rotation.y += delta * 0.75
-		magic_ring.position.y = 0.2 + sin(t * 2.4 + float(spot_id)) * 0.025
+		magic_ring.rotation.y += delta * 0.4
+		var breathe := sin(t * 2.5 + float(spot_id) * 1.4)
+		magic_ring.scale = Vector3.ONE * (1.0 + breathe * 0.05)
+		if magic_ring is Sprite3D:
+			(magic_ring as Sprite3D).modulate.a = 0.85 + breathe * 0.15
 	if idle_sprout:
-		idle_sprout.rotation.y = sin(t * 1.5 + float(spot_id)) * 0.1
-		idle_sprout.position.y = sin(t * 2.0 + float(spot_id)) * 0.015
+		idle_sprout.rotation.z = sin(t * 2.2 + float(spot_id)) * 0.06
+		idle_sprout.position.y = 0.22 + sin(t * 2.5 + float(spot_id)) * 0.012
 	if spot_light:
-		spot_light.light_energy = 0.75 + sin(t * 2.4 + float(spot_id)) * 0.15
+		spot_light.light_energy = 1.3 + sin(t * 2.8 + float(spot_id) * 1.4) * 0.35
 
 func is_empty() -> bool:
 	return current_plant == null
@@ -58,6 +61,6 @@ func _update_visual_state() -> void:
 	if spot_light:
 		spot_light.visible = empty
 
-func _on_input_event(_camera: Node, event: InputEvent, _pos: Vector3, _normal: Vector3, _shape_idx: int) -> void:
+func _on_input_event(_camera: Camera3D, event: InputEvent, _position: Vector3, _normal: Vector3, _shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		spot_clicked.emit(self)

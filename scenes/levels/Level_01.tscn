@@ -33,9 +33,9 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sky"]
 shader = ExtResource("30_sky_shd")
-shader_parameter/sky_top_color = Color(0.42, 0.64, 0.84, 1)
-shader_parameter/sky_horizon_color = Color(0.96, 0.91, 0.82, 1)
-shader_parameter/sun_glow_color = Color(0.98, 0.84, 0.68, 1)
+shader_parameter/sky_top_color = Color(0.851, 0.902, 0.91, 1)
+shader_parameter/sky_horizon_color = Color(1, 0.965, 0.878, 1)
+shader_parameter/sun_glow_color = Color(1, 0.92, 0.8, 1)
 shader_parameter/cloud_color = Color(1, 0.98, 0.94, 0.92)
 shader_parameter/cloud_shadow = Color(0.84, 0.79, 0.82, 0.85)
 shader_parameter/paper_noise = ExtResource("28_paper_tex")
@@ -50,15 +50,15 @@ sky_material = SubResource("ShaderMaterial_sky")
 background_mode = 2
 sky = SubResource("Sky_main")
 ambient_light_source = 2
-ambient_light_color = Color(1.0, 0.94, 0.85, 1)
-ambient_light_sky_contribution = 0.25
-ambient_light_energy = 0.88
+ambient_light_color = Color(0.86, 0.82, 0.9, 1)
+ambient_light_sky_contribution = 0.2
+ambient_light_energy = 0.72
 tonemap_mode = 2
-tonemap_exposure = 1.0
+tonemap_exposure = 1.05
 glow_enabled = true
 glow_normalized = true
-glow_intensity = 0.4
-glow_bloom = 0.22
+glow_intensity = 0.35
+glow_bloom = 0.18
 glow_hdr_threshold = 1.05
 glow_hdr_scale = 1.2
 
@@ -108,11 +108,11 @@ size = Vector2(2, 2)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ink"]
 render_priority = 10
 shader = ExtResource("29_ink_shd")
-shader_parameter/ink_color = Color(0.169, 0.129, 0.094, 1)
-shader_parameter/line_thickness = 1.5
-shader_parameter/depth_threshold = 0.018
-shader_parameter/color_threshold = 0.12
-shader_parameter/ink_strength = 0.88
+shader_parameter/ink_color = Color(0.231, 0.165, 0.118, 0.75)
+shader_parameter/line_thickness = 1.4
+shader_parameter/depth_threshold = 0.045
+shader_parameter/color_threshold = 0.22
+shader_parameter/ink_strength = 0.75
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_arrow"]
 albedo_color = Color(0.98, 0.84, 0.15, 1)
@@ -213,11 +213,11 @@ environment = SubResource("Environment_main")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1479602195]
 transform = Transform3D(0.707107, -0.353553, 0.612372, 0, 0.866025, 0.5, -0.707107, -0.353553, 0.612372, -10, 15, 10)
-light_color = Color(1, 0.95, 0.87, 1)
-light_energy = 1.15
+light_color = Color(1, 0.95, 0.86, 1)
+light_energy = 1.25
 shadow_enabled = true
 shadow_bias = 0.03
-shadow_blur = 1.6
+shadow_blur = 2.2
 
 [node name="Ground" type="MeshInstance3D" parent="." unique_id=1000973222]
 mesh = SubResource("PlaneMesh_ground")
@@ -246,7 +246,7 @@ curve = SubResource("Curve3D_path")
 
 [node name="PathVisual" type="CSGPolygon3D" parent="." unique_id=680112437]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.03, 0)
-polygon = PackedVector2Array(-1.15, 0, 1.15, 0, 1.15, 0.02, -1.15, 0.02)
+polygon = PackedVector2Array(-1.35, 0, 1.35, 0, 1.35, 0.02, -1.35, 0.02)
 mode = 2
 path_node = NodePath("../Path3D")
 path_interval_type = 0
