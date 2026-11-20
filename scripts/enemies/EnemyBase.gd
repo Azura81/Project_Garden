@@ -140,6 +140,7 @@ func _on_died() -> void:
 	var reward := base_dewdrops
 	if GameManager.active_symbiosis_tower:
 		reward = int(base_dewdrops * 1.25) + 1
+	GameManager.dewdrop_fly_requested.emit(global_position + Vector3(0.0, 0.4, 0.0), reward)
 	GameManager.add_dewdrops(reward)
 	defeated.emit(reward)
 

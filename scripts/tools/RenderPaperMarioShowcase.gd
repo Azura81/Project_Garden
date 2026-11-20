@@ -17,7 +17,7 @@ func _setup_showcase() -> void:
 	var lvl := lvl_scene.instantiate() as Node3D
 	add_child(lvl)
 
-	# PaperOverlay Autoload-Szene instanziieren
+	# PaperOverlay Autoload-Szene instanziieren falls nicht vorhanden
 	var overlay_scene: PackedScene = load("res://scenes/ui/PaperOverlay.tscn")
 	if overlay_scene:
 		var overlay = overlay_scene.instantiate()
@@ -46,7 +46,7 @@ func _setup_showcase() -> void:
 			path_node.add_child(b2)
 			b2.set("progress_ratio", 0.12)
 
-	# Rose auf Spot 1 pflanzen
+	# Rose auf Spot 1 pflanzen und auf Stufe 3 (Symbiose) upgraden
 	var spot1: TowerSpot = lvl.get_node_or_null("TowerSpots/TowerSpot_1")
 	var rose_scene: PackedScene = load("res://scenes/towers/ThornRose.tscn")
 	var rose: Node3D = null
@@ -55,6 +55,13 @@ func _setup_showcase() -> void:
 		spot1.add_child(rose)
 		spot1.current_plant = rose
 		spot1._update_visual_state()
+		if rose.has_method("_update_symbiosis_indicator"):
+			rose.set("level", 3)
+			rose.set("has_symbiosis_upgrade", true)
+			rose.call("_update_symbiosis_indicator")
+			var spr = rose.find_child("Sprite3D", true, false) as Sprite3D
+			if spr:
+				spr.scale *= 1.30
 
 	# Pusteblume auf Spot 2 pflanzen
 	var spot2: TowerSpot = lvl.get_node_or_null("TowerSpots/TowerSpot_2")
@@ -66,18 +73,33 @@ func _setup_showcase() -> void:
 		spot2.current_plant = dandelion
 		spot2._update_visual_state()
 
+	# Schmetterling sichtbar über dem Beet positionieren
+	var bfly: Node3D = lvl.get_node_or_null("Butterfly")
+	if bfly:
+		bfly.global_position = Vector3(2.5, 2.2, 0.5)
+
 	var cam_rig = lvl.get_node_or_null("CameraRig")
 	var cam: Camera3D = lvl.get_node_or_null("CameraRig/Camera3D")
 	if cam:
 		cam.current = true
 
 	# --- SHOT 1: Diagonale Pop-up Diorama Übersicht (wie in ref_perspective_1.jpg) ---
-	print("Render Shot 1: Diagonale Übersicht (35° Winkel, warme Aquarell-Erde & Himmel)...")
+	print("Render Shot 1: Diagonale Pop-up Diorama Übersicht...")
 	if cam_rig and cam_rig.has_method("setup_tactical_view"):
 		cam_rig.call("setup_tactical_view")
 
 	await get_tree().create_timer(0.6).timeout
 	_capture_and_save("showcase_paper_diorama_overview.png")
+
+	# --- SHOT 1b: Taktische Vogelperspektive Top-Down (wie in ref_topdown.jpg) ---
+	print("Render Shot 1b: Taktische Vogelperspektive Top-Down...")
+	if cam_rig and cam_rig.has_method("toggle_perspective"):
+		cam_rig.call("toggle_perspective")
+		await get_tree().create_timer(0.7).timeout
+		_capture_and_save("showcase_paper_topdown_view.png")
+		# Wieder zurück auf Diorama
+		cam_rig.call("toggle_perspective")
+		await get_tree().create_timer(0.7).timeout
 
 	# Deaktiviere CameraRig-Process für gezielte Shots
 	if cam_rig:

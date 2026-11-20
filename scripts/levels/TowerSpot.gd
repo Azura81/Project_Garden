@@ -30,7 +30,7 @@ func _process(delta: float) -> void:
 			(magic_ring as Sprite3D).modulate.a = 0.85 + breathe * 0.15
 	if idle_sprout:
 		idle_sprout.rotation.z = sin(t * 2.2 + float(spot_id)) * 0.06
-		idle_sprout.position.y = 0.22 + sin(t * 2.5 + float(spot_id)) * 0.012
+		idle_sprout.position.y = 0.30 + sin(t * 2.5 + float(spot_id)) * 0.012
 	if spot_light:
 		spot_light.light_energy = 1.3 + sin(t * 2.8 + float(spot_id) * 1.4) * 0.35
 

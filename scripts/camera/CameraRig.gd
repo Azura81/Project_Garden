@@ -10,6 +10,19 @@ extends Node3D
 @export var tactical_position: Vector3 = Vector3(-10.5, 9.6, 16.8)
 @export var tactical_rotation_deg: Vector3 = Vector3(-26.0, -34.0, 0.0)
 
+# Taktische Top-Down-Vogelperspektive (wie in ref_topdown.jpg)
+@export var topdown_focus_center: Vector3 = Vector3(0.0, 0.0, 0.0)
+@export var topdown_rotation_deg: Vector3 = Vector3(-68.0, 0.0, 0.0)
+@export var topdown_zoom_dist: float = 21.0
+
+enum PerspectiveMode {
+	DIORAMA,
+	TOP_DOWN
+}
+var current_perspective: PerspectiveMode = PerspectiveMode.DIORAMA
+var is_switching_perspective: bool = false
+var perspective_tween: Tween = null
+
 # Zoom-Einstellungen entlang der Sichtachse
 @export var zoom_speed: float = 1.6
 @export var min_zoom_dist: float = 12.0
@@ -60,6 +73,7 @@ func _ready() -> void:
 	GameManager.symbiosis_exited.connect(_on_symbiosis_exited)
 	GameManager.spot_selected.connect(_on_spot_selected)
 	GameManager.spot_deselected.connect(_on_spot_deselected)
+	GameManager.camera_perspective_toggle_requested.connect(toggle_perspective)
 
 func _update_cam_vectors() -> void:
 	var basis_rot := Basis.from_euler(Vector3(
@@ -95,10 +109,8 @@ func _process(delta: float) -> void:
 		_apply_camera_transform()
 
 func _apply_camera_transform() -> void:
-	if not camera:
+	if not camera or is_switching_perspective:
 		return
-
-	var base_pos: Vector3 = current_focus_center + cam_back_dir * current_zoom_dist
 
 	# Dezent schwebendes Atmen (nur im taktischen Gesamtüberblick)
 	var sway := Vector3.ZERO
@@ -107,8 +119,55 @@ func _apply_camera_transform() -> void:
 		sway.x = sin(t * 0.45) * ambient_sway_amplitude.x
 		sway.y = cos(t * 0.65) * ambient_sway_amplitude.y
 
-	camera.global_position = base_pos + sway
-	camera.rotation_degrees = tactical_rotation_deg
+	if current_perspective == PerspectiveMode.TOP_DOWN:
+		var basis_topdown := Basis.from_euler(Vector3(
+			deg_to_rad(topdown_rotation_deg.x),
+			deg_to_rad(topdown_rotation_deg.y),
+			deg_to_rad(topdown_rotation_deg.z)
+		))
+		var topdown_back := basis_topdown.z.normalized()
+		var base_pos: Vector3 = topdown_focus_center + topdown_back * topdown_zoom_dist
+		camera.global_position = base_pos + sway
+		camera.rotation_degrees = topdown_rotation_deg
+	else:
+		var base_pos: Vector3 = current_focus_center + cam_back_dir * current_zoom_dist
+		camera.global_position = base_pos + sway
+		camera.rotation_degrees = tactical_rotation_deg
+
+func toggle_perspective() -> void:
+	if is_in_symbiosis:
+		return
+
+	if perspective_tween and perspective_tween.is_valid():
+		perspective_tween.kill()
+
+	is_switching_perspective = true
+
+	var target_pos: Vector3
+	var target_rot: Vector3
+	var duration: float = 0.6
+
+	if current_perspective == PerspectiveMode.DIORAMA:
+		var basis_topdown := Basis.from_euler(Vector3(
+			deg_to_rad(topdown_rotation_deg.x),
+			deg_to_rad(topdown_rotation_deg.y),
+			deg_to_rad(topdown_rotation_deg.z)
+		))
+		var topdown_back := basis_topdown.z.normalized()
+		target_pos = topdown_focus_center + topdown_back * topdown_zoom_dist
+		target_rot = topdown_rotation_deg
+		current_perspective = PerspectiveMode.TOP_DOWN
+	else:
+		target_pos = default_focus_center + cam_back_dir * current_zoom_dist
+		target_rot = tactical_rotation_deg
+		current_perspective = PerspectiveMode.DIORAMA
+
+	perspective_tween = create_tween().set_parallel(true).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
+	perspective_tween.tween_property(camera, "global_position", target_pos, duration)
+	perspective_tween.tween_property(camera, "rotation_degrees", target_rot, duration)
+	perspective_tween.chain().tween_callback(func():
+		is_switching_perspective = false
+	)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if is_in_symbiosis:

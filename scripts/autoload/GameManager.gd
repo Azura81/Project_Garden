@@ -12,6 +12,8 @@ signal symbiosis_exited()
 signal spot_selected(spot: Area3D)
 signal spot_deselected()
 signal speed_changed(multiplier: float)
+signal camera_perspective_toggle_requested()
+signal dewdrop_fly_requested(start_world_pos: Vector3, amount: int)
 
 @export var start_dewdrops: int = 150
 var dewdrops: int = 150
@@ -95,3 +97,6 @@ func toggle_game_speed() -> void:
 		set_game_speed(2.0)
 	else:
 		set_game_speed(1.0)
+
+func toggle_camera_perspective() -> void:
+	camera_perspective_toggle_requested.emit()

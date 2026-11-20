@@ -19,6 +19,7 @@
 [ext_resource type="ArrayMesh" path="res://assets/models/rain_barrel.obj" id="14_6i730"]
 [ext_resource type="PackedScene" path="res://scenes/environment/ChimneySmoke.tscn" id="15_smoke"]
 [ext_resource type="ArrayMesh" path="res://assets/models/rustic_beam.obj" id="16_beam_mesh"]
+[ext_resource type="ArrayMesh" path="res://assets/models/corner_post.obj" id="17_post_mesh"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_4r8qd"]
 size = Vector2(220, 220)
@@ -904,12 +905,6 @@ transform = Transform3D(-0.5883132, 0, -1.0458908, 0, 1.3, 0, 1.0458908, 0, -0.5
 mesh = ExtResource("13_6711h")
 surface_material_override/0 = SubResource("ShaderMaterial_03aan")
 
-[node name="AppleTree_Right" type="MeshInstance3D" parent="." unique_id=236117775]
-transform = Transform3D(1.0422539, 0, 0.486011, 0, 1.15, 0, -0.486011, 0, 1.0422539, 22.5, 0, -9)
-mesh = ExtResource("13_jd6k4")
-surface_material_override/0 = SubResource("StandardMaterial3D_c8jhb")
-surface_material_override/1 = SubResource("ShaderMaterial_e5gui")
-surface_material_override/2 = SubResource("StandardMaterial3D_aiyih")
 
 [node name="AppleTree_Left" type="MeshInstance3D" parent="." unique_id=56105550]
 transform = Transform3D(0.8426489, 0, -0.70706636, 0, 1.1, 0, 0.70706636, 0, 0.8426489, -22.5, 0, -10)
@@ -1006,57 +1001,24 @@ transform = Transform3D(0.95755553, 0, -0.80348444, 0, 1.25, 0, 0.80348444, 0, 0
 mesh = ExtResource("13_6711h")
 surface_material_override/0 = SubResource("ShaderMaterial_03aan")
 
-# --- Niedrige Ziegelstein-Gartenmauer im Hintergrund ---
-[node name="BrickWall_West" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.5, 0.9, -14.5)
-mesh = SubResource("BoxMesh_brick_wall")
-surface_material_override/0 = SubResource("StandardMaterial3D_e2kmc")
 
-[node name="BrickWall_West_Cap" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.5, 1.9, -14.5)
-mesh = SubResource("BoxMesh_brick_cap")
-surface_material_override/0 = SubResource("StandardMaterial3D_x3iun")
 
-[node name="BrickWall_East" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.5, 0.9, -14.5)
-mesh = SubResource("BoxMesh_brick_wall")
-surface_material_override/0 = SubResource("StandardMaterial3D_e2kmc")
 
-[node name="BrickWall_East_Cap" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.5, 1.9, -14.5)
-mesh = SubResource("BoxMesh_brick_cap")
-surface_material_override/0 = SubResource("StandardMaterial3D_x3iun")
 
-[node name="BrickPillar_Gate_L" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.2, 1.1, -14.5)
-mesh = SubResource("BoxMesh_brick_pillar")
-surface_material_override/0 = SubResource("StandardMaterial3D_e2kmc")
 
-[node name="BrickPillar_Gate_L_Cap" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.2, 2.3, -14.5)
-mesh = SubResource("BoxMesh_pillar_cap")
-surface_material_override/0 = SubResource("StandardMaterial3D_x3iun")
 
-[node name="BrickPillar_Gate_R" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.2, 1.1, -14.5)
-mesh = SubResource("BoxMesh_brick_pillar")
-surface_material_override/0 = SubResource("StandardMaterial3D_e2kmc")
 
-[node name="BrickPillar_Gate_R_Cap" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.2, 2.3, -14.5)
-mesh = SubResource("BoxMesh_pillar_cap")
-surface_material_override/0 = SubResource("StandardMaterial3D_x3iun")
 
 # --- Rechts & Vordergrund: Großer Baum, dichte Büsche & rustikaler Holzzaun (wie in ref_perspective_1.jpg) ---
 [node name="Tree_Right_Prominent" type="MeshInstance3D" parent="."]
-transform = Transform3D(1.65, 0, -0.4, 0, 1.85, 0, 0.4, 0, 1.65, 13.6, 0, 4.5)
+transform = Transform3D(1.65, 0, -0.4, 0, 1.85, 0, 0.4, 0, 1.65, 25.5, 0, 8.5)
 mesh = ExtResource("13_jd6k4")
 surface_material_override/0 = SubResource("StandardMaterial3D_c8jhb")
 surface_material_override/1 = SubResource("ShaderMaterial_e5gui")
 surface_material_override/2 = SubResource("StandardMaterial3D_aiyih")
 
 [node name="Tree_Right_Back" type="MeshInstance3D" parent="."]
-transform = Transform3D(1.5, 0, 0.35, 0, 1.6, 0, -0.35, 0, 1.5, 15.2, 0, -1.8)
+transform = Transform3D(1.5, 0, 0.35, 0, 1.6, 0, -0.35, 0, 1.5, 27.0, 0, -2.5)
 mesh = ExtResource("13_jd6k4")
 surface_material_override/0 = SubResource("StandardMaterial3D_c8jhb")
 surface_material_override/1 = SubResource("ShaderMaterial_e5gui")
@@ -1076,117 +1038,115 @@ surface_material_override/0 = SubResource("StandardMaterial3D_c8jhb")
 surface_material_override/1 = SubResource("ShaderMaterial_e5gui")
 surface_material_override/2 = SubResource("StandardMaterial3D_aiyih")
 
-[node name="Tree_BehindWall_L" type="MeshInstance3D" parent="."]
-transform = Transform3D(1.4, 0, 0.5, 0, 1.5, 0, -0.5, 0, 1.4, -4.5, 0, -18.5)
+
+# --- Rechte Gartenhälfte sinnvoll einrahmen (am äußeren Zaun, großer Abstand zum Beet) ---
+[node name="Tree_Right_Horizon_1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.5, 0, -0.3, 0, 1.6, 0, 0.3, 0, 1.5, 28.5, 0, -16.0)
 mesh = ExtResource("13_jd6k4")
 surface_material_override/0 = SubResource("StandardMaterial3D_c8jhb")
 surface_material_override/1 = SubResource("ShaderMaterial_e5gui")
 surface_material_override/2 = SubResource("StandardMaterial3D_aiyih")
 
-[node name="Tree_BehindWall_Mid" type="MeshInstance3D" parent="."]
-transform = Transform3D(1.45, 0, -0.3, 0, 1.55, 0, 0.3, 0, 1.45, 2.5, 0, -19.5)
+[node name="Tree_Right_Horizon_2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.4, 0, 0.35, 0, 1.5, 0, -0.35, 0, 1.4, 29.5, 0, -10.0)
 mesh = ExtResource("13_jd6k4")
 surface_material_override/0 = SubResource("StandardMaterial3D_c8jhb")
 surface_material_override/1 = SubResource("ShaderMaterial_e5gui")
 surface_material_override/2 = SubResource("StandardMaterial3D_aiyih")
 
-[node name="Tree_BehindWall_R" type="MeshInstance3D" parent="."]
-transform = Transform3D(1.5, 0, -0.3, 0, 1.55, 0, 0.3, 0, 1.5, 8.5, 0, -18.5)
-mesh = ExtResource("13_jd6k4")
-surface_material_override/0 = SubResource("StandardMaterial3D_c8jhb")
-surface_material_override/1 = SubResource("ShaderMaterial_e5gui")
-surface_material_override/2 = SubResource("StandardMaterial3D_aiyih")
-
-[node name="Tree_BehindWall_FarR" type="MeshInstance3D" parent="."]
-transform = Transform3D(1.4, 0, 0.2, 0, 1.45, 0, -0.2, 0, 1.4, 14.5, 0, -16.5)
-mesh = ExtResource("13_jd6k4")
-surface_material_override/0 = SubResource("StandardMaterial3D_c8jhb")
-surface_material_override/1 = SubResource("ShaderMaterial_e5gui")
-surface_material_override/2 = SubResource("StandardMaterial3D_aiyih")
-
-# --- Rustikaler Holzzaun rechts (Breite Pfähle & Querlatten wie in ref_perspective_1.jpg) ---
+# --- Rustikaler Holzzaun ganz rechts am Rand (großer Abstand zum Beet, wie in ref_perspective_1.jpg) ---
 [node name="Fence_Post_R1" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.5, 0, 0.05, 0, 1.9, 0, -0.05, 0, 0.5, 11.2, 0, 6.2)
-mesh = ExtResource("16_beam_mesh")
+transform = Transform3D(0.9, 0, 0, 0, 1.25, 0, 0, 0, 0.9, 25.0, 0, 6.0)
+mesh = ExtResource("17_post_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_beam")
 
 [node name="Fence_Post_R2" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.52, 0, -0.04, 0, 1.85, 0, 0.04, 0, 0.52, 11.8, 0, 2.8)
-mesh = ExtResource("16_beam_mesh")
+transform = Transform3D(0.9, 0, 0, 0, 1.25, 0, 0, 0, 0.9, 25.0, 0, 2.0)
+mesh = ExtResource("17_post_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_beam")
 
 [node name="Fence_Post_R3" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.5, 0, 0.06, 0, 1.95, 0, -0.06, 0, 0.5, 12.4, 0, -0.6)
-mesh = ExtResource("16_beam_mesh")
+transform = Transform3D(0.9, 0, 0, 0, 1.25, 0, 0, 0, 0.9, 25.0, 0, -2.0)
+mesh = ExtResource("17_post_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_beam")
 
 [node name="Fence_Post_R4" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.48, 0, -0.05, 0, 1.85, 0, 0.05, 0, 0.48, 13.0, 0, -3.8)
-mesh = ExtResource("16_beam_mesh")
+transform = Transform3D(0.9, 0, 0, 0, 1.25, 0, 0, 0, 0.9, 25.0, 0, -6.0)
+mesh = ExtResource("17_post_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_beam")
+
+[node name="Fence_Post_R5" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.9, 0, 0, 0, 1.25, 0, 0, 0, 0.9, 25.0, 0, -10.0)
+mesh = ExtResource("17_post_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_beam")
+
+[node name="Fence_Post_R6" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.9, 0, 0, 0, 1.25, 0, 0, 0, 0.9, 25.0, 0, -14.0)
+mesh = ExtResource("17_post_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_beam")
 
 [node name="Fence_Rail_R1_Top" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.38, 0, 0.95, 0, 0.42, 0, -0.95, 0, 0.38, 11.5, 1.25, 4.5)
+transform = Transform3D(0, 0, 1, 0, 0.38, 0, -1, 0, 0, 25.0, 1.2, 4.0)
 mesh = ExtResource("16_beam_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_beam")
 
 [node name="Fence_Rail_R1_Bot" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.38, 0, 0.95, 0, 0.42, 0, -0.95, 0, 0.38, 11.5, 0.65, 4.5)
+transform = Transform3D(0, 0, 1, 0, 0.38, 0, -1, 0, 0, 25.0, 0.6, 4.0)
 mesh = ExtResource("16_beam_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_beam")
 
 [node name="Fence_Rail_R2_Top" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.38, 0, 0.95, 0, 0.42, 0, -0.95, 0, 0.38, 12.1, 1.20, 1.1)
+transform = Transform3D(0, 0, 1, 0, 0.38, 0, -1, 0, 0, 25.0, 1.2, 0.0)
 mesh = ExtResource("16_beam_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_beam")
 
 [node name="Fence_Rail_R2_Bot" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.38, 0, 0.95, 0, 0.42, 0, -0.95, 0, 0.38, 12.1, 0.60, 1.1)
+transform = Transform3D(0, 0, 1, 0, 0.38, 0, -1, 0, 0, 25.0, 0.6, 0.0)
 mesh = ExtResource("16_beam_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_beam")
 
 [node name="Fence_Rail_R3_Top" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.38, 0, 0.95, 0, 0.42, 0, -0.95, 0, 0.38, 12.7, 1.18, -2.2)
+transform = Transform3D(0, 0, 1, 0, 0.38, 0, -1, 0, 0, 25.0, 1.2, -4.0)
 mesh = ExtResource("16_beam_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_beam")
 
 [node name="Fence_Rail_R3_Bot" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.38, 0, 0.95, 0, 0.42, 0, -0.95, 0, 0.38, 12.7, 0.58, -2.2)
+transform = Transform3D(0, 0, 1, 0, 0.38, 0, -1, 0, 0, 25.0, 0.6, -4.0)
 mesh = ExtResource("16_beam_mesh")
 surface_material_override/0 = SubResource("StandardMaterial3D_beam")
 
-# --- Dichte Büsche rechts & an der Backsteinmauer ---
+[node name="Fence_Rail_R4_Top" type="MeshInstance3D" parent="."]
+transform = Transform3D(0, 0, 1, 0, 0.38, 0, -1, 0, 0, 25.0, 1.2, -8.0)
+mesh = ExtResource("16_beam_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_beam")
+
+[node name="Fence_Rail_R4_Bot" type="MeshInstance3D" parent="."]
+transform = Transform3D(0, 0, 1, 0, 0.38, 0, -1, 0, 0, 25.0, 0.6, -8.0)
+mesh = ExtResource("16_beam_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_beam")
+
+[node name="Fence_Rail_R5_Top" type="MeshInstance3D" parent="."]
+transform = Transform3D(0, 0, 1, 0, 0.38, 0, -1, 0, 0, 25.0, 1.2, -12.0)
+mesh = ExtResource("16_beam_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_beam")
+
+[node name="Fence_Rail_R5_Bot" type="MeshInstance3D" parent="."]
+transform = Transform3D(0, 0, 1, 0, 0.38, 0, -1, 0, 0, 25.0, 0.6, -12.0)
+mesh = ExtResource("16_beam_mesh")
+surface_material_override/0 = SubResource("StandardMaterial3D_beam")
+
+# Dichte Büsche hinter dem rechten Zaun
 [node name="Bush_Right_Fence1" type="MeshInstance3D" parent="."]
-transform = Transform3D(1.3, 0, 0, 0, 1.3, 0, 0, 0, 1.3, 12.5, 0, 5.2)
+transform = Transform3D(1.3, 0, 0, 0, 1.3, 0, 0, 0, 1.3, 26.5, 0, -2.0)
 mesh = ExtResource("11_btydk")
 surface_material_override/0 = SubResource("ShaderMaterial_e5gui")
 
 [node name="Bush_Right_Fence2" type="MeshInstance3D" parent="."]
-transform = Transform3D(1.4, 0, 0.3, 0, 1.35, 0, -0.3, 0, 1.4, 13.0, 0, 1.8)
+transform = Transform3D(1.4, 0, 0.3, 0, 1.35, 0, -0.3, 0, 1.4, 26.5, 0, -8.0)
 mesh = ExtResource("11_btydk")
 surface_material_override/0 = SubResource("ShaderMaterial_e5gui")
 
 [node name="Bush_Right_Fence3" type="MeshInstance3D" parent="."]
-transform = Transform3D(1.25, 0, -0.2, 0, 1.3, 0, 0.2, 0, 1.25, 13.8, 0, -1.2)
-mesh = ExtResource("11_btydk")
-surface_material_override/0 = SubResource("ShaderMaterial_e5gui")
-
-[node name="Bush_Wall_L1" type="MeshInstance3D" parent="."]
-transform = Transform3D(1.3, 0, 0, 0, 1.2, 0, 0, 0, 1.3, -11.5, 0, -13.5)
-mesh = ExtResource("11_btydk")
-surface_material_override/0 = SubResource("ShaderMaterial_e5gui")
-
-[node name="Bush_Wall_L2" type="MeshInstance3D" parent="."]
-transform = Transform3D(1.15, 0, 0.2, 0, 1.25, 0, -0.2, 0, 1.15, -7.5, 0, -13.5)
-mesh = ExtResource("11_btydk")
-surface_material_override/0 = SubResource("ShaderMaterial_e5gui")
-
-[node name="Bush_Wall_R1" type="MeshInstance3D" parent="."]
-transform = Transform3D(1.2, 0, -0.2, 0, 1.25, 0, 0.2, 0, 1.2, 7.5, 0, -13.5)
-mesh = ExtResource("11_btydk")
-surface_material_override/0 = SubResource("ShaderMaterial_e5gui")
-
-[node name="Bush_Wall_R2" type="MeshInstance3D" parent="."]
-transform = Transform3D(1.35, 0, 0, 0, 1.3, 0, 0, 0, 1.35, 11.5, 0, -13.5)
+transform = Transform3D(1.25, 0, -0.2, 0, 1.3, 0, 0.2, 0, 1.25, 26.5, 0, -14.0)
 mesh = ExtResource("11_btydk")
 surface_material_override/0 = SubResource("ShaderMaterial_e5gui")
